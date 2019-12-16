@@ -1,11 +1,38 @@
+import org.ajoberstar.grgit.Grgit
+
+plugins {
+    id "org.ajoberstar.grgit" version "4.0.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'gc.arcaniax'
-version = '3.4.0-(1.14)'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+def rootVersion = "1.14-3.3"
+def revision = ""
+def buildNumber = ""
+def date = ""
+ext {
+    git = Grgit.open(dir: new File(rootDir.toString() + "/.git"))
+    date = git.head().getDate().format("yy.MM.dd")
+    revision = "${git.head().abbreviatedId}"
+    parents = git.head().parentIds
+    if (project.hasProperty("buildnumber")) {
+        buildNumber = "$buildnumber"
+    } else {
+        index = -1  // Offset to match CI
+        for (; parents != null && !parents.isEmpty(); index++) {
+            parents = git.getResolve().toCommit(parents.get(0)).getParentIds()
+        }
+        buildNumber = "${index}"
+    }
+}
+
+version = String.format("%s.%s", rootVersion, buildNumber)
 
 repositories {
     mavenCentral()
@@ -25,8 +52,24 @@ dependencies {
 
 processResources {
     from('src/main/resources') {
+        include 'plugin.properties'
+        expand(
+                version: "${project.version}",
+                name: project.name,
+                commit: "${git.head().abbreviatedId}",
+                date: "${git.head().getDate().format("yy.MM.dd")}",
+        )
         include 'plugin.yml'
+        expand(
+                name: project.name,
+                version: project.version
+        )
         include 'config.yml'
+    }
+}
+
+processResources {
+    from('src/main/resources') {
         include 'brushes/*'
     }
 }
