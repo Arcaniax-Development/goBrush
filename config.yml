@@ -1,0 +1,16 @@
+defaults:
+  size: 15
+  intensity: 4
+  imgloresize: 20
+# true = up, false = down
+  directionMode: true 
+  3dmode: false
+  flatmode: false
+  autorotation: true
+  brushenabled: false
+  brushname: 'hills.png'
+maximums:
+  size: 305
+  intensity: 10
+disabledworlds:
+  - "add disabled worlds here"
