@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'gc.arcaniax'
+version = '3.4.0-(1.14)'
+
+description = """"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+
+repositories {
+        
+     maven { url "http://repo.songoda.com/artifactory/private/" }
+     maven { url "https://jitpack.io" }
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compile group: 'com.sk89q', name: 'fawe', version:'207'
+    compileOnly group: 'org.spigotmc', name: 'spigot', version:'1.15'
+}
