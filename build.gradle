@@ -68,12 +68,6 @@ processResources {
     }
 }
 
-processResources {
-    from('src/main/resources') {
-        include 'brushes/*'
-    }
-}
-
 clean.doFirst {
     delete "../target"
 }
