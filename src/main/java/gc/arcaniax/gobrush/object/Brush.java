@@ -54,7 +54,6 @@ public class Brush implements Comparable {
         try {
             pattern = ImageIO.read(new File(Main.getPlugin().getDataFolder() + "/brushes/" + name));
         } catch (IOException ex) {
-            BufferedImage pattern;
             pattern = null;
         }
         return pattern;

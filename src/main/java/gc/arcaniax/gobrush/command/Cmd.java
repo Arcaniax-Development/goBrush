@@ -29,7 +29,7 @@ public class Cmd
             final Player p = (Player) sender;
             BrushPlayer bp = Session.getBrushPlayer(p.getUniqueId());
             if (!p.hasPermission("gobrush.use")) {
-                p.sendMessage("§bgoBrush> §cyou are not creative enough, sorry.");
+                p.sendMessage("§bgoBrush> §cYou are not creative enough, sorry.");
                 return true;
             }
             if (args.length == 0) {
@@ -64,10 +64,10 @@ public class Cmd
                 if ((args[0].equalsIgnoreCase("toggle")) || (args[0].equalsIgnoreCase("t"))) {
                     if (bp.isBrushEnabled()) {
                         bp.toggleBrushEnabled();
-                        p.sendMessage("§bgoBrush> §cdisabled brush");
+                        p.sendMessage("§bgoBrush> §cDisabled brush");
                     } else {
                         bp.toggleBrushEnabled();
-                        p.sendMessage("§bgoBrush> §aenabled brush");
+                        p.sendMessage("§bgoBrush> §aEnabled brush");
                     }
                     return true;
                 }
@@ -75,10 +75,10 @@ public class Cmd
                     Main.getPlugin().reloadConfig();
                     Session.getConfig().reload(Main.getPlugin().getConfig());
                     int amountOfValidBrushes = Session.initializeValidBrushes();
-                    Main.getPlugin().getLogger().log(Level.INFO, "Registered {0} brushes.", Integer.valueOf(amountOfValidBrushes));
+                    Main.getPlugin().getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
                     Session.initializeBrushMenu();
                     Session.initializeBrushPlayers();
-                    p.sendMessage("§bgoBrush> §areloaded");
+                    p.sendMessage("§bgoBrush> §aSuccessfully Reloaded");
                     return true;
                 }
                 if ((args[0].equalsIgnoreCase("info")) || (args[0].equalsIgnoreCase("i"))) {
@@ -115,19 +115,19 @@ public class Cmd
             if (args.length == 2) {
                 if ((args[0].equalsIgnoreCase("size")) || (args[0].equalsIgnoreCase("s"))) {
                     try {
-                        Integer sizeAmount = Integer.valueOf(Integer.parseInt(args[1]));
+                        Integer sizeAmount = Integer.parseInt(args[1]);
                         Integer localInteger1;
-                        if (sizeAmount.intValue() > bp.getMaxBrushSize()) {
-                            sizeAmount = Integer.valueOf(bp.getMaxBrushSize());
-                        } else if (sizeAmount.intValue() < 5) {
-                            sizeAmount = Integer.valueOf(5);
-                        } else if (sizeAmount.intValue() % 2 == 0) {
+                        if (sizeAmount > bp.getMaxBrushSize()) {
+                            sizeAmount = bp.getMaxBrushSize();
+                        } else if (sizeAmount < 5) {
+                            sizeAmount = 5;
+                        } else if (sizeAmount % 2 == 0) {
                             localInteger1 = sizeAmount;
-                            Integer localInteger2 = sizeAmount = Integer.valueOf(sizeAmount.intValue() + 1);
+                            Integer localInteger2 = sizeAmount = sizeAmount + 1;
                         }
-                        bp.setBrushSize(sizeAmount.intValue());
-                        p.sendMessage("§bgoBrush> §6size set to: §e" + sizeAmount);
-                        bp.getBrush().resize(sizeAmount.intValue());
+                        bp.setBrushSize(sizeAmount);
+                        p.sendMessage("§bgoBrush> §6Size set to: §e" + sizeAmount);
+                        bp.getBrush().resize(sizeAmount);
 
                         return true;
                     } catch (Exception e) {
@@ -137,14 +137,14 @@ public class Cmd
                 }
                 if ((args[0].equalsIgnoreCase("intensity")) || (args[0].equalsIgnoreCase("i"))) {
                     try {
-                        Integer intensityAmount = Integer.valueOf(Integer.parseInt(args[1]));
-                        if (intensityAmount.intValue() > bp.getMaxBrushIntensity()) {
-                            intensityAmount = Integer.valueOf(bp.getMaxBrushIntensity());
-                        } else if (intensityAmount.intValue() < 1) {
-                            intensityAmount = Integer.valueOf(1);
+                        Integer intensityAmount = Integer.parseInt(args[1]);
+                        if (intensityAmount > bp.getMaxBrushIntensity()) {
+                            intensityAmount = bp.getMaxBrushIntensity();
+                        } else if (intensityAmount < 1) {
+                            intensityAmount = 1;
                         }
-                        bp.setBrushIntensity(intensityAmount.intValue());
-                        p.sendMessage("§bgoBrush> §6intensity set to: §e" + intensityAmount);
+                        bp.setBrushIntensity(intensityAmount);
+                        p.sendMessage("§bgoBrush> §6Intensity set to: §e" + intensityAmount);
                         return true;
                     } catch (Exception e) {
                         p.sendMessage("§bgoBrush> §c/gb intensity [number]");
@@ -158,10 +158,10 @@ public class Cmd
                         Brush brush = Session.getBrush(name);
                         bp.setBrush(brush);
                         bp.getBrush().resize(size);
-                        p.sendMessage("§bgoBrush> §6brush set to: §e" + name);
+                        p.sendMessage("§bgoBrush> §6Brush set to: §e" + name);
                         return true;
                     }
-                    p.sendMessage("§bgoBrush> §ccould not load brush \"" + name + "\"");
+                    p.sendMessage("§bgoBrush> §cCould not load brush \"" + name + "\"");
                     return true;
                 }
                 if (((args[0].equalsIgnoreCase("export")) || (args[0].equalsIgnoreCase("e"))) && (p.hasPermission("gobrush.export"))) {
@@ -171,11 +171,11 @@ public class Cmd
                         try {
                             hm = new HeightMapExporter(p);
                         } catch (IncompleteRegionException e) {
-                            p.sendMessage("§bgoBrush> §cPlease make a worledit selection");
+                            p.sendMessage("§bgoBrush> §cPlease make a WorldEdit selection");
                             return;
                         }
                         if (!hm.hasWorldEditSelection()) {
-                            p.sendMessage("§bgoBrush> §cPlease make a worledit selection");
+                            p.sendMessage("§bgoBrush> §cPlease make a WorldEdit selection");
                             return;
                         }
                         hm.exportImage(500, name);
