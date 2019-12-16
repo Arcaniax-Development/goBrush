@@ -4,20 +4,29 @@ apply plugin: 'maven'
 group = 'gc.arcaniax'
 version = '3.4.0-(1.14)'
 
-description = """"""
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-
-
 repositories {
-        
-     maven { url "http://repo.songoda.com/artifactory/private/" }
-     maven { url "https://jitpack.io" }
-     maven { url "http://repo.maven.apache.org/maven2" }
+
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://jitpack.io" }
+    maven { url "http://repo.maven.apache.org/maven2" }
 }
 dependencies {
-    compile group: 'com.sk89q', name: 'fawe', version:'207'
-    compileOnly group: 'org.spigotmc', name: 'spigot', version:'1.15'
+    compile group: 'com.sk89q', name: 'fawe', version: '207'
+    compileOnly 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
 }
+
+processResources {
+    from('src/main/resources') {
+        include 'plugin.yml'
+        include 'config.yml'
+    }
+}
+
+clean.doFirst {
+    delete "../target"
+}
+
+jar.destinationDirectory = file('./target')
