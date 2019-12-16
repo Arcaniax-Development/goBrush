@@ -1,4 +1,5 @@
 defaults:
+  # Max. brush size, does not use FAWE's brush size!
   size: 15
   intensity: 4
   imgloresize: 20
