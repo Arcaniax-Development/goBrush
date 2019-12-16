@@ -25,22 +25,20 @@ public class Main
         saveDefaultConfig();
         Session.initializeConfig(getConfig());
         Session.initializeBrushPlayers();
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            public void run() {
-                try {
-                    Main.this.amountOfValidBrushes = Session.initializeValidBrushes();
-                    Main.plugin.getLogger().log(Level.INFO, "Registered {0} brushes.", Integer.valueOf(Main.this.amountOfValidBrushes));
-                    if (Main.this.amountOfValidBrushes == 0) {
-                        Main.plugin.getLogger().log(Level.WARNING, "Could not find any brushes in the folder!");
-                        Main.plugin.getLogger().log(Level.WARNING, "Make sure to put in the brushes from the downloaded ZIP!");
-                        Main.plugin.setEnabled(false);
-                    }
-                    Session.initializeBrushMenu();
-                } catch (Exception ex) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            try {
+                Main.this.amountOfValidBrushes = Session.initializeValidBrushes();
+                Main.plugin.getLogger().log(Level.INFO, "Registered {0} brushes.", Integer.valueOf(Main.this.amountOfValidBrushes));
+                if (Main.this.amountOfValidBrushes == 0) {
                     Main.plugin.getLogger().log(Level.WARNING, "Could not find any brushes in the folder!");
                     Main.plugin.getLogger().log(Level.WARNING, "Make sure to put in the brushes from the downloaded ZIP!");
                     Main.plugin.setEnabled(false);
                 }
+                Session.initializeBrushMenu();
+            } catch (Exception ex) {
+                Main.plugin.getLogger().log(Level.WARNING, "Could not find any brushes in the folder!");
+                Main.plugin.getLogger().log(Level.WARNING, "Make sure to put in the brushes from the downloaded ZIP!");
+                Main.plugin.setEnabled(false);
             }
         });
         Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));

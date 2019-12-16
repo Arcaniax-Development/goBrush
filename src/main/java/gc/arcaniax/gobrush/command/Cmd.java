@@ -166,24 +166,22 @@ public class Cmd
                 }
                 if (((args[0].equalsIgnoreCase("export")) || (args[0].equalsIgnoreCase("e"))) && (p.hasPermission("gobrush.export"))) {
                     final String name = args[1];
-                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, new Runnable() {
-                        public void run() {
-                            HeightMapExporter hm = null;
-                            try {
-                                hm = new HeightMapExporter(p);
-                            } catch (IncompleteRegionException e) {
-                                p.sendMessage("§bgoBrush> §cPlease make a worledit selection");
-                                return;
-                            }
-                            if (!hm.hasWorldEditSelection()) {
-                                p.sendMessage("§bgoBrush> §cPlease make a worledit selection");
-                                return;
-                            }
-                            hm.exportImage(500, name);
-                            p.sendMessage("§bgoBrush> §6Exported §e" + name + ".png");
-                            Session.initializeValidBrushes();
-                            Session.initializeBrushMenu();
+                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
+                        HeightMapExporter hm = null;
+                        try {
+                            hm = new HeightMapExporter(p);
+                        } catch (IncompleteRegionException e) {
+                            p.sendMessage("§bgoBrush> §cPlease make a worledit selection");
+                            return;
                         }
+                        if (!hm.hasWorldEditSelection()) {
+                            p.sendMessage("§bgoBrush> §cPlease make a worledit selection");
+                            return;
+                        }
+                        hm.exportImage(500, name);
+                        p.sendMessage("§bgoBrush> §6Exported §e" + name + ".png");
+                        Session.initializeValidBrushes();
+                        Session.initializeBrushMenu();
                     });
                     return true;
                 }

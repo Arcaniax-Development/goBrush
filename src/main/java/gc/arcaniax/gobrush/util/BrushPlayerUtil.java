@@ -110,7 +110,6 @@ public class BrushPlayerUtil {
         }
         float grayScale = (red + blue + green) / 3.0F / 255.0F;
 
-        double height = grayScale * brushPlayer.getBrushIntensity();
-        return height;
+        return grayScale * brushPlayer.getBrushIntensity();
     }
 }

@@ -9,7 +9,7 @@ public class BrushMenu {
     private final int AMOUNT_OF_PAGES;
 
     public BrushMenu(List<Brush> brushes) {
-        this.PAGES = new ArrayList();
+        this.PAGES = new ArrayList<>();
         Collections.sort(brushes);
         this.AMOUNT_OF_PAGES = ((int) Math.ceil((brushes.size() + 1) / 45.0D));
         for (int i = 0; i < this.AMOUNT_OF_PAGES; i++) {

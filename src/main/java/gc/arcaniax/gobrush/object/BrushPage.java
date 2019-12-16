@@ -51,7 +51,7 @@ public class BrushPage {
         ItemMeta meta = is.getItemMeta();
         if (!lore.equals("")) {
             String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList();
+            List<String> loreList = new ArrayList<>();
             String[] arrayOfString1;
             int j = (arrayOfString1 = loreListArray).length;
             for (int i = 0; i < j; i++) {
@@ -81,7 +81,7 @@ public class BrushPage {
     }
 
     private List<String> getImageLore(BufferedImage img) {
-        List<String> loreList = new ArrayList();
+        List<String> loreList = new ArrayList<>();
         loreList.add("§0");
         for (int z = 0; z < Session.getConfig().getImgLoreSize(); z++) {
             String s = "";
