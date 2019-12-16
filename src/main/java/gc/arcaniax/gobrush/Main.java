@@ -40,6 +40,12 @@ public class Main
                 Main.plugin.getLogger().log(Level.WARNING, "Make sure to put in the brushes from the downloaded ZIP!");
                 Main.plugin.setEnabled(false);
             }
+            if (Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") == null) {
+                getLogger().log(Level.SEVERE, "FastAsyncWorldEdit is required. Disabling goBrush.");
+                getLogger().log(Level.SEVERE, "https://www.spigotmc.org/resources/fast-async-worldedit-voxelsniper.13932/");
+                Bukkit.getPluginManager().disablePlugin(this);
+                return;
+            }
         });
         Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
         registerListeners();
