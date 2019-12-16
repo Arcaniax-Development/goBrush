@@ -20,14 +20,14 @@ public class Session {
     private static BrushMenu brushMenu;
 
     public static void initializeBrushPlayers() {
-        brushPlayers = new HashMap();
+        brushPlayers = new HashMap<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
             addBrushPlayer(p.getUniqueId());
         }
     }
 
     public static int initializeValidBrushes() {
-        validBrushes = new HashMap();
+        validBrushes = new HashMap<>();
         int amountOfValidBrushes = 0;
         File dir = new File(Main.getPlugin().getDataFolder() + "/brushes");
         if (!dir.exists()) {
@@ -50,7 +50,7 @@ public class Session {
     }
 
     public static void initializeBrushMenu() {
-        List<Brush> brushes = new ArrayList();
+        List<Brush> brushes = new ArrayList<>();
         for (Map.Entry<String, Brush> brush : validBrushes.entrySet()) {
             brushes.add(brush.getValue());
         }
