@@ -12,7 +12,7 @@ group = 'gc.arcaniax'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def rootVersion = "1.14-3.3"
+def rootVersion = "SNAPSHOT-3.3"
 def revision = ""
 def buildNumber = ""
 def date = ""

@@ -49,7 +49,7 @@ public class Main extends JavaPlugin {
                 }
             }
         });
-        Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("FastAsyncWorldEdit"));
+        Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
         registerListeners();
         registerCommands();
     }
