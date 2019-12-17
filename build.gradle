@@ -47,6 +47,7 @@ repositories {
 dependencies {
     "implementation"("org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT")
     "implementation"("name:FastAsyncWorldEdit-1.14-159")
+    "implementation"("name:server")
     "implementation"("net.md-5:bungeecord-api:1.14-SNAPSHOT")
 }
 
