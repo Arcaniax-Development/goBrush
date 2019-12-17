@@ -137,7 +137,6 @@ Nukkit/build/classes/
 Nukkit/build/dependency-cache/
 checkstyle.xml
 classes/
-p2error.txt
 *.bat
-Nukkit/build/resources/main/plugin.yml
 docs/
+build/
