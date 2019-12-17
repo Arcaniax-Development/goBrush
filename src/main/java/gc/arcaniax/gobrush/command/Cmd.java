@@ -162,11 +162,11 @@ public class Cmd implements CommandExecutor {
                             try {
                                 hm = new HeightMapExporter(p);
                             } catch (IncompleteRegionException e) {
-                                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&cPlease make a WorldEdit selection"));
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&cPlease make a WorldEdit selection &6(//wand)"));
                                 return;
                             }
                             if (!hm.hasWorldEditSelection()) {
-                                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&cPlease make a WorldEdit selection"));
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&cPlease make a WorldEdit selection &8(//wand)"));
                                 return;
                             }
                             hm.exportImage(500, name);
