@@ -18,7 +18,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class contains the object of BrushPage. This object resembles one page
+ * in the BrushMenu.
+ *
+ * @author McJeffr
+ */
 public class BrushPage {
+
+    /* Attributes */
     private static final String BRUSH_MENU_INVENTORY_TITLE = "&1goBrush Brushes";
     private static final ItemStack GRAY_GLASS_PANE = createItem(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(), (short) XMaterial.GRAY_STAINED_GLASS_PANE.data, "&6", "");
     private static final ItemStack EXIT = createItem(XMaterial.BARRIER.parseMaterial(), (short) 0, "&cBack to main menu", "");
@@ -27,22 +35,35 @@ public class BrushPage {
     private final Inventory INVENTORY;
     private final int PAGE_NUMBER;
 
+    /**
+     * Constructor of a BrushPage object. This constructor accepts a list
+     * containing a maximum of 45 brushes and a page number that indicates the
+     * page this BrushPage is in the BrushMenu. This constructor should not be
+     * used, use the one of BrushMenu instead if you want to create an inventory
+     * of brushes.
+     *
+     * @param brushes    A List containing a maximum of 45 brushes.
+     * @param pageNumber The page number of this BrushPage.
+     */
+    @SuppressWarnings("unchecked")
     public BrushPage(List<Brush> brushes, int pageNumber, int pageCount) {
         this.PAGE_NUMBER = pageNumber;
-        this.INVENTORY = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&1goBrush Brushes&8 | &5Page " + (pageNumber + 1)));
+        this.INVENTORY = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&',
+                BRUSH_MENU_INVENTORY_TITLE + "&8 | &5Page " + (pageNumber + 1)));
+
         for (int i = 0; i < 54; i++) {
-            this.INVENTORY.setItem(i, GRAY_GLASS_PANE);
+            INVENTORY.setItem(i, GRAY_GLASS_PANE);
         }
         if (pageNumber > 0) {
-            this.INVENTORY.setItem(45, PREVIOUS_PAGE);
+            INVENTORY.setItem(45, PREVIOUS_PAGE);
         }
-        this.INVENTORY.setItem(49, EXIT);
+        INVENTORY.setItem(49, EXIT);
         if (pageNumber + 1 != pageCount) {
-            this.INVENTORY.setItem(53, NEXT_PAGE);
+            INVENTORY.setItem(53, NEXT_PAGE);
         }
         Collections.sort(brushes);
         for (int i = 0; i < brushes.size(); i++) {
-            this.INVENTORY.setItem(i, createItem(XMaterial.MAP.parseMaterial(), (short) 0, "&e" + brushes.get(i).getName(), getImageLore(getBrush(brushes.get(i).getName()))));
+            INVENTORY.setItem(i, createItem(XMaterial.MAP.parseMaterial(), (short) 0, "&e" + brushes.get(i).getName(), getImageLore(getBrush(brushes.get(i).getName()))));
         }
     }
 
@@ -51,7 +72,7 @@ public class BrushPage {
         ItemMeta meta = is.getItemMeta();
         if (!lore.equals("")) {
             String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList<>();
+            List<String> loreList = new ArrayList<String>();
             String[] arrayOfString1;
             int j = (arrayOfString1 = loreListArray).length;
             for (int i = 0; i < j; i++) {
@@ -81,13 +102,13 @@ public class BrushPage {
     }
 
     private List<String> getImageLore(BufferedImage img) {
-        List<String> loreList = new ArrayList<>();
+        List<String> loreList = new ArrayList<String>();
         loreList.add("§0");
         for (int z = 0; z < Session.getConfig().getImgLoreSize(); z++) {
             String s = "";
             for (int x = 0; x < Session.getConfig().getImgLoreSize(); x++) {
-                s = s + getChatColor(getGrayScale(img, x, z));
-                s = s + "█";
+                s += getChatColor(getGrayScale(img, x, z));
+                s += "█";
             }
             loreList.add(s);
         }
@@ -95,20 +116,19 @@ public class BrushPage {
     }
 
     private String getChatColor(float grayScale) {
-        if (grayScale <= 5.0F) {
+        if (grayScale <= 5) {
             return "§0§n";
-        }
-        if (grayScale <= 30.0F) {
+        } else if (grayScale <= 30) {
             return "§8§n";
-        }
-        if (grayScale <= 70.0F) {
+        } else if (grayScale <= 70) {
             return "§7§n";
+        } else {
+            return "§f§n";
         }
-        return "§f§n";
     }
 
     private BufferedImage cropImage(BufferedImage src, int size) {
-        BufferedImage resizedImage = new BufferedImage(size, size, 1);
+        BufferedImage resizedImage = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(src, 0, 0, size, size, null);
         g.dispose();
@@ -119,33 +139,46 @@ public class BrushPage {
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(Main.getPlugin().getDataFolder() + "/brushes/" + s));
-        } catch (Exception localException) {
+        } catch (Exception e) {
         }
         img = cropImage(img, Session.getConfig().getImgLoreSize());
         return img;
     }
 
     private float getGrayScale(BufferedImage img, int x, int z) {
+
         int size = img.getHeight();
 
         int rgb = 0;
-        if ((z < size) && (x < size) && (x >= 0) && (z >= 0)) {
+        if (z < size && x < size && x >= 0 && z >= 0) {
             rgb = img.getRGB(x, z);
         }
-        int red = rgb >>> 16 & 0xFF;
-        int green = rgb >>> 8 & 0xFF;
-        int blue = rgb & 0xFF;
-        if ((red == 0) && (green == 0) && (blue == 0)) {
-            return 0.0F;
+
+        int red = (rgb >>> 16) & 0xFF;
+        int green = (rgb >>> 8) & 0xFF;
+        int blue = (rgb & 0xFF);
+
+        if (red == 0 && green == 0 && blue == 0) {
+            return 0;
         }
-        return (red + blue + green) / 3.0F / 2.55F;
+        return ((red + blue + green) / (float) 3) / (float) 2.55;
     }
 
+    /**
+     * Getter for the Inventory object of this BrushPage.
+     *
+     * @return The Inventory object of this BrushPage.
+     */
     public Inventory getInventory() {
-        return this.INVENTORY;
+        return INVENTORY;
     }
 
+    /**
+     * Getter for the page number of this BrushPage.
+     *
+     * @return The page number of this BrushPage.
+     */
     public int getPageNumber() {
-        return this.PAGE_NUMBER;
+        return PAGE_NUMBER;
     }
 }

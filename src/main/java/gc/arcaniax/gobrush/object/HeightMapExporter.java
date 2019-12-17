@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class HeightMapExporter {
+
     boolean worldEditSelection;
     int minX;
     int minZ;
@@ -24,47 +25,47 @@ public class HeightMapExporter {
     World w;
     Player p;
 
-    public HeightMapExporter(Player p)
-            throws IncompleteRegionException {
+    public HeightMapExporter(Player p) throws IncompleteRegionException {
         Region selection = Session.getWorldEdit().getSession(p).getSelection(FaweAPI.getWorld(p.getWorld().getName()));
         if (selection != null) {
-            this.worldEditSelection = true;
-            this.minX = selection.getMinimumPoint().getBlockX();
-            this.minZ = selection.getMinimumPoint().getBlockZ();
-            this.maxX = selection.getMaximumPoint().getBlockX();
-            this.maxZ = selection.getMaximumPoint().getBlockZ();
-            this.w = p.getWorld();
+            worldEditSelection = true;
+            minX = selection.getMinimumPoint().getBlockX();
+            minZ = selection.getMinimumPoint().getBlockZ();
+            maxX = selection.getMaximumPoint().getBlockX();
+            maxZ = selection.getMaximumPoint().getBlockZ();
+            w = p.getWorld();
             this.p = p;
         } else {
-            this.worldEditSelection = false;
+            worldEditSelection = false;
         }
     }
 
     public boolean hasWorldEditSelection() {
-        return this.worldEditSelection;
+        return worldEditSelection;
     }
+
 
     public void exportImage(int size, String name) {
         String prefix = "§bgoBrush> ";
         int AdjustX = 0;
         int AdjustZ = 0;
-        int blockSize = this.maxX - this.minX;
-        if (this.maxZ - this.minZ > blockSize) {
-            blockSize = this.maxZ - this.minZ;
-            AdjustX = (blockSize - (this.maxX - this.minX)) / 2;
+        int blockSize = maxX - minX;
+        if (maxZ - minZ > blockSize) {
+            blockSize = maxZ - minZ;
+            AdjustX = (blockSize - (maxX - minX)) / 2;
         } else {
-            AdjustZ = (blockSize - (this.maxZ - this.minZ)) / 2;
+            AdjustZ = (blockSize - (maxZ - minZ)) / 2;
         }
         if (blockSize < 20) {
-            this.p.sendMessage(prefix + "§cPlease make a bigger selection");
+            p.sendMessage(prefix + "§cPlease make a bigger selection");
             return;
         }
         int highest = 0;
         int lowest = 254;
-        for (int x = 0; x < this.maxX - this.minX; x++) {
-            for (int z = 0; z < this.maxZ - this.minZ; z++) {
-                EditSession editsession = FaweAPI.getEditSessionBuilder(FaweAPI.getWorld(this.p.getWorld().getName())).build();
-                int y = editsession.getHighestTerrainBlock(x + this.minX, z + this.minZ, 0, 255);
+        for (int x = 0; x < (maxX - minX); x++) {
+            for (int z = 0; z < (maxZ - minZ); z++) {
+                EditSession editsession = FaweAPI.getEditSessionBuilder(FaweAPI.getWorld(p.getWorld().getName())).build();
+                int y = editsession.getHighestTerrainBlock(x + minX, z + minZ, 0, 255);
                 if (y > highest) {
                     highest = y;
                 }
@@ -75,26 +76,27 @@ public class HeightMapExporter {
         }
         int height = highest - lowest;
         if (height < 10) {
-            this.p.sendMessage(prefix + "§cPlease select a bigger mountain");
+            p.sendMessage(prefix + "§cPlease select a bigger mountain");
             return;
         }
-        BufferedImage img = new BufferedImage(blockSize, blockSize, 1);
-        for (int x = 0; x < this.maxX - this.minX; x++) {
-            for (int z = 0; z < this.maxZ - this.minZ; z++) {
-                EditSession editsession = FaweAPI.getEditSessionBuilder(FaweAPI.getWorld(this.p.getWorld().getName())).build();
-                int y = editsession.getHighestTerrainBlock(x + this.minX, z + this.minZ, 0, 255);
-                int i = (int) ((y - lowest) / height * 255.0D);
-                int rgb = i;
-                rgb = (rgb << 8) + i;
-                rgb = (rgb << 8) + i;
+        BufferedImage img = new BufferedImage(blockSize, blockSize, BufferedImage.TYPE_INT_RGB);
+        for (int x = 0; x < (maxX - minX); x++) {
+            for (int z = 0; z < (maxZ - minZ); z++) {
+                EditSession editsession = FaweAPI.getEditSessionBuilder(FaweAPI.getWorld(p.getWorld().getName())).build();
+                int y = editsession.getHighestTerrainBlock(x + minX, z + minZ, 0, 255);
+                int i = (int) (((double) (y - lowest) / (double) height) * (double) 255);
+                int rgb = i; //red
+                rgb = (rgb << 8) + i;//green
+                rgb = (rgb << 8) + i;//blue
                 img.setRGB(x + AdjustX, z + AdjustZ, rgb);
             }
         }
+
         img = resize(img, 500);
         File f = new File(Main.getPlugin().getDataFolder() + "/brushes/" + name + ".png");
         try {
             ImageIO.write(img, "PNG", f);
-        } catch (IOException localIOException) {
+        } catch (IOException e) {
         }
     }
 

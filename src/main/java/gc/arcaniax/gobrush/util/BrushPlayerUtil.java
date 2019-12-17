@@ -9,15 +9,23 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+/**
+ * This class contains a bunch of utilities that can be used for determinating
+ * several important factors regarding location of a player.
+ *
+ * @author Arcaniax, McJeffr
+ */
 public class BrushPlayerUtil {
+
     public static Location getClosest(Player player, Location _loc, Location l, int brushSize) {
         Location loc = _loc.clone();
         EditSession editsession = FaweAPI.getEditSessionBuilder(FaweAPI.getWorld(player.getWorld().getName())).build();
-        while ((loc.getBlock().getType() == XMaterial.AIR.parseMaterial()) || (
-                (editsession.getMask() != null) && (!editsession.getMask().test(Vector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()).toBlockPoint())) &&
-                        (loc.distance(l.clone().add(0.5D, 0.5D, 0.5D)) < brushSize / 4.0D))) {
+
+        while (loc.getBlock().getType() == XMaterial.AIR.parseMaterial()
+                || (!(editsession.getMask() == null || editsession.getMask().test(Vector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()).toBlockPoint())))
+                && (loc.distance(l.clone().add(0.5, 0.5, 0.5)) < ((double) brushSize / (double) 4))) {
             Vector v = player.getEyeLocation().getDirection();
-            loc.add(v.multiply(0.5D));
+            loc.add(v.multiply(0.5));
             if (!BlockUtils.isLoaded(loc)) {
                 return null;
             }
@@ -27,7 +35,7 @@ public class BrushPlayerUtil {
             if (loc.getBlockY() > 255) {
                 return null;
             }
-            if (loc.distance(_loc) > 200.0D) {
+            if (loc.distance(_loc) > 200) {
                 return null;
             }
         }
@@ -38,7 +46,7 @@ public class BrushPlayerUtil {
         Location loc = player.getEyeLocation();
         while (loc.getBlock().getType() == XMaterial.AIR.parseMaterial()) {
             Vector v = player.getEyeLocation().getDirection();
-            loc.add(v.multiply(0.5D));
+            loc.add(v.multiply(0.5));
             if (!BlockUtils.isLoaded(loc)) {
                 return null;
             }
@@ -48,13 +56,21 @@ public class BrushPlayerUtil {
             if (loc.getBlockY() > 255) {
                 return null;
             }
-            if (loc.distance(player.getEyeLocation()) > 200.0D) {
+            if (loc.distance(player.getEyeLocation()) > 200) {
                 return null;
             }
         }
         return loc;
     }
 
+    /**
+     * This method fetches the cardinal direction the player is looking at. This
+     * is either N, E, S or W.
+     *
+     * @param player The player of which the cardinal location needs to be
+     *               retrieved of.
+     * @return The cardinal direction the player is facing.
+     */
     public static String getCardinalDirection(Player player) {
         double rotation = (player.getLocation().getYaw() - 90.0F) % 360.0F;
         if (rotation < 0.0D) {
@@ -78,6 +94,16 @@ public class BrushPlayerUtil {
         return null;
     }
 
+    /**
+     * This method fetches the height of a brush pattern based of several
+     * factors.
+     *
+     * @param player      The player of who the brush needs to be fetched.
+     * @param x           The x coord of the area that needs to be converted.
+     * @param z           The z coord of the area that needs to be converted.
+     * @param cardinalDir The cardinal direction the player is facing.
+     * @return A double value containing the height of the brush pattern.
+     */
     public static double getHeight(Player player, int x, int z, String cardinalDir) {
         BrushPlayer brushPlayer = Session.getBrushPlayer(player.getUniqueId());
         int size = brushPlayer.getBrush().getCroppedPattern().getHeight();
@@ -96,6 +122,7 @@ public class BrushPlayerUtil {
                 case "E":
                     x = _z;
                     z = size - _x;
+                    break;
             }
         }
         int rgb = 0;
@@ -110,6 +137,8 @@ public class BrushPlayerUtil {
         }
         float grayScale = (red + blue + green) / 3.0F / 255.0F;
 
-        return grayScale * brushPlayer.getBrushIntensity();
+        double height = grayScale * brushPlayer.getBrushIntensity();
+        return height;
+
     }
 }

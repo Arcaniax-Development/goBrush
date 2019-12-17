@@ -22,7 +22,7 @@ public class headURL {
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
         if (!lore.equals("")) {
             String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList();
+            List<String> loreList = new ArrayList<String>();
             String[] arrayOfString1;
             int j = (arrayOfString1 = loreListArray).length;
             for (int i = 0; i < j; i++) {
@@ -41,7 +41,7 @@ public class headURL {
             profileField = headMeta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);
             profileField.set(headMeta, profile);
-        } catch (Exception localException) {
+        } catch (Exception e) {
         }
         item.setItemMeta(headMeta);
         return item;

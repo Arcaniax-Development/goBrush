@@ -17,71 +17,66 @@ import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
 
-public class Cmd
-        implements CommandExecutor {
+public class Cmd implements CommandExecutor {
+
     private static final String prefix = "§bgoBrush> ";
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if ((cmd.getName().equalsIgnoreCase("gobrush")) || (cmd.getName().equalsIgnoreCase("gb"))) {
+        if (cmd.getName().equalsIgnoreCase("gobrush") || cmd.getName().equalsIgnoreCase("gb")) {
             if (!(sender instanceof Player)) {
                 return false;
             }
             final Player p = (Player) sender;
-            BrushPlayer bp = Session.getBrushPlayer(p.getUniqueId());
+            BrushPlayer bp = gc.arcaniax.gobrush.Session.getBrushPlayer(p.getUniqueId());
             if (!p.hasPermission("gobrush.use")) {
-                p.sendMessage("§bgoBrush> §cYou are not creative enough, sorry.");
+                p.sendMessage(prefix + "§cYou are not creative enough, sorry.");
                 return true;
             }
             if (args.length == 0) {
                 if (p.hasPermission("gobrush.admin")) {
-                    p.sendMessage("§bgoBrush> §c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§creload§7|§cexport§7|§cinfo ");
+                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§creload§7|§cexport§7|§cinfo ");
+                    return true;
+                } else if (p.hasPermission("gobrush.export")) {
+                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cexport§7|§cinfo ");
                     return true;
                 }
-                if (p.hasPermission("gobrush.export")) {
-                    p.sendMessage("§bgoBrush> §c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cexport§7|§cinfo ");
-                    return true;
-                }
-                p.sendMessage("§bgoBrush> §c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cinfo ");
+                p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cinfo ");
                 return true;
-            }
-            if (args.length == 1) {
-                if ((args[0].equalsIgnoreCase("size")) || (args[0].equalsIgnoreCase("s"))) {
-                    p.sendMessage("§bgoBrush> §c/gb size [number]");
+            } else if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("size") || args[0].equalsIgnoreCase("s")) {
+                    p.sendMessage(prefix + "§c/gb size [number]");
                     return true;
-                }
-                if ((args[0].equalsIgnoreCase("intensity")) || (args[0].equalsIgnoreCase("i"))) {
-                    p.sendMessage("§bgoBrush> §c/gb intensity [number]");
+                } else if (args[0].equalsIgnoreCase("intensity") || args[0].equalsIgnoreCase("i")) {
+                    p.sendMessage(prefix + "§c/gb intensity [number]");
                     return true;
-                }
-                if ((args[0].equalsIgnoreCase("brush")) || (args[0].equalsIgnoreCase("b"))) {
-                    p.sendMessage("§bgoBrush> §c/gb brush [fileName]");
+                } else if (args[0].equalsIgnoreCase("brush") || args[0].equalsIgnoreCase("b")) {
+                    p.sendMessage(prefix + "§c/gb brush [fileName]");
                     return true;
-                }
-                if (((args[0].equalsIgnoreCase("export")) || (args[0].equalsIgnoreCase("e"))) && (p.hasPermission("gobrush.export"))) {
-                    p.sendMessage("§bgoBrush> §c/gb export [fileName]");
+                } else if ((args[0].equalsIgnoreCase("export") || args[0].equalsIgnoreCase("e")) && p.hasPermission("gobrush.export")) {
+                    p.sendMessage(prefix + "§c/gb export [fileName]");
                     return true;
-                }
-                if ((args[0].equalsIgnoreCase("toggle")) || (args[0].equalsIgnoreCase("t"))) {
+                } else if (args[0].equalsIgnoreCase("toggle") || args[0].equalsIgnoreCase("t")) {
+
                     if (bp.isBrushEnabled()) {
                         bp.toggleBrushEnabled();
-                        p.sendMessage("§bgoBrush> §cDisabled brush");
+                        p.sendMessage(prefix + "§cDisabled brush");
                     } else {
                         bp.toggleBrushEnabled();
-                        p.sendMessage("§bgoBrush> §aEnabled brush");
+                        p.sendMessage(prefix + "§aEnabled brush");
                     }
                     return true;
-                }
-                if (((args[0].equalsIgnoreCase("reload")) || (args[0].equalsIgnoreCase("r"))) && (p.hasPermission("gobrush.admin"))) {
+                } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission("gobrush.admin")) {
                     Main.getPlugin().reloadConfig();
                     Session.getConfig().reload(Main.getPlugin().getConfig());
                     int amountOfValidBrushes = Session.initializeValidBrushes();
                     Main.getPlugin().getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
                     Session.initializeBrushMenu();
                     Session.initializeBrushPlayers();
-                    p.sendMessage("§bgoBrush> §aSuccessfully Reloaded");
+                    p.sendMessage(prefix + "§aReload Successful");
                     return true;
-                }
-                if ((args[0].equalsIgnoreCase("info")) || (args[0].equalsIgnoreCase("i"))) {
+                } else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
+
                     p.spigot().sendMessage(new ComponentBuilder("goBrush> ").color(ChatColor.AQUA)
                             .append("Created by: ").color(ChatColor.GOLD)
                             .append("Arcaniax").color(ChatColor.YELLOW)
@@ -92,7 +87,7 @@ public class Cmd
                             .append("@goCreativeMC").color(ChatColor.YELLOW)
                             .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitter.com/goCreativeMC")).create());
 
-                    p.sendMessage("§bgoBrush> §6Plugin download: §ehttp://pmc.la/Ta5aG");
+                    p.sendMessage(prefix + "§6Plugin download: §ehttp://pmc.la/Ta5aG");
 
                     p.spigot().sendMessage(new ComponentBuilder("goBrush> ").color(ChatColor.AQUA)
                             .append("More brushes: ").color(ChatColor.GOLD)
@@ -102,40 +97,35 @@ public class Cmd
                     return true;
                 }
                 if (p.hasPermission("gobrush.admin")) {
-                    p.sendMessage("§bgoBrush> §c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§creload§7|§cexport§7|§cinfo ");
+                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§creload§7|§cexport§7|§cinfo ");
+                    return true;
+                } else if (p.hasPermission("gobrush.export")) {
+                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cexport§7|§cinfo ");
                     return true;
                 }
-                if (p.hasPermission("gobrush.export")) {
-                    p.sendMessage("§bgoBrush> §c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cexport§7|§cinfo ");
-                    return true;
-                }
-                p.sendMessage("§bgoBrush> §c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cinfo ");
+                p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cinfo ");
                 return true;
-            }
-            if (args.length == 2) {
-                if ((args[0].equalsIgnoreCase("size")) || (args[0].equalsIgnoreCase("s"))) {
+            } else if (args.length == 2) {
+                if (args[0].equalsIgnoreCase("size") || args[0].equalsIgnoreCase("s")) {
                     try {
                         Integer sizeAmount = Integer.parseInt(args[1]);
-                        Integer localInteger1;
                         if (sizeAmount > bp.getMaxBrushSize()) {
                             sizeAmount = bp.getMaxBrushSize();
                         } else if (sizeAmount < 5) {
                             sizeAmount = 5;
                         } else if (sizeAmount % 2 == 0) {
-                            localInteger1 = sizeAmount;
-                            Integer localInteger2 = sizeAmount = sizeAmount + 1;
+                            sizeAmount++;
                         }
                         bp.setBrushSize(sizeAmount);
-                        p.sendMessage("§bgoBrush> §6Size set to: §e" + sizeAmount);
+                        p.sendMessage(prefix + "§6Size set to: §e" + sizeAmount);
                         bp.getBrush().resize(sizeAmount);
 
                         return true;
                     } catch (Exception e) {
-                        p.sendMessage("§bgoBrush> §c/gb size [number]");
+                        p.sendMessage(prefix + "§c/gb size [number]");
                         return true;
                     }
-                }
-                if ((args[0].equalsIgnoreCase("intensity")) || (args[0].equalsIgnoreCase("i"))) {
+                } else if (args[0].equalsIgnoreCase("intensity") || args[0].equalsIgnoreCase("i")) {
                     try {
                         Integer intensityAmount = Integer.parseInt(args[1]);
                         if (intensityAmount > bp.getMaxBrushIntensity()) {
@@ -144,56 +134,58 @@ public class Cmd
                             intensityAmount = 1;
                         }
                         bp.setBrushIntensity(intensityAmount);
-                        p.sendMessage("§bgoBrush> §6Intensity set to: §e" + intensityAmount);
+                        p.sendMessage(prefix + "§6Intensity set to: §e" + intensityAmount);
                         return true;
                     } catch (Exception e) {
-                        p.sendMessage("§bgoBrush> §c/gb intensity [number]");
+                        p.sendMessage(prefix + "§c/gb intensity [number]");
                         return true;
                     }
-                }
-                if ((args[0].equalsIgnoreCase("brush")) || (args[0].equalsIgnoreCase("b"))) {
+                } else if (args[0].equalsIgnoreCase("brush") || args[0].equalsIgnoreCase("b")) {
                     String name = args[1].replace("_", " ");
                     if (Session.containsBrush(name)) {
                         int size = bp.getBrushSize();
                         Brush brush = Session.getBrush(name);
                         bp.setBrush(brush);
                         bp.getBrush().resize(size);
-                        p.sendMessage("§bgoBrush> §6Brush set to: §e" + name);
+                        p.sendMessage(prefix + "§6Brush set to: §e" + name);
+                        return true;
+                    } else {
+                        p.sendMessage(prefix + "§cCould not load brush \"" + name + "\"");
                         return true;
                     }
-                    p.sendMessage("§bgoBrush> §cCould not load brush \"" + name + "\"");
-                    return true;
-                }
-                if (((args[0].equalsIgnoreCase("export")) || (args[0].equalsIgnoreCase("e"))) && (p.hasPermission("gobrush.export"))) {
+                } else if ((args[0].equalsIgnoreCase("export") || args[0].equalsIgnoreCase("e")) && p.hasPermission("gobrush.export")) {
                     final String name = args[1];
-                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, () -> {
-                        HeightMapExporter hm = null;
-                        try {
-                            hm = new HeightMapExporter(p);
-                        } catch (IncompleteRegionException e) {
-                            p.sendMessage("§bgoBrush> §cPlease make a WorldEdit selection");
-                            return;
+                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            HeightMapExporter hm = null;
+                            try {
+                                hm = new HeightMapExporter(p);
+                            } catch (IncompleteRegionException e) {
+                                p.sendMessage(prefix + "§cPlease make a WorldEdit selection");
+                                return;
+                            }
+                            if (!hm.hasWorldEditSelection()) {
+                                p.sendMessage(prefix + "§cPlease make a WorldEdit selection");
+                                return;
+                            }
+                            hm.exportImage(500, name);
+                            p.sendMessage(prefix + "§6Exported §e" + name + ".png");
+                            Session.initializeValidBrushes();
+                            Session.initializeBrushMenu();
+
                         }
-                        if (!hm.hasWorldEditSelection()) {
-                            p.sendMessage("§bgoBrush> §cPlease make a WorldEdit selection");
-                            return;
-                        }
-                        hm.exportImage(500, name);
-                        p.sendMessage("§bgoBrush> §6Exported §e" + name + ".png");
-                        Session.initializeValidBrushes();
-                        Session.initializeBrushMenu();
                     });
                     return true;
                 }
                 if (p.hasPermission("gobrush.admin")) {
-                    p.sendMessage("§bgoBrush> §c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§creload§7|§cexport§7|§cinfo ");
+                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§creload§7|§cexport§7|§cinfo ");
+                    return true;
+                } else if (p.hasPermission("gobrush.export")) {
+                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cexport§7|§cinfo ");
                     return true;
                 }
-                if (p.hasPermission("gobrush.export")) {
-                    p.sendMessage("§bgoBrush> §c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cexport§7|§cinfo ");
-                    return true;
-                }
-                p.sendMessage("§bgoBrush> §c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cinfo ");
+                p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cinfo ");
                 return true;
             }
         }

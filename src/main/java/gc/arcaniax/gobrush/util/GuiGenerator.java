@@ -11,7 +11,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains a utility used for generating the goBrush main menu
+ * inventory.
+ *
+ * @author Arcaniax, McJeffr
+ */
 public class GuiGenerator {
+
     private static final String MAIN_MENU_INVENTORY_TITLE = "&1goBrush Menu";
     private static final ItemStack GRAY_GLASS_PANE = createItem(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(), (short) XMaterial.GRAY_STAINED_GLASS_PANE.data, "&6", "");
     private static final ItemStack GREEN_GLASS_PANE = createItem(XMaterial.GREEN_STAINED_GLASS_PANE.parseMaterial(), (short) XMaterial.GREEN_STAINED_GLASS_PANE.data, "&6", "");
@@ -19,12 +26,20 @@ public class GuiGenerator {
     private static final ItemStack RED_GLASS_PANE = createItem(XMaterial.RED_STAINED_GLASS_PANE.parseMaterial(), (short) XMaterial.RED_STAINED_GLASS_PANE.data, "&6", "");
     private static final ItemStack WHITE_GLASS_PANE = createItem(XMaterial.WHITE_STAINED_GLASS_PANE.parseMaterial(), (short) XMaterial.WHITE_STAINED_GLASS_PANE.data, "&6", "");
 
+    /**
+     * This method generates the goBrush main menu based on the BrushPlayer's
+     * settings.
+     *
+     * @param brushPlayer The BrushPlayer that this main menu belongs to.
+     * @return The generated goBrush main menu inventory.
+     */
     public static Inventory generateMainMenu(BrushPlayer brushPlayer) {
-        Inventory mainMenu = Bukkit.createInventory(null, 27, ChatColor.translateAlternateColorCodes('&', "&1goBrush Menu"));
+        Inventory mainMenu = Bukkit.createInventory(null, 27, ChatColor.translateAlternateColorCodes('&', MAIN_MENU_INVENTORY_TITLE));
         for (int i = 0; i < 27; i++) {
             mainMenu.setItem(i, GRAY_GLASS_PANE);
         }
-        mainMenu.setItem(11, createItem(XMaterial.BROWN_MUSHROOM.parseMaterial(), (short) 0, "&6Size: &e" + brushPlayer.getBrushSize(), "&63D Size: &e" + brushPlayer.getBrushSize() / 4.0D + "___&3___&7Left click to increase&3___&7Right click to decrease___&7Shift click to change by 10"));
+
+        mainMenu.setItem(11, createItem(XMaterial.BROWN_MUSHROOM.parseMaterial(), (short) 0, "&6Size: &e" + brushPlayer.getBrushSize(), "&63D Size: &e" + (double) brushPlayer.getBrushSize() / 4.0 + "___&3___&7Left click to increase&3___&7Right click to decrease___&7Shift click to change by 10"));
         mainMenu.setItem(12, createItem(XMaterial.BLAZE_POWDER.parseMaterial(), (short) 0, "&6Intensity: &e" + brushPlayer.getBrushIntensity(), "&3___&7Left click to increase&3___&7Right click to decrease"));
         if (brushPlayer.getBrushSize() > brushPlayer.getMaxBrushSize()) {
             mainMenu.setItem(2, ORANGE_GLASS_PANE);
@@ -76,6 +91,7 @@ public class GuiGenerator {
             mainMenu.setItem(6, RED_GLASS_PANE);
             mainMenu.setItem(24, RED_GLASS_PANE);
         }
+
         if (brushPlayer.isAutoRotation()) {
             mainMenu.setItem(16, createItem(XMaterial.COMPASS.parseMaterial(), (short) 0, "&6Auto Rotation", "&a&lEnabled___&7___&7Click to toggle"));
             mainMenu.setItem(7, GREEN_GLASS_PANE);
@@ -93,7 +109,7 @@ public class GuiGenerator {
         ItemMeta meta = is.getItemMeta();
         if (!lore.equals("")) {
             String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList();
+            List<String> loreList = new ArrayList<String>();
             String[] arrayOfString1;
             int j = (arrayOfString1 = loreListArray).length;
             for (int i = 0; i < j; i++) {

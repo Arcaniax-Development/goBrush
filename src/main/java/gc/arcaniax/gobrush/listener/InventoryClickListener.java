@@ -15,8 +15,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class InventoryClickListener
-        implements Listener {
+/**
+ * This class contains the listener that gets fired when an inventory is
+ * clicked. There are multiple EventHandlers in this listener object.
+ *
+ * @author McJeffr
+ */
+public class InventoryClickListener implements Listener {
+
     private static final String PERMISSION_BYPASS_MAXSIZE = "gobrush.bypass.maxsize";
     private static final String PERMISSION_BYPASS_MAXINTENSITY = "gobrush.bypass.maxintensity";
     private static final String MAIN_MENU_INVENTORY_TITLE = "goBrush Menu";
@@ -24,7 +30,7 @@ public class InventoryClickListener
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void mainMenuClickEvent(InventoryClickEvent event) {
-        if (!isValidInventory(event, "goBrush Menu")) {
+        if (!isValidInventory(event, MAIN_MENU_INVENTORY_TITLE)) {
             return;
         }
         event.setCancelled(true);
@@ -32,6 +38,7 @@ public class InventoryClickListener
         Player player = (Player) event.getWhoClicked();
         BrushPlayer brushPlayer = Session.getBrushPlayer(player.getUniqueId());
         int rawSlot = event.getRawSlot();
+
         if (MainMenuSlot.MODE_DIRECTION.isValidSlot(rawSlot)) {
             brushPlayer.toggleDirectionMode();
             openMenu(player);
@@ -52,7 +59,7 @@ public class InventoryClickListener
                 }
             } else if (event.getClick() == ClickType.LEFT) {
                 int intensity = brushPlayer.getBrushIntensity() + 1;
-                if (player.hasPermission("gobrush.bypass.maxintensity")) {
+                if (player.hasPermission(PERMISSION_BYPASS_MAXINTENSITY)) {
                     brushPlayer.setBrushIntensity(intensity);
                 } else if (intensity <= brushPlayer.getMaxBrushIntensity()) {
                     brushPlayer.setBrushIntensity(intensity);
@@ -67,7 +74,7 @@ public class InventoryClickListener
                 }
             } else if (event.getClick() == ClickType.LEFT) {
                 int size = brushPlayer.getBrushSize() + 2;
-                if (player.hasPermission("gobrush.bypass.maxsize")) {
+                if (player.hasPermission(PERMISSION_BYPASS_MAXSIZE)) {
                     brushPlayer.setBrushSize(size);
                     brushPlayer.getBrush().resize(size);
                 } else if (size <= brushPlayer.getMaxBrushSize()) {
@@ -81,7 +88,7 @@ public class InventoryClickListener
                 }
             } else if (event.getClick() == ClickType.SHIFT_LEFT) {
                 int size = brushPlayer.getBrushSize() + 10;
-                if (player.hasPermission("gobrush.bypass.maxsize")) {
+                if (player.hasPermission(PERMISSION_BYPASS_MAXSIZE)) {
                     brushPlayer.setBrushSize(size);
                     brushPlayer.getBrush().resize(size);
                 } else if (size <= brushPlayer.getMaxBrushSize()) {
@@ -89,6 +96,7 @@ public class InventoryClickListener
                     brushPlayer.getBrush().resize(size);
                 }
             }
+
             openMenu(player);
         } else if (MainMenuSlot.BRUSH_SELECTOR.isValidSlot(rawSlot)) {
             if (event.getClick() == ClickType.RIGHT) {
@@ -103,25 +111,28 @@ public class InventoryClickListener
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void brushMenuClickEvent(InventoryClickEvent event) {
-        if (!isValidInventory(event, "goBrush Brushes")) {
+        if (!isValidInventory(event, BRUSH_MENU_INVENTORY_TITLE)) {
             return;
         }
         event.setCancelled(true);
         if (event.isShiftClick()) {
             return;
         }
+
         Player player = (Player) event.getWhoClicked();
         BrushPlayer brushPlayer = Session.getBrushPlayer(player.getUniqueId());
         BrushMenu brushMenu = Session.getBrushMenu();
         int rawSlot = event.getRawSlot();
         int pageNumber = 0;
+
         for (int i = 0; i < Session.getBrushMenu().getAmountOfPages(); i++) {
             if (event.getInventory().equals(Session.getBrushMenu().getPage(i).getInventory())) {
                 pageNumber = i;
             }
         }
+
         switch (rawSlot) {
-            case 45:
+            case (45): {
                 if (event.getCurrentItem().getType().equals(XMaterial.ARROW.parseMaterial())) {
                     if (pageNumber == 0) {
                         player.openInventory(brushMenu.getPage(brushMenu.getAmountOfPages() - 1).getInventory());
@@ -129,11 +140,14 @@ public class InventoryClickListener
                         player.openInventory(brushMenu.getPage(pageNumber - 1).getInventory());
                     }
                 }
+
                 break;
-            case 49:
+            }
+            case (49): {
                 openMenu(player);
                 break;
-            case 53:
+            }
+            case (53): {
                 if (event.getCurrentItem().getType().equals(XMaterial.ARROW.parseMaterial())) {
                     if (pageNumber == brushMenu.getAmountOfPages() - 1) {
                         player.openInventory(brushMenu.getPage(0).getInventory());
@@ -142,24 +156,40 @@ public class InventoryClickListener
                     }
                 }
                 break;
-            default:
-                if ((event.getCurrentItem() != null) &&
-                        (event.getCurrentItem().getType().equals(XMaterial.MAP.parseMaterial()))) {
-                    String name = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
-                    int size = brushPlayer.getBrushSize();
-                    Brush brush = Session.getBrush(name);
-                    brushPlayer.setBrush(brush);
-                    brushPlayer.getBrush().resize(size);
-                    openMenu(player);
+            }
+            default: {
+                if (event.getCurrentItem() != null) {
+                    if (event.getCurrentItem().getType().equals(XMaterial.MAP.parseMaterial())) {
+                        String name = ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName());
+                        int size = brushPlayer.getBrushSize();
+                        Brush brush = Session.getBrush(name);
+                        brushPlayer.setBrush(brush);
+                        brushPlayer.getBrush().resize(size);
+                        openMenu(player);
+                    }
                 }
-                break;
+            }
         }
     }
 
+    /**
+     * This method checks if an InventoryClickEvent is happening in a valid
+     * goBrush menu.
+     *
+     * @param event The InventoryClickEvent that needs to be checked.
+     * @return True if the event is happening in a goBrush menu, false
+     * otherwise.
+     */
     private boolean isValidInventory(InventoryClickEvent event, String inventoryName) {
         return event.getView().getTitle().contains(inventoryName);
     }
 
+    /**
+     * This method opens up the goBrush menu inventory. This method can be used
+     * to refresh the inventory upon a change in configuration.
+     *
+     * @param player The player that needs to open the inventory again.
+     */
     private void openMenu(Player player) {
         player.openInventory(GuiGenerator.generateMainMenu(Session.getBrushPlayer(player.getUniqueId())));
     }

@@ -18,8 +18,8 @@ import java.util.*;
  *
  * @author McJeffr
  */
-
 public class Session {
+
     private static Map<UUID, BrushPlayer> brushPlayers;
     private static Map<String, Brush> validBrushes;
     private static Config config;
@@ -34,7 +34,7 @@ public class Session {
     public static void initializeBrushPlayers() {
         brushPlayers = new HashMap<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
-            addBrushPlayer(p.getUniqueId());
+            Session.addBrushPlayer(p.getUniqueId());
         }
     }
 
@@ -63,7 +63,7 @@ public class Session {
         for (int i = 0; i < brushes.length; i++) {
             File file = brushes[i];
             if ((!file.getAbsoluteFile().isDirectory()) && ((file.getName().endsWith(".png")) || (file.getName().endsWith(".jpg")) || (file.getName().endsWith(".jpeg")))) {
-                addBrush(new Brush(file.getName()));
+                Session.addBrush(new Brush(file.getName()));
                 amountOfValidBrushes++;
             }
         }
@@ -88,13 +88,14 @@ public class Session {
      * brushes. This method should not be executed during runtime as it will
      * generate a new inventory, leaving the old one disconnected.
      */
+    @SuppressWarnings("unchecked")
     public static void initializeBrushMenu() {
         List<Brush> brushes = new ArrayList<>();
         for (Map.Entry<String, Brush> brush : validBrushes.entrySet()) {
             brushes.add(brush.getValue());
         }
         Collections.sort(brushes);
-        brushMenu = new BrushMenu(brushes);
+        Session.brushMenu = new BrushMenu(brushes);
     }
 
     /**
@@ -114,15 +115,16 @@ public class Session {
      * UUID.
      *
      * @param uuid The UUID of the player of which the BrushPlayer object needs
-     * to be returned of.
+     *             to be returned of.
      * @return The BrushPlayer object of a player, or null when the uuid is not
      * in the HashMap.
      */
     public static BrushPlayer getBrushPlayer(UUID uuid) {
         if (containsBrushPlayer(uuid)) {
             return brushPlayers.get(uuid);
+        } else {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -130,7 +132,7 @@ public class Session {
      * configurations.
      *
      * @param uuid The UUID of the new player that needs to be added to the
-     * HashMap of player configurations.
+     *             HashMap of player configurations.
      * @return True if the user was added successfully, false if it was not
      * added successfully (this occurs when the UUID is already in the HashMap).
      */
@@ -138,8 +140,9 @@ public class Session {
         if (!containsBrushPlayer(uuid)) {
             brushPlayers.put(uuid, new BrushPlayer(uuid));
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
@@ -147,7 +150,7 @@ public class Session {
      * configurations.
      *
      * @param uuid The UUID of the player whose BrushPlayer object needs to be
-     * removed from the HashMap of player configurations.
+     *             removed from the HashMap of player configurations.
      * @return True if the player's BrushPlayer was removed from the HashMap,
      * false otherwise.
      */
@@ -155,10 +158,34 @@ public class Session {
         if (containsBrushPlayer(uuid)) {
             brushPlayers.remove(uuid);
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
+    /**
+     * This method checks if a player has an undo history.
+     *
+     * @param uuid The UUID of the player that needs to be checked.
+     * @return True if the player has an undo history, false otherwise.
+     */
+
+    /**
+     * This method fetches the undo history of a player from their UUID.
+     *
+     * @param uuid The UUID of the player of which the undo history needs to be
+     * returned.
+     * @return The undo history in a List or null when no undo history is
+     * present.
+     */
+
+    /**
+     * This method checks if the String provided is a name of a valid brush.
+     *
+     * @param name The name of a brush that needs to be checked.
+     * @return True if the HashMap of valid brushes contains the provided name,
+     * false otherwise.
+     */
     public static boolean containsBrush(String name) {
         return validBrushes.containsKey(name);
     }
@@ -172,10 +199,16 @@ public class Session {
     public static Brush getBrush(String name) {
         if (containsBrush(name)) {
             return validBrushes.get(name);
+        } else {
+            return null;
         }
-        return null;
     }
 
+    /**
+     * This method gets all the registered brushes and returns them in a map.
+     *
+     * @return A map of all registered brushes.
+     */
     public static Map<String, Brush> getBrushes() {
         return validBrushes;
     }
@@ -184,7 +217,7 @@ public class Session {
      * This method adds a new Brush object to the HashMap of valid brushes.
      *
      * @param brush the Brush object that needs to be added. The key will be the
-     * brush name.
+     *              brush name.
      * @return True if the brush was added successfully, false if it was not
      * added successfully (this occurs when the brush is already in the
      * HashMap).
@@ -193,8 +226,9 @@ public class Session {
         if (!containsBrush(brush.getName())) {
             validBrushes.put(brush.getName(), brush);
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
@@ -207,8 +241,9 @@ public class Session {
         if (containsBrush(name)) {
             validBrushes.remove(name);
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
@@ -248,4 +283,5 @@ public class Session {
     public static BrushMenu getBrushMenu() {
         return brushMenu;
     }
+
 }
