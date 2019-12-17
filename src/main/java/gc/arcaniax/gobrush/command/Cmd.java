@@ -19,7 +19,7 @@ import java.util.logging.Level;
 
 public class Cmd implements CommandExecutor {
 
-    private static final String prefix = "§bgoBrush> ";
+    private static final String prefix = "&bgoBrush> ";
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -30,40 +30,40 @@ public class Cmd implements CommandExecutor {
             final Player p = (Player) sender;
             BrushPlayer bp = gc.arcaniax.gobrush.Session.getBrushPlayer(p.getUniqueId());
             if (!p.hasPermission("gobrush.use")) {
-                p.sendMessage(prefix + "§cYou are not creative enough, sorry.");
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&cYou are not creative enough, sorry."));
                 return true;
             }
             if (args.length == 0) {
                 if (p.hasPermission("gobrush.admin")) {
-                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§creload§7|§cexport§7|§cinfo ");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size&7|&cintensity&7|&cbrush&7|&ctoggle&7|&creload&7|&cexport&7|&cinfo "));
                     return true;
                 } else if (p.hasPermission("gobrush.export")) {
-                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cexport§7|§cinfo ");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size&7|&cintensity&7|&cbrush&7|&ctoggle&7|&cexport&7|&cinfo "));
                     return true;
                 }
-                p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cinfo ");
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size&7|&cintensity&7|&cbrush&7|&ctoggle&7|&cinfo "));
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("size") || args[0].equalsIgnoreCase("s")) {
-                    p.sendMessage(prefix + "§c/gb size [number]");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size [number]"));
                     return true;
                 } else if (args[0].equalsIgnoreCase("intensity") || args[0].equalsIgnoreCase("i")) {
-                    p.sendMessage(prefix + "§c/gb intensity [number]");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb intensity [number]"));
                     return true;
                 } else if (args[0].equalsIgnoreCase("brush") || args[0].equalsIgnoreCase("b")) {
-                    p.sendMessage(prefix + "§c/gb brush [fileName]");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb brush [fileName]"));
                     return true;
                 } else if ((args[0].equalsIgnoreCase("export") || args[0].equalsIgnoreCase("e")) && p.hasPermission("gobrush.export")) {
-                    p.sendMessage(prefix + "§c/gb export [fileName]");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb export [fileName]"));
                     return true;
                 } else if (args[0].equalsIgnoreCase("toggle") || args[0].equalsIgnoreCase("t")) {
 
                     if (bp.isBrushEnabled()) {
                         bp.toggleBrushEnabled();
-                        p.sendMessage(prefix + "§cDisabled brush");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&cDisabled brush"));
                     } else {
                         bp.toggleBrushEnabled();
-                        p.sendMessage(prefix + "§aEnabled brush");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&aEnabled brush"));
                     }
                     return true;
                 } else if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) && p.hasPermission("gobrush.admin")) {
@@ -73,7 +73,7 @@ public class Cmd implements CommandExecutor {
                     Main.getPlugin().getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
                     Session.initializeBrushMenu();
                     Session.initializeBrushPlayers();
-                    p.sendMessage(prefix + "§aReload Successful");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&aReload Successful"));
                     return true;
                 } else if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("i")) {
 
@@ -87,7 +87,7 @@ public class Cmd implements CommandExecutor {
                             .append("@goCreativeMC").color(ChatColor.YELLOW)
                             .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitter.com/goCreativeMC")).create());
 
-                    p.sendMessage(prefix + "§6Plugin download: §ehttp://pmc.la/Ta5aG");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&6Plugin download: &ehttp://pmc.la/Ta5aG"));
 
                     p.spigot().sendMessage(new ComponentBuilder("goBrush> ").color(ChatColor.AQUA)
                             .append("More brushes: ").color(ChatColor.GOLD)
@@ -97,13 +97,13 @@ public class Cmd implements CommandExecutor {
                     return true;
                 }
                 if (p.hasPermission("gobrush.admin")) {
-                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§creload§7|§cexport§7|§cinfo ");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size&7|&cintensity&7|&cbrush&7|&ctoggle&7|&creload&7|&cexport&7|&cinfo "));
                     return true;
                 } else if (p.hasPermission("gobrush.export")) {
-                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cexport§7|§cinfo ");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size&7|&cintensity&7|&cbrush&7|&ctoggle&7|&cexport&7|&cinfo "));
                     return true;
                 }
-                p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cinfo ");
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size&7|&cintensity&7|&cbrush&7|&ctoggle&7|&cinfo "));
                 return true;
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("size") || args[0].equalsIgnoreCase("s")) {
@@ -117,12 +117,12 @@ public class Cmd implements CommandExecutor {
                             sizeAmount++;
                         }
                         bp.setBrushSize(sizeAmount);
-                        p.sendMessage(prefix + "§6Size set to: §e" + sizeAmount);
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&6Size set to: &e" + sizeAmount));
                         bp.getBrush().resize(sizeAmount);
 
                         return true;
                     } catch (Exception e) {
-                        p.sendMessage(prefix + "§c/gb size [number]");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size [number]"));
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("intensity") || args[0].equalsIgnoreCase("i")) {
@@ -134,10 +134,10 @@ public class Cmd implements CommandExecutor {
                             intensityAmount = 1;
                         }
                         bp.setBrushIntensity(intensityAmount);
-                        p.sendMessage(prefix + "§6Intensity set to: §e" + intensityAmount);
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&6Intensity set to: &e" + intensityAmount));
                         return true;
                     } catch (Exception e) {
-                        p.sendMessage(prefix + "§c/gb intensity [number]");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb intensity [number]"));
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("brush") || args[0].equalsIgnoreCase("b")) {
@@ -147,10 +147,10 @@ public class Cmd implements CommandExecutor {
                         Brush brush = Session.getBrush(name);
                         bp.setBrush(brush);
                         bp.getBrush().resize(size);
-                        p.sendMessage(prefix + "§6Brush set to: §e" + name);
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&6Brush set to: &e" + name));
                         return true;
                     } else {
-                        p.sendMessage(prefix + "§cCould not load brush \"" + name + "\"");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&cCould not load brush \"" + name + "\""));
                         return true;
                     }
                 } else if ((args[0].equalsIgnoreCase("export") || args[0].equalsIgnoreCase("e")) && p.hasPermission("gobrush.export")) {
@@ -162,15 +162,15 @@ public class Cmd implements CommandExecutor {
                             try {
                                 hm = new HeightMapExporter(p);
                             } catch (IncompleteRegionException e) {
-                                p.sendMessage(prefix + "§cPlease make a WorldEdit selection");
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&cPlease make a WorldEdit selection"));
                                 return;
                             }
                             if (!hm.hasWorldEditSelection()) {
-                                p.sendMessage(prefix + "§cPlease make a WorldEdit selection");
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&cPlease make a WorldEdit selection"));
                                 return;
                             }
                             hm.exportImage(500, name);
-                            p.sendMessage(prefix + "§6Exported §e" + name + ".png");
+                            p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&6Exported &e" + name + ".png"));
                             Session.initializeValidBrushes();
                             Session.initializeBrushMenu();
 
@@ -179,13 +179,13 @@ public class Cmd implements CommandExecutor {
                     return true;
                 }
                 if (p.hasPermission("gobrush.admin")) {
-                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§creload§7|§cexport§7|§cinfo ");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size&7|&cintensity&7|&cbrush&7|&ctoggle&7|&creload&7|&cexport&7|&cinfo "));
                     return true;
                 } else if (p.hasPermission("gobrush.export")) {
-                    p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cexport§7|§cinfo ");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size&7|&cintensity&7|&cbrush&7|&ctoggle&7|&cexport&7|&cinfo "));
                     return true;
                 }
-                p.sendMessage(prefix + "§c/gb size§7|§cintensity§7|§cbrush§7|§ctoggle§7|§cinfo ");
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + "&c/gb size&7|&cintensity&7|&cbrush&7|&ctoggle&7|&cinfo "));
                 return true;
             }
         }
