@@ -103,12 +103,12 @@ public class BrushPage {
 
     private List<String> getImageLore(BufferedImage img) {
         List<String> loreList = new ArrayList<String>();
-        loreList.add("§0");
+        loreList.add("\u00A70");
         for (int z = 0; z < Session.getConfig().getImgLoreSize(); z++) {
             String s = "";
             for (int x = 0; x < Session.getConfig().getImgLoreSize(); x++) {
                 s += getChatColor(getGrayScale(img, x, z));
-                s += "█";
+                s += "\u2588";
             }
             loreList.add(s);
         }
@@ -117,13 +117,13 @@ public class BrushPage {
 
     private String getChatColor(float grayScale) {
         if (grayScale <= 5) {
-            return "§0§n";
+            return "\u00A70\u00A7n";
         } else if (grayScale <= 30) {
-            return "§8§n";
+            return "\u00A78\u00A7n";
         } else if (grayScale <= 70) {
-            return "§7§n";
+            return "\u00A77\u00A7n";
         } else {
-            return "§f§n";
+            return "\u00A7f\u00A7n";
         }
     }
 

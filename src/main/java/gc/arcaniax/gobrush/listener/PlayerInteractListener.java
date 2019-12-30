@@ -1,7 +1,9 @@
 package gc.arcaniax.gobrush.listener;
 
-import com.boydti.fawe.FaweAPI;
 import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.world.block.BlockTypes;
@@ -34,7 +36,8 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onClickEvent(final PlayerInteractEvent event) {
-        EditSession editsession = FaweAPI.getEditSessionBuilder(FaweAPI.getWorld(event.getPlayer().getWorld().getName())).build();
+        LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(new BukkitPlayer(event.getPlayer()));
+        EditSession editsession = localSession.createEditSession(new BukkitPlayer(event.getPlayer()));
         if (!event.getPlayer().hasPermission("gobrush.use")) {
             return;
         }
@@ -68,8 +71,6 @@ public class PlayerInteractListener implements Listener {
             double rotPitch = (player.getLocation().getPitch()) % 360.0F;
             rotPitch += 360.0F;
             final double rotationPitch = (rotPitch / 360.0F) * (2 * Math.PI);
-            editsession.getPlayer().queueAction(
-                    () -> {
                         if (!brushPlayer.is3DMode()) {
                             Integer min = size / 2 * -1;
                             Integer max = size / 2;
@@ -185,9 +186,8 @@ public class PlayerInteractListener implements Listener {
                                 }
                             }
                         }
-                        editsession.flushQueue();
-                        editsession.getPlayer().getSession().remember(editsession);
-                    });
+                        editsession.flushSession();
+                        localSession.remember(editsession);
 
         } else if ((event.getPlayer().getInventory().getItemInMainHand().getType() == XMaterial.FLINT.parseMaterial())
                 && ((event.getAction().equals(Action.LEFT_CLICK_AIR))

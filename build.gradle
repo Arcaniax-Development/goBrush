@@ -12,27 +12,17 @@ group = 'gc.arcaniax'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def rootVersion = "SNAPSHOT-3.3"
+def rootVersion = "3.4"
 def revision = ""
 def buildNumber = ""
 def date = ""
 ext {
     git = Grgit.open(dir: new File(rootDir.toString() + "/.git"))
-    date = git.head().getDate().format("yy.MM.dd")
     revision = "${git.head().abbreviatedId}"
     parents = git.head().parentIds
-    if (project.hasProperty("buildnumber")) {
-        buildNumber = "$buildnumber"
-    } else {
-        index = -1  // Offset to match CI
-        for (; parents != null && !parents.isEmpty(); index++) {
-            parents = git.getResolve().toCommit(parents.get(0)).getParentIds()
-        }
-        buildNumber = "${index}"
-    }
 }
 
-version = String.format("%s.%s", rootVersion, buildNumber)
+version = String.format("%s.%s", rootVersion, 0)
 
 repositories {
     mavenCentral()
@@ -45,8 +35,8 @@ repositories {
 }
 
 dependencies {
-    "implementation"("org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT")
-    "implementation"("name:FastAsyncWorldEdit-1.14-159")
+    "implementation"("org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT")
+    "implementation"("name:FastAsyncWorldEdit-1.15-13")
     "implementation"("name:server")
     "implementation"("net.md-5:bungeecord-api:1.14-SNAPSHOT")
 }
@@ -70,7 +60,7 @@ processResources {
 }
 
 clean.doFirst {
-    delete "../target"
+    //delete "../target"
 }
 
-jar.destinationDirectory = file('./target')
+//jar.destinationDirectory = file('./target')
