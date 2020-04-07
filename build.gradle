@@ -12,7 +12,7 @@ group = 'gc.arcaniax'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def rootVersion = "3.4"
+def rootVersion = "3.5.2-dev"
 def revision = ""
 def buildNumber = ""
 def date = ""
@@ -22,7 +22,7 @@ ext {
     parents = git.head().parentIds
 }
 
-version = String.format("%s.%s", rootVersion, 0)
+version = String.format("%s", rootVersion)
 
 repositories {
     mavenCentral()

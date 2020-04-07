@@ -13,58 +13,54 @@ import java.util.logging.Level;
 
 public class Main extends JavaPlugin {
 
-    public static Main plugin;
-    public int amountOfValidBrushes;
+	public static Main plugin;
+	public int amountOfValidBrushes;
 
-    /**
-     * This method returns the main JavaPlugin instance, used for several things.
-     *
-     * @return The main JavaPlugin instance.
-     */
-    public static JavaPlugin getPlugin() {
-        return plugin;
-    }
+	/**
+	 * This method returns the main JavaPlugin instance, used for several things.
+	 *
+	 * @return The main JavaPlugin instance.
+	 */
+	public static JavaPlugin getPlugin() {
+		return plugin;
+	}
 
-    public void onEnable() {
-        plugin = this;
-        saveDefaultConfig();
-        Session.initializeConfig(this.getConfig());
-        Session.initializeBrushPlayers();
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    amountOfValidBrushes = Session.initializeValidBrushes();
-                    plugin.getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
-                    if (amountOfValidBrushes == 0) {
-                        plugin.getLogger().log(Level.WARNING, "Could not find any brushes in the folder!");
-                        plugin.getLogger().log(Level.WARNING, "Make sure to put in the brushes from the downloaded ZIP!");
-                        plugin.setEnabled(false);
-                    }
-                    Session.initializeBrushMenu();
-                } catch (Exception ex) {
-                    plugin.getLogger().log(Level.WARNING, "Could not find any brushes in the folder!");
-                    plugin.getLogger().log(Level.WARNING, "Make sure to put in the brushes from the downloaded ZIP!");
-                    plugin.setEnabled(false);
-                }
-            }
-        });
-        Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
-        registerListeners();
-        registerCommands();
-    }
+	@Override
+	public void onEnable() {
+		plugin = this;
+		saveDefaultConfig();
+		Session.initializeConfig(this.getConfig());
+		Session.initializeBrushPlayers();
+		try {
+			amountOfValidBrushes = Session.initializeValidBrushes();
+			plugin.getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
+			if (amountOfValidBrushes == 0) {
+				plugin.getLogger().log(Level.WARNING, "Could not find any brushes in the folder!");
+				plugin.getLogger().log(Level.WARNING, "Make sure to put in the brushes from the downloaded ZIP!");
+				plugin.setEnabled(false);
+			}
+			Session.initializeBrushMenu();
+		} catch (Exception ex) {
+			plugin.getLogger().log(Level.WARNING, "Could not find any brushes in the folder!");
+			plugin.getLogger().log(Level.WARNING, "Make sure to put in the brushes from the downloaded ZIP!");
+			plugin.setEnabled(false);
+		}
+		Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
+		registerListeners();
+		registerCommands();
+	}
 
-    private void registerListeners() {
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
-    }
+	private void registerListeners() {
+		Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
+	}
 
-    /**
-     * This method registers the commands of the plugin.
-     */
-    private void registerCommands() {
-        getCommand("gobrush").setExecutor(new Cmd());
-    }
+	/**
+	 * This method registers the commands of the plugin.
+	 */
+	private void registerCommands() {
+		getCommand("gobrush").setExecutor(new Cmd());
+	}
 }

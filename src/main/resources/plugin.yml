@@ -13,14 +13,14 @@ commands:
     aliases: gb
 permissions:
   gobrush.use:
-    default: false
+    default: op
   gobrush.export:
-    default: false
+    default: op
   gobrush.admin:
-    default: false
+    default: op
   gobrush.world.bypass:
-    default: false
+    default: op
   gobrush.bypass.maxsize:
-    default: false
+    default: op
   gobrush.bypass.maxintensity:
-    default: false
+    default: op

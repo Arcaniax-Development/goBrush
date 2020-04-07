@@ -1,19 +1,16 @@
 package gc.arcaniax.gobrush.object;
 
-import com.boydti.fawe.FaweAPI;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.IncompleteRegionException;
-import com.sk89q.worldedit.regions.Region;
-import gc.arcaniax.gobrush.Main;
-import gc.arcaniax.gobrush.Session;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
+import com.sk89q.worldedit.*;
+import com.sk89q.worldedit.bukkit.*;
+import com.sk89q.worldedit.regions.*;
+import gc.arcaniax.gobrush.*;
+import org.bukkit.*;
+import org.bukkit.entity.*;
 
-import javax.imageio.ImageIO;
+import javax.imageio.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.*;
+import java.io.*;
 
 public class HeightMapExporter {
 
@@ -26,7 +23,8 @@ public class HeightMapExporter {
     Player p;
 
     public HeightMapExporter(Player p) throws IncompleteRegionException {
-        Region selection = Session.getWorldEdit().getSession(p).getSelection(FaweAPI.getWorld(p.getWorld().getName()));
+        BukkitPlayer bp = new BukkitPlayer(p);
+        Region selection = WorldEdit.getInstance().getSessionManager().get(bp).getSelection(new BukkitWorld(p.getWorld()));
         if (selection != null) {
             worldEditSelection = true;
             minX = selection.getMinimumPoint().getBlockX();
@@ -64,7 +62,8 @@ public class HeightMapExporter {
         int lowest = 254;
         for (int x = 0; x < (maxX - minX); x++) {
             for (int z = 0; z < (maxZ - minZ); z++) {
-                EditSession editsession = FaweAPI.getEditSessionBuilder(FaweAPI.getWorld(p.getWorld().getName())).build();
+                BukkitPlayer bp = new BukkitPlayer(p);
+                EditSession editsession = WorldEdit.getInstance().getSessionManager().get(bp).createEditSession(bp);
                 int y = editsession.getHighestTerrainBlock(x + minX, z + minZ, 0, 255);
                 if (y > highest) {
                     highest = y;
@@ -82,7 +81,8 @@ public class HeightMapExporter {
         BufferedImage img = new BufferedImage(blockSize, blockSize, BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < (maxX - minX); x++) {
             for (int z = 0; z < (maxZ - minZ); z++) {
-                EditSession editsession = FaweAPI.getEditSessionBuilder(FaweAPI.getWorld(p.getWorld().getName())).build();
+                BukkitPlayer bp = new BukkitPlayer(p);
+                EditSession editsession = WorldEdit.getInstance().getSessionManager().get(bp).createEditSession(bp);
                 int y = editsession.getHighestTerrainBlock(x + minX, z + minZ, 0, 255);
                 int i = (int) (((double) (y - lowest) / (double) height) * (double) 255);
                 int rgb = i; //red

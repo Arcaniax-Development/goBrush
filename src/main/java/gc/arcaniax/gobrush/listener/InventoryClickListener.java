@@ -1,19 +1,15 @@
 package gc.arcaniax.gobrush.listener;
 
-import gc.arcaniax.gobrush.Session;
-import gc.arcaniax.gobrush.enumeration.MainMenuSlot;
-import gc.arcaniax.gobrush.object.Brush;
-import gc.arcaniax.gobrush.object.BrushMenu;
-import gc.arcaniax.gobrush.object.BrushPlayer;
-import gc.arcaniax.gobrush.util.GuiGenerator;
-import gc.arcaniax.gobrush.util.XMaterial;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import gc.arcaniax.gobrush.*;
+import gc.arcaniax.gobrush.enumeration.*;
+import gc.arcaniax.gobrush.object.*;
+import gc.arcaniax.gobrush.util.*;
+import org.bukkit.*;
+import org.bukkit.entity.*;
+import org.bukkit.event.*;
+import org.bukkit.event.inventory.*;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 
 /**
  * This class contains the listener that gets fired when an inventory is
@@ -30,9 +26,7 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void mainMenuClickEvent(InventoryClickEvent event) {
-        if (!isValidInventory(event, MAIN_MENU_INVENTORY_TITLE)) {
-            return;
-        }
+        if (isInvalidInventory(event, MAIN_MENU_INVENTORY_TITLE)) return;
         event.setCancelled(true);
 
         Player player = (Player) event.getWhoClicked();
@@ -111,10 +105,9 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void brushMenuClickEvent(InventoryClickEvent event) {
-        if (!isValidInventory(event, BRUSH_MENU_INVENTORY_TITLE)) {
-            return;
-        }
+        if (isInvalidInventory(event, BRUSH_MENU_INVENTORY_TITLE)) return;
         event.setCancelled(true);
+
         if (event.isShiftClick()) {
             return;
         }
@@ -180,8 +173,16 @@ public class InventoryClickListener implements Listener {
      * @return True if the event is happening in a goBrush menu, false
      * otherwise.
      */
-    private boolean isValidInventory(InventoryClickEvent event, String inventoryName) {
-        return event.getView().getTitle().contains(inventoryName);
+    private boolean isInvalidInventory(InventoryClickEvent event, String inventoryName) {
+        final InventoryView view = event.getView();
+        final String title = view.getTitle();
+        if (!title.contains(inventoryName)) return true;
+
+        event.setCancelled(true);
+
+        final Inventory topInventory = view.getTopInventory();
+        final Inventory clickedInventory = event.getClickedInventory();
+        return topInventory != clickedInventory;
     }
 
     /**

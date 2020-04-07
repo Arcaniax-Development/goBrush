@@ -1,13 +1,13 @@
 package gc.arcaniax.gobrush.util;
 
-import com.boydti.fawe.FaweAPI;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.math.Vector3;
-import gc.arcaniax.gobrush.Session;
-import gc.arcaniax.gobrush.object.BrushPlayer;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
+import com.sk89q.worldedit.*;
+import com.sk89q.worldedit.bukkit.*;
+import com.sk89q.worldedit.math.*;
+import gc.arcaniax.gobrush.*;
+import gc.arcaniax.gobrush.object.*;
+import org.bukkit.*;
+import org.bukkit.entity.*;
+import org.bukkit.util.*;
 
 /**
  * This class contains a bunch of utilities that can be used for determinating
@@ -19,7 +19,8 @@ public class BrushPlayerUtil {
 
     public static Location getClosest(Player player, Location _loc, Location l, int brushSize) {
         Location loc = _loc.clone();
-        EditSession editsession = FaweAPI.getEditSessionBuilder(FaweAPI.getWorld(player.getWorld().getName())).build();
+        BukkitPlayer bp = new BukkitPlayer(player);
+        EditSession editsession = WorldEdit.getInstance().getSessionManager().get(bp).createEditSession(bp);
 
         while (loc.getBlock().getType() == XMaterial.AIR.parseMaterial()
                 || (!(editsession.getMask() == null || editsession.getMask().test(Vector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()).toBlockPoint())))
