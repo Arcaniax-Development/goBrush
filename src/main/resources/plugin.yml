@@ -4,7 +4,7 @@ version: "${version}"
 author: Arcaniax
 website: "http://arcaniax.net/"
 description: goBrush is a plugin that's designed to streamline and simplify your mountain building experience
-depend: [WorldEdit]
+depend: [FastAsyncWorldEdit]
 api-version: 1.13
 
 commands:
@@ -13,14 +13,14 @@ commands:
     aliases: gb
 permissions:
   gobrush.use:
-    default: op
+    default: false
   gobrush.export:
-    default: op
+    default: false
   gobrush.admin:
-    default: op
+    default: false
   gobrush.world.bypass:
-    default: op
+    default: false
   gobrush.bypass.maxsize:
-    default: op
+    default: false
   gobrush.bypass.maxintensity:
-    default: op
+    default: false
