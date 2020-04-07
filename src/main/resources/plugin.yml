@@ -13,7 +13,7 @@ commands:
     aliases: gb
 permissions:
   gobrush.use:
-    default: false
+    default: op
   gobrush.export:
     default: false
   gobrush.admin:
