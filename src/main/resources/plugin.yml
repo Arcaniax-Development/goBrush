@@ -1,8 +1,8 @@
 name: goBrush
-main: gc.arcaniax.gobrush.Main
+main: me.arcaniax.gobrush.GoBrushPlugin
 version: "${version}"
 author: Arcaniax
-website: "http://arcaniax.net/"
+website: "https://www.spigotmc.org/resources/23118/"
 description: goBrush is a plugin that's designed to streamline and simplify your mountain building experience
 depend: [FastAsyncWorldEdit]
 api-version: 1.13
@@ -15,12 +15,12 @@ permissions:
   gobrush.use:
     default: op
   gobrush.export:
-    default: false
+    default: op
   gobrush.admin:
-    default: false
+    default: op
   gobrush.world.bypass:
-    default: false
+    default: op
   gobrush.bypass.maxsize:
-    default: false
+    default: op
   gobrush.bypass.maxintensity:
-    default: false
+    default: op
