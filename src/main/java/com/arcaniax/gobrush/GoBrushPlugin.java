@@ -54,7 +54,7 @@ public class GoBrushPlugin extends JavaPlugin {
 					if (amountOfValidBrushes == 1) {
 						GoBrushPlugin.getPlugin().getLogger().log(Level.INFO, "Registered 1 brush.");
 					} else {
-						GoBrushPlugin.getPlugin().getLogger().log(Level.INFO, "Registered {0} brush(es).", amountOfValidBrushes);
+						GoBrushPlugin.getPlugin().getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
 					}
 					Session.initializeBrushMenu();
 					Session.initializeBrushPlayers();
