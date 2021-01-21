@@ -9,7 +9,7 @@ defaults:
   flatmode: false
   autorotation: true
   brushenabled: false
-  brushname: 'hills.png'
+  brushname: 'cliff.png'
 maximums:
   size: 305
   intensity: 10

@@ -21,17 +21,23 @@ public class Brush implements Comparable {
 
     private static final String DEFAULT_NAME = Session.getConfig().getDefaultBrushName();
     private static final int DEFAULT_SIZE = 15;
-    private String name;
-    private BufferedImage unmodifiedPattern;
+    private final String name;
+    private final BufferedImage unmodifiedPattern;
     private BufferedImage croppedPattern;
     private int size;
+    public int amountOfValidBrushes;
 
     /**
      * Default constructor of a Brush object. This constructor will pick all the
      * default values registered on config as the default brush.
      */
     public Brush() {
-        this.name = DEFAULT_NAME;
+        amountOfValidBrushes = Session.initializeValidBrushes();
+        if (amountOfValidBrushes == 0) {
+            this.name = "No brushes installed";
+        } else {
+            this.name = DEFAULT_NAME;
+        }
         this.unmodifiedPattern = getPattern(DEFAULT_NAME);
         this.size = DEFAULT_SIZE;
 
