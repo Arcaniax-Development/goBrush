@@ -40,7 +40,7 @@ public class GoBrushPlugin extends JavaPlugin {
 			plugin.getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
 			if (amountOfValidBrushes == 0) {
 				plugin.getLogger().log(Level.INFO,"Downloading cliff.png from GitHub, please wait...");
-				try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new URL("https://raw.githubusercontent.com/N0tMyFaultOG/goBrush-Assets/main/cliff.png").openStream());
+				try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new URL("https://raw.githubusercontent.com/Arcaniax-Development/goBrush-Assets/main/cliff.png").openStream());
 					 FileOutputStream fileOutputStream = new FileOutputStream(GoBrushPlugin.getPlugin().getDataFolder() + "/brushes/cliff.png")) {
 					byte[] dataBuffer = new byte[1024];
 					int bytesRead;
@@ -59,15 +59,15 @@ public class GoBrushPlugin extends JavaPlugin {
 					Session.initializeBrushMenu();
 					Session.initializeBrushPlayers();
 					plugin.getLogger().log(Level.INFO, "You can find more brushes on the internet or here:");
-					plugin.getLogger().log(Level.INFO, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip?raw=true");
+					plugin.getLogger().log(Level.INFO, "https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true");
 				} catch (IOException e) {
 					plugin.getLogger().log(Level.SEVERE, "Could not download brushes. Please download them manually and put them into /plugins/goBrush/brushes");
-					plugin.getLogger().log(Level.SEVERE, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip?raw=true");
+					plugin.getLogger().log(Level.SEVERE, "https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true");
 				}
 			}
 		} catch (Exception ex) {
 			plugin.getLogger().log(Level.SEVERE, "Could not download brushes. Please download them manually here and put them into /plugins/goBrush/brushes");
-			plugin.getLogger().log(Level.SEVERE, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip?raw=true");
+			plugin.getLogger().log(Level.SEVERE, "https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true");
 		}
 		Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
 		registerListeners();

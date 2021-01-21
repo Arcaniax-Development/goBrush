@@ -110,7 +110,7 @@ public class InventoryClickListener implements Listener {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cWARNING! The automatic brush installation failed because the server cannot connect to GitHub."));
                     player.spigot().sendMessage(new ComponentBuilder("goBrush> ").color(ChatColor.AQUA)
                             .append("Click here to download the default brushes manually.").color(ChatColor.GOLD)
-                            .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip?raw=true")).create());
+                            .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true")).create());
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cExtract the zip into &e/plugins/goBrush/brushes"));
                 } else {
                     player.openInventory(Session.getBrushMenu().getPage(0).getInventory());
