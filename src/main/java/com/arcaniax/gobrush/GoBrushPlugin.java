@@ -59,16 +59,15 @@ public class GoBrushPlugin extends JavaPlugin {
 					Session.initializeBrushMenu();
 					Session.initializeBrushPlayers();
 					plugin.getLogger().log(Level.INFO, "You can find more brushes on the internet or here:");
-					plugin.getLogger().log(Level.INFO, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip");
+					plugin.getLogger().log(Level.INFO, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip?raw=true");
 				} catch (IOException e) {
-					plugin.getLogger().log(Level.SEVERE, "Could not download brushes. Please download them manually here and put them into /plugins/goBrush/brushes");
-					plugin.getLogger().log(Level.SEVERE, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip");
+					plugin.getLogger().log(Level.SEVERE, "Could not download brushes. Please download them manually and put them into /plugins/goBrush/brushes");
+					plugin.getLogger().log(Level.SEVERE, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip?raw=true");
 				}
 			}
 		} catch (Exception ex) {
 			plugin.getLogger().log(Level.SEVERE, "Could not download brushes. Please download them manually here and put them into /plugins/goBrush/brushes");
-			plugin.getLogger().log(Level.SEVERE, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip");
-			plugin.setEnabled(false);
+			plugin.getLogger().log(Level.SEVERE, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip?raw=true");
 		}
 		Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
 		registerListeners();

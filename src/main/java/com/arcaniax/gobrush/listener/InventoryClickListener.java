@@ -8,6 +8,8 @@ import com.arcaniax.gobrush.object.BrushMenu;
 import com.arcaniax.gobrush.object.BrushPlayer;
 import com.arcaniax.gobrush.util.GuiGenerator;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -104,7 +106,15 @@ public class InventoryClickListener implements Listener {
                 openMenu(player);
             } else if (event.getClick() == ClickType.LEFT) {
                 player.closeInventory();
-                player.openInventory(Session.getBrushMenu().getPage(0).getInventory());
+                if (Session.getBrushMenu() == null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cWARNING! The automatic brush installation failed because the server cannot connect to GitHub."));
+                    player.spigot().sendMessage(new ComponentBuilder("goBrush> ").color(ChatColor.AQUA)
+                            .append("Click here to download the default brushes manually.").color(ChatColor.GOLD)
+                            .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/N0tMyFaultOG/goBrush-Assets/blob/main/brushes.zip?raw=true")).create());
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cExtract the zip into &e/plugins/goBrush/brushes"));
+                } else {
+                    player.openInventory(Session.getBrushMenu().getPage(0).getInventory());
+                }
             }
         }
     }
