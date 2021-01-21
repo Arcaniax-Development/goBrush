@@ -1,6 +1,6 @@
-package me.arcaniax.gobrush.listener;
+package com.arcaniax.gobrush.listener;
 
-import me.arcaniax.gobrush.Session;
+import com.arcaniax.gobrush.Session;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

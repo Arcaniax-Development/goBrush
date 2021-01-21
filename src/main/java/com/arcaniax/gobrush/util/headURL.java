@@ -1,4 +1,4 @@
-package me.arcaniax.gobrush.util;
+package com.arcaniax.gobrush.util;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;

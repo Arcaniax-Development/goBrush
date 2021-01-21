@@ -1,10 +1,10 @@
-package me.arcaniax.gobrush;
+package com.arcaniax.gobrush;
 
+import com.arcaniax.gobrush.object.Config;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import me.arcaniax.gobrush.object.Brush;
-import me.arcaniax.gobrush.object.BrushMenu;
-import me.arcaniax.gobrush.object.BrushPlayer;
-import me.arcaniax.gobrush.object.Config;
+import com.arcaniax.gobrush.object.Brush;
+import com.arcaniax.gobrush.object.BrushMenu;
+import com.arcaniax.gobrush.object.BrushPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

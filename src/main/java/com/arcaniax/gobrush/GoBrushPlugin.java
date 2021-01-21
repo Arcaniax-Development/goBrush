@@ -1,11 +1,11 @@
-package me.arcaniax.gobrush;
+package com.arcaniax.gobrush;
 
+import com.arcaniax.gobrush.command.CommandHandler;
+import com.arcaniax.gobrush.listener.InventoryClickListener;
+import com.arcaniax.gobrush.listener.PlayerInteractListener;
+import com.arcaniax.gobrush.listener.PlayerJoinListener;
+import com.arcaniax.gobrush.listener.PlayerQuitListener;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import me.arcaniax.gobrush.command.CommandHandler;
-import me.arcaniax.gobrush.listener.InventoryClickListener;
-import me.arcaniax.gobrush.listener.PlayerInteractListener;
-import me.arcaniax.gobrush.listener.PlayerJoinListener;
-import me.arcaniax.gobrush.listener.PlayerQuitListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -1,4 +1,4 @@
-package me.arcaniax.gobrush.object;
+package com.arcaniax.gobrush.object;
 
 import org.bukkit.configuration.file.FileConfiguration;
 

@@ -1,11 +1,11 @@
-package me.arcaniax.gobrush.command;
+package com.arcaniax.gobrush.command;
 
 import com.sk89q.worldedit.IncompleteRegionException;
-import me.arcaniax.gobrush.GoBrushPlugin;
-import me.arcaniax.gobrush.Session;
-import me.arcaniax.gobrush.object.Brush;
-import me.arcaniax.gobrush.object.BrushPlayer;
-import me.arcaniax.gobrush.object.HeightMapExporter;
+import com.arcaniax.gobrush.GoBrushPlugin;
+import com.arcaniax.gobrush.Session;
+import com.arcaniax.gobrush.object.Brush;
+import com.arcaniax.gobrush.object.BrushPlayer;
+import com.arcaniax.gobrush.object.HeightMapExporter;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;

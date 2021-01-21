@@ -1,5 +1,6 @@
-package me.arcaniax.gobrush.listener;
+package com.arcaniax.gobrush.listener;
 
+import com.arcaniax.gobrush.util.XMaterial;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -7,11 +8,10 @@ import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import me.arcaniax.gobrush.Session;
-import me.arcaniax.gobrush.object.BrushPlayer;
-import me.arcaniax.gobrush.util.BrushPlayerUtil;
-import me.arcaniax.gobrush.util.GuiGenerator;
-import me.arcaniax.gobrush.util.XMaterial;
+import com.arcaniax.gobrush.Session;
+import com.arcaniax.gobrush.object.BrushPlayer;
+import com.arcaniax.gobrush.util.BrushPlayerUtil;
+import com.arcaniax.gobrush.util.GuiGenerator;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

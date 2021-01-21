@@ -1,5 +1,6 @@
-package me.arcaniax.gobrush.object;
+package com.arcaniax.gobrush.object;
 
+import com.arcaniax.gobrush.GoBrushPlugin;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.WorldEdit;
@@ -7,7 +8,6 @@ import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.World;
-import me.arcaniax.gobrush.GoBrushPlugin;
 import org.bukkit.entity.Player;
 
 import javax.imageio.ImageIO;

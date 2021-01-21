@@ -21,7 +21,7 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-package me.arcaniax.gobrush.util;
+package com.arcaniax.gobrush.util;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

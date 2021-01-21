@@ -1,5 +1,5 @@
 name: goBrush
-main: me.arcaniax.gobrush.GoBrushPlugin
+main: com.arcaniax.gobrush.GoBrushPlugin
 version: "${version}"
 author: Arcaniax
 website: "https://www.spigotmc.org/resources/23118/"

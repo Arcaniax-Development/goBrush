@@ -1,12 +1,12 @@
-package me.arcaniax.gobrush.listener;
+package com.arcaniax.gobrush.listener;
 
-import me.arcaniax.gobrush.util.XMaterial;
-import me.arcaniax.gobrush.Session;
-import me.arcaniax.gobrush.enumeration.MainMenuSlot;
-import me.arcaniax.gobrush.object.Brush;
-import me.arcaniax.gobrush.object.BrushMenu;
-import me.arcaniax.gobrush.object.BrushPlayer;
-import me.arcaniax.gobrush.util.GuiGenerator;
+import com.arcaniax.gobrush.enumeration.MainMenuSlot;
+import com.arcaniax.gobrush.util.XMaterial;
+import com.arcaniax.gobrush.Session;
+import com.arcaniax.gobrush.object.Brush;
+import com.arcaniax.gobrush.object.BrushMenu;
+import com.arcaniax.gobrush.object.BrushPlayer;
+import com.arcaniax.gobrush.util.GuiGenerator;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -1,4 +1,4 @@
-package me.arcaniax.gobrush.enumeration;
+package com.arcaniax.gobrush.enumeration;
 
 public enum MainMenuSlot {
 

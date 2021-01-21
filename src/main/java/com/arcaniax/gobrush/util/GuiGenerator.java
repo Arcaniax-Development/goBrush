@@ -1,6 +1,6 @@
-package me.arcaniax.gobrush.util;
+package com.arcaniax.gobrush.util;
 
-import me.arcaniax.gobrush.object.BrushPlayer;
+import com.arcaniax.gobrush.object.BrushPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

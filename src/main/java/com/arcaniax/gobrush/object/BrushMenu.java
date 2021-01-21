@@ -1,4 +1,4 @@
-package me.arcaniax.gobrush.object;
+package com.arcaniax.gobrush.object;
 
 import java.util.ArrayList;
 import java.util.Collections;

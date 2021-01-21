@@ -1,7 +1,7 @@
-package me.arcaniax.gobrush.object;
+package com.arcaniax.gobrush.object;
 
-import me.arcaniax.gobrush.GoBrushPlugin;
-import me.arcaniax.gobrush.Session;
+import com.arcaniax.gobrush.GoBrushPlugin;
+import com.arcaniax.gobrush.Session;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;

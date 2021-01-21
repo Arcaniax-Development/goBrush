@@ -1,11 +1,11 @@
-package me.arcaniax.gobrush.util;
+package com.arcaniax.gobrush.util;
 
+import com.arcaniax.gobrush.Session;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.math.Vector3;
-import me.arcaniax.gobrush.Session;
-import me.arcaniax.gobrush.object.BrushPlayer;
+import com.arcaniax.gobrush.object.BrushPlayer;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;

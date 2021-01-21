@@ -1,6 +1,6 @@
-package me.arcaniax.gobrush.object;
+package com.arcaniax.gobrush.object;
 
-import me.arcaniax.gobrush.Session;
+import com.arcaniax.gobrush.Session;
 
 import java.util.UUID;
 
