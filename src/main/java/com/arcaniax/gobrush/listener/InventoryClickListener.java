@@ -31,6 +31,7 @@ public class InventoryClickListener implements Listener {
     private static final String PERMISSION_BYPASS_MAXINTENSITY = "gobrush.bypass.maxintensity";
     private static final String MAIN_MENU_INVENTORY_TITLE = "goBrush Menu";
     private static final String BRUSH_MENU_INVENTORY_TITLE = "goBrush Brushes";
+    private static int amountOfValidBrushes;
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void mainMenuClickEvent(InventoryClickEvent event) {
@@ -106,7 +107,8 @@ public class InventoryClickListener implements Listener {
                 openMenu(player);
             } else if (event.getClick() == ClickType.LEFT) {
                 player.closeInventory();
-                if (Session.getBrushMenu() == null) {
+                amountOfValidBrushes = Session.initializeValidBrushes();
+                if (amountOfValidBrushes == 0) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cWARNING! The automatic brush installation failed because the server cannot connect to GitHub."));
                     player.spigot().sendMessage(new ComponentBuilder("goBrush> ").color(ChatColor.AQUA)
                             .append("Click here to download the default brushes manually.").color(ChatColor.GOLD)
