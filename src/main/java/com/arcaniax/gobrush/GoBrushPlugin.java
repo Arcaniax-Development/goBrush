@@ -6,10 +6,13 @@ import com.arcaniax.gobrush.listener.PlayerInteractListener;
 import com.arcaniax.gobrush.listener.PlayerJoinListener;
 import com.arcaniax.gobrush.listener.PlayerQuitListener;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -39,27 +42,28 @@ public class GoBrushPlugin extends JavaPlugin {
 			amountOfValidBrushes = Session.initializeValidBrushes();
 			plugin.getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
 			if (amountOfValidBrushes == 0) {
-				plugin.getLogger().log(Level.INFO,"Downloading cliff.png from GitHub, please wait...");
-				try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new URL("https://raw.githubusercontent.com/Arcaniax-Development/goBrush-Assets/main/cliff.png").openStream());
-					 FileOutputStream fileOutputStream = new FileOutputStream(GoBrushPlugin.getPlugin().getDataFolder() + "/brushes/cliff.png")) {
+				plugin.getLogger().log(Level.INFO,"Downloading brushes from GitHub, please wait...");
+				try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new URL("https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true").openStream());
+					 FileOutputStream fileOutputStream = new FileOutputStream(GoBrushPlugin.getPlugin().getDataFolder() + "/brushes/brushes.zip")) {
 					byte[] dataBuffer = new byte[1024];
 					int bytesRead;
 					while ((bytesRead = bufferedInputStream.read(dataBuffer, 0, 1024)) != -1) {
 						fileOutputStream.write(dataBuffer, 0, bytesRead);
 					}
-					plugin.getLogger().log(Level.INFO, "cliff.png has been downloaded successfully.");
-					GoBrushPlugin.getPlugin().reloadConfig();
-					Session.getConfig().reload(GoBrushPlugin.getPlugin().getConfig());
-					int amountOfValidBrushes = Session.initializeValidBrushes();
-					if (amountOfValidBrushes == 1) {
-						GoBrushPlugin.getPlugin().getLogger().log(Level.INFO, "Registered 1 brush.");
-					} else {
-						GoBrushPlugin.getPlugin().getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
+					plugin.getLogger().log(Level.INFO, "Brushes have been downloaded successfully.");
+					try {
+						plugin.getLogger().log(Level.INFO, "Extracting brushes...");
+						ZipFile zipFile = new ZipFile(GoBrushPlugin.getPlugin().getDataFolder() + "/brushes/brushes.zip");
+						zipFile.extractAll(GoBrushPlugin.getPlugin().getDataFolder() + "/brushes/");
+							GoBrushPlugin.getPlugin().reloadConfig();
+							Session.getConfig().reload(GoBrushPlugin.getPlugin().getConfig());
+							int amountOfValidBrushes = Session.initializeValidBrushes();
+							Session.initializeBrushMenu();
+							Session.initializeBrushPlayers();
+						    GoBrushPlugin.getPlugin().getLogger().log(Level.INFO, "Registered {0} brushes.", amountOfValidBrushes);
+					} catch (ZipException e) {
+						e.printStackTrace();
 					}
-					Session.initializeBrushMenu();
-					Session.initializeBrushPlayers();
-					plugin.getLogger().log(Level.INFO, "You can find more brushes on the internet or here:");
-					plugin.getLogger().log(Level.INFO, "https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true");
 				} catch (IOException e) {
 					plugin.getLogger().log(Level.SEVERE, "Could not download brushes. Please download them manually and put them into /plugins/goBrush/brushes");
 					plugin.getLogger().log(Level.SEVERE, "https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true");
