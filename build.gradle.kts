@@ -37,7 +37,7 @@ tasks.named<Copy>("processResources") {
 }
 
 tasks.named<ShadowJar>("shadowJar") {
-    archiveClassifier.set("")
+    archiveClassifier.set(null as String?)
     dependencies {
         include(dependency("net.lingala.zip4j:zip4j"))
     }
