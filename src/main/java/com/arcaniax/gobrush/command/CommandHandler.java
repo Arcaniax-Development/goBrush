@@ -30,7 +30,7 @@ public class CommandHandler implements CommandExecutor {
             final Player p = (Player) sender;
             BrushPlayer bp = Session.getBrushPlayer(p.getUniqueId());
             if (!p.hasPermission("gobrush.use")) {
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "&cYou are not creative enough, sorry."));
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "&cYou are lacking the permission gobrush.use"));
                 return true;
             }
             if (args.length == 0) {
@@ -108,10 +108,12 @@ public class CommandHandler implements CommandExecutor {
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("size") || args[0].equalsIgnoreCase("s")) {
                     try {
-                        Integer sizeAmount = Integer.parseInt(args[1]);
-                        if (sizeAmount > bp.getMaxBrushSize()) {
+                        int sizeAmount = Integer.parseInt(args[1]);
+                        if (sizeAmount > bp.getMaxBrushSize() && !p.hasPermission("gobrush.bypass.maxsize")) {
+                            p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "&6The maximum size is &e" + bp.getMaxBrushSize()));
                             sizeAmount = bp.getMaxBrushSize();
                         } else if (sizeAmount < 5) {
+                            p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "&6The minimum size is &e5"));
                             sizeAmount = 5;
                         } else if (sizeAmount % 2 == 0) {
                             sizeAmount++;
@@ -127,10 +129,12 @@ public class CommandHandler implements CommandExecutor {
                     }
                 } else if (args[0].equalsIgnoreCase("intensity") || args[0].equalsIgnoreCase("i")) {
                     try {
-                        Integer intensityAmount = Integer.parseInt(args[1]);
-                        if (intensityAmount > bp.getMaxBrushIntensity()) {
+                        int intensityAmount = Integer.parseInt(args[1]);
+                        if (intensityAmount > bp.getMaxBrushIntensity() && !p.hasPermission("gobrush.bypass.maxintensity")) {
+                            p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "&6The maximum intensity is &e" + bp.getBrushIntensity()));
                             intensityAmount = bp.getMaxBrushIntensity();
                         } else if (intensityAmount < 1) {
+                            p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "&6The minimum intensity is &e1"));
                             intensityAmount = 1;
                         }
                         bp.setBrushIntensity(intensityAmount);
