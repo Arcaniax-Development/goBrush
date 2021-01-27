@@ -115,6 +115,7 @@ public class InventoryClickListener implements Listener {
                             .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true")).create());
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cExtract the zip into &e/plugins/goBrush/brushes"));
                 } else {
+                    Session.initializeBrushMenu();
                     player.openInventory(Session.getBrushMenu().getPage(0).getInventory());
                 }
             }
