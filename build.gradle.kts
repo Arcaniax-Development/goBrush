@@ -28,7 +28,7 @@ dependencies {
     implementation("net.lingala.zip4j:zip4j:2.6.4")
 }
 
-version = "3.6.0"
+version = "3.7.0"
 
 tasks.named<Copy>("processResources") {
     filesMatching("plugin.yml") {
