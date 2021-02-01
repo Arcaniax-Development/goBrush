@@ -18,13 +18,11 @@ import org.bukkit.util.Vector;
  */
 public class BrushPlayerUtil {
 
-    public static Location getClosest(Player player, Location _loc, Location l, int brushSize) {
+    public static Location getClosest(Player player, Location _loc, Location l, int brushSize, EditSession session) {
         Location loc = _loc.clone();
-        BukkitPlayer bp = new BukkitPlayer(player);
-        EditSession editsession = WorldEdit.getInstance().getSessionManager().get(bp).createEditSession(bp);
 
         while (loc.getBlock().getType() == XMaterial.AIR.parseMaterial()
-                || (!(editsession.getMask() == null || editsession.getMask().test(Vector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()).toBlockPoint())))
+                || (!(session.getMask() == null || session.getMask().test(Vector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()).toBlockPoint())))
                 && (loc.distance(l.clone().add(0.5, 0.5, 0.5)) < ((double) brushSize / (double) 4))) {
             Vector v = player.getEyeLocation().getDirection();
             loc.add(v.multiply(0.5));
@@ -32,7 +30,7 @@ public class BrushPlayerUtil {
                 return null;
             }
             if (loc.getBlockY() <= 0) {
-                break;
+               break;
             }
             if (loc.getBlockY() > 255) {
                 return null;

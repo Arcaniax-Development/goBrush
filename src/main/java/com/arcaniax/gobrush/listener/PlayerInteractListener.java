@@ -1,5 +1,6 @@
 package com.arcaniax.gobrush.listener;
 
+import com.arcaniax.gobrush.util.NestedFor;
 import com.arcaniax.gobrush.util.XMaterial;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
@@ -22,6 +23,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -133,63 +135,79 @@ public class PlayerInteractListener implements Listener {
 
                         Random r = new Random();
                         double random = r.nextDouble();
-                        for (int x = min; x <= max; x++) {
-                            for (int z = min; z <= max; z++) {
-                                Location loopLoc = start.clone().add(zMov * x, z * yMod, -xMov * x);
-                                if (player.getLocation().getPitch() < 0) {
-                                    loopLoc.add((1 - yMod) * xMov * z, 0, (1 - yMod) * zMov * z);
-                                } else {
-                                    loopLoc.add(-(1 - yMod) * xMov * z, 0, -(1 - yMod) * zMov * z);
+
+                        HashMap<Vector3, Vector3> blocksToSet = new HashMap<>();
+
+                        double finalZMov = zMov;
+                        double finalYMod = yMod;
+                        double finalXMov = xMov;
+                        NestedFor.IAction threeDimensionModeXZLoops = indices -> {
+
+                            Location loopLoc = start.clone().add(finalZMov * indices[0], indices[1] * finalYMod, -finalXMov * indices[0]);
+
+                            if (player.getLocation().getPitch() < 0) {
+                                loopLoc.add((1 - finalYMod) * finalXMov * indices[1], 0, (1 - finalYMod) * finalZMov * indices[1]);
+                            } else {
+                                loopLoc.add(-(1 - finalYMod) * finalXMov * indices[1], 0, -(1 - finalYMod) * finalZMov * indices[1]);
+                            }
+
+                            Location blockLoc = BrushPlayerUtil.getClosest(player, loopLoc.clone(), loc.clone(), size, editsession);
+
+                            if (blockLoc != null && (editsession.getMask() == null || editsession.getMask().test(BlockVector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ())))) {
+                                double height = BrushPlayerUtil.getHeight(player,indices[0]-min, indices[1]-min, "N");
+                                double subHeight = height % 1.0D;
+                                if (height == 255.0) {
+                                    subHeight = 1.0;
                                 }
-                                Location blockLoc = BrushPlayerUtil.getClosest(player, loopLoc.clone(), loc.clone(), size);
-                                if (blockLoc != null && (editsession.getMask() == null || editsession.getMask().test(BlockVector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ())))) {
-                                    double height = BrushPlayerUtil.getHeight(player, x - min, z - min, "N");
-                                    double subHeight = height % 1.0D;
-                                    if (height == 255.0) {
-                                        subHeight = 1.0;
-                                    }
-                                    if (random > 1.0 - subHeight) {
-                                        height++;
-                                    }
-                                    for (
-                                            int y = 0;
-                                            y < height; y++) {
-                                        Vector _v = v.clone().multiply(-1).multiply(y);
-                                        if (brushPlayer.isDirectionMode()) {
-                                            if (!brushPlayer.isFlatMode()) {
-                                                try {
-                                                    editsession.setBlock(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()).toBlockPoint(), editsession.getBlock(Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()).toBlockPoint()));
-                                                } catch (Exception e) {
-                                                }
-                                            } else {
-                                                Location place = blockLoc.clone().add(v.clone().multiply(-1).multiply(y));
-                                                if (place.distance(loopLoc) > loc.distance(start)) {
-                                                    try {
-                                                        editsession.setBlock(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()).toBlockPoint(), editsession.getBlock(Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()).toBlockPoint()));
-                                                    } catch (Exception e) {
-                                                    }
-                                                }
+                                if (random > 1.0 - subHeight) {
+                                    height++;
+                                }
+                                for (int y = 0; y < height; y++) {
+                                    Vector _v = v.clone().multiply(-1).multiply(y);
+                                    if (brushPlayer.isDirectionMode()) {
+                                        if (!brushPlayer.isFlatMode()) {
+                                            try {
+                                                blocksToSet.put(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()), Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()));
+                                            } catch (Exception e) {
                                             }
                                         } else {
-                                            if (!brushPlayer.isFlatMode()) {
+                                            Location place = blockLoc.clone().add(v.clone().multiply(-1).multiply(y));
+                                            if (place.distance(loopLoc) > loc.distance(start)) {
                                                 try {
-                                                    editsession.setBlock(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()).toBlockPoint(), BlockTypes.AIR.getDefaultState());
+                                                    blocksToSet.put(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()), Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()));
                                                 } catch (Exception e) {
                                                 }
-                                            } else {
-                                                Location place = blockLoc.clone().add(v.clone().multiply(1).multiply(y - 1));
-                                                if (place.distance(loopLoc) < loc.distance(start) - 1) {
-                                                    try {
-                                                        editsession.setBlock(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()).toBlockPoint(), BlockTypes.AIR.getDefaultState());
-                                                    } catch (Exception e) {
-                                                    }
+                                            }
+                                        }
+                                    } else {
+                                        if (!brushPlayer.isFlatMode()) {
+                                            try {
+                                                blocksToSet.put(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()), Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()));
+                                            } catch (Exception e) {
+                                            }
+                                        } else {
+                                            Location place = blockLoc.clone().add(v.clone().multiply(1).multiply(y - 1));
+                                            if (place.distance(loopLoc) < loc.distance(start) - 1) {
+                                                try {
+                                                    blocksToSet.put(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()), Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()));
+                                                } catch (Exception e) {
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
+                        };
+                        NestedFor nf = new NestedFor(min, max+1, threeDimensionModeXZLoops);
+                        nf.nFor(2);
+
+                        for(Vector3 block : blocksToSet.keySet()) {
+                            if(brushPlayer.isDirectionMode()) {
+                                editsession.setBlock(block.toBlockPoint().getBlockX(), block.toBlockPoint().getBlockY(), block.toBlockPoint().getBlockZ(), editsession.getBlock(blocksToSet.get(block).toBlockPoint()));
+                            } else {
+                                editsession.setBlock(block.toBlockPoint().getBlockX(), block.toBlockPoint().getBlockY(), block.toBlockPoint().getBlockZ(), BlockTypes.AIR.getDefaultState());                            }
                         }
+                        blocksToSet.clear();
                     }
                 } finally {
                     localSession.remember(editsession);
@@ -202,5 +220,6 @@ public class PlayerInteractListener implements Listener {
 			player.openInventory(GuiGenerator.generateMainMenu(Session.getBrushPlayer(player.getUniqueId())));
 		}
 	}
+
 
 }
