@@ -25,10 +25,10 @@ dependencies {
     implementation("net.md-5:bungeecord-api:1.16-R0.4")
     compileOnlyApi("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-583")
-    implementation("net.lingala.zip4j:zip4j:2.6.4")
+    implementation("net.lingala.zip4j:zip4j:2.7.0")
 }
 
-version = "3.7.0"
+version = "3.7.1"
 
 tasks.named<Copy>("processResources") {
     filesMatching("plugin.yml") {

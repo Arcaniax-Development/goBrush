@@ -4,7 +4,7 @@ version: "${version}"
 author: Arcaniax
 website: "https://www.spigotmc.org/resources/23118/"
 description: goBrush is a plugin that's designed to streamline and simplify your mountain building experience
-depend: [FastAsyncWorldEdit]
+depend: [WorldEdit]
 api-version: 1.13
 
 commands:
