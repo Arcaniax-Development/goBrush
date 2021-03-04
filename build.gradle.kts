@@ -30,9 +30,11 @@ dependencies {
     compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-583")
     implementation("net.lingala.zip4j:zip4j:2.7.0")
     implementation("de.notmyfault:serverlib:1.0.1")
+    implementation("org.bstats:bstats-bukkit:2.2.1")
+    implementation("org.bstats:bstats-base:2.2.1")
 }
 
-version = "3.7.1"
+version = "3.7.2"
 
 configure<LicenseExtension> {
     header = rootProject.file("HEADER")
@@ -50,11 +52,15 @@ tasks.named<Copy>("processResources") {
 tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
     dependencies {
-        relocate("net.lingala.zip4j", "com.arcaniax.gobrush") {
+        relocate("net.lingala.zip4j", "com.arcaniax.zip4j") {
             include(dependency("net.lingala.zip4j:zip4j"))
         }
-        relocate("de.notmyfault", "com.arcaniax.gobrush") {
+        relocate("de.notmyfault", "com.arcaniax") {
             include(dependency("de.notmyfault:serverlib:1.0.1"))
+        }
+        relocate("org.bstats", "com.arcaniax.metrics") {
+            include(dependency("org.bstats:bstats-base"))
+            include(dependency("org.bstats:bstats-bukkit"))
         }
     }
 }
