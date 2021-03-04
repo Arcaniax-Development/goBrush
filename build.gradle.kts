@@ -1,9 +1,11 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.cadixdev.gradle.licenser.LicenseExtension
 
 plugins {
     id("java")
     id("java-library")
     id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("org.cadixdev.licenser") version "0.5.0"
 }
 
 configure<JavaPluginConvention> {
@@ -18,17 +20,26 @@ repositories {
     maven { url = uri("https://repo.maven.apache.org/maven2") }
     maven { url = uri("https://libraries.minecraft.net/") }
     maven { url = uri("https://mvn.intellectualsites.com/content/repositories/releases/") }
+    maven { url = uri("https://mvn.intellectualsites.com/content/repositories/thirdparty/") }
 }
 
 dependencies {
     compileOnlyApi("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-    implementation("net.md-5:bungeecord-api:1.16-R0.4")
+    compileOnly("net.md-5:bungeecord-api:1.16-R0.4")
     compileOnlyApi("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-583")
     implementation("net.lingala.zip4j:zip4j:2.7.0")
+    implementation("de.notmyfault:serverlib:1.0.1")
 }
 
 version = "3.7.1"
+
+configure<LicenseExtension> {
+    header = rootProject.file("HEADER")
+    include("**/*.java")
+    exclude("**/XMaterial.java")
+    newLine = false
+}
 
 tasks.named<Copy>("processResources") {
     filesMatching("plugin.yml") {
@@ -39,7 +50,12 @@ tasks.named<Copy>("processResources") {
 tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
     dependencies {
-        include(dependency("net.lingala.zip4j:zip4j"))
+        relocate("net.lingala.zip4j", "com.arcaniax.gobrush") {
+            include(dependency("net.lingala.zip4j:zip4j"))
+        }
+        relocate("de.notmyfault", "com.arcaniax.gobrush") {
+            include(dependency("de.notmyfault:serverlib:1.0.1"))
+        }
     }
 }
 
