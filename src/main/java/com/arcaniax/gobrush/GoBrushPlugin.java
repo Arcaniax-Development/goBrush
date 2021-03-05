@@ -70,8 +70,8 @@ public class GoBrushPlugin extends JavaPlugin {
 
 		Metrics metrics = new Metrics(this, BSTATS_ID);
 
-		new SimplePie("worldeditImplementation", () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit");
-		new SimplePie("amountOfValidBrushes", () -> {
+		metrics.addCustomChart(new SimplePie("worldeditImplementation", () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit"));
+		metrics.addCustomChart(new SimplePie("amountOfValidBrushes", () -> {
 			int amountOfValidBrushes = Session.initializeValidBrushes();
 			if (amountOfValidBrushes <= 0) return "0";
 			else if (amountOfValidBrushes <= 10) return "1-10";
@@ -81,7 +81,7 @@ public class GoBrushPlugin extends JavaPlugin {
 			else if (amountOfValidBrushes <= 150) return "101-150";
 			else if (amountOfValidBrushes <= 200) return "151-200";
 			else return "201+";
-		});
+		}));
 	}
 
 	private void registerListeners() {
