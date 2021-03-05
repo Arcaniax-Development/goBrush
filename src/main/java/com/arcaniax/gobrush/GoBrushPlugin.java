@@ -33,8 +33,10 @@ import com.arcaniax.gobrush.listener.PlayerJoinListener;
 import com.arcaniax.gobrush.listener.PlayerQuitListener;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import de.notmyfault.serverlib.ServerLib;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bstats.bukkit.Metrics;
 
 import static com.arcaniax.gobrush.util.BrushZipManager.setupBrushes;
 
@@ -51,6 +53,8 @@ public class GoBrushPlugin extends JavaPlugin {
 		return plugin;
 	}
 
+	private static final int BSTATS_ID = 10558;
+
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -63,6 +67,21 @@ public class GoBrushPlugin extends JavaPlugin {
 		registerCommands();
 		// Check if we are in a safe environment
 		ServerLib.checkUnsafeForks();
+
+		Metrics metrics = new Metrics(this, BSTATS_ID);
+
+		new SimplePie("worldeditImplementation", () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit");
+		new SimplePie("amountOfValidBrushes", () -> {
+			int amountOfValidBrushes = Session.initializeValidBrushes();
+			if (amountOfValidBrushes <= 0) return "0";
+			else if (amountOfValidBrushes <= 10) return "1-10";
+			else if (amountOfValidBrushes <= 30) return "11-30";
+			else if (amountOfValidBrushes <= 50) return "31-50";
+			else if (amountOfValidBrushes <= 100) return "51-100";
+			else if (amountOfValidBrushes <= 150) return "101-150";
+			else if (amountOfValidBrushes <= 200) return "151-200";
+			else return "201+";
+		});
 	}
 
 	private void registerListeners() {
