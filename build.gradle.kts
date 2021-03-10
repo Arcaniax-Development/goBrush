@@ -55,10 +55,10 @@ tasks.named<ShadowJar>("shadowJar") {
         relocate("net.lingala.zip4j", "com.arcaniax.zip4j") {
             include(dependency("net.lingala.zip4j:zip4j"))
         }
-        relocate("de.notmyfault", "com.arcaniax") {
+        relocate("de.notmyfault", "com.arcaniax.gobrush") {
             include(dependency("de.notmyfault:serverlib:1.0.1"))
         }
-        relocate("org.bstats", "com.arcaniax.metrics") {
+        relocate("org.bstats", "com.arcaniax.gobrush.metrics") {
             include(dependency("org.bstats:bstats-base"))
             include(dependency("org.bstats:bstats-bukkit"))
         }
