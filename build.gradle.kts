@@ -63,6 +63,7 @@ tasks.named<ShadowJar>("shadowJar") {
             include(dependency("org.bstats:bstats-bukkit"))
         }
     }
+    minimize()
 }
 
 tasks.named("build").configure {
