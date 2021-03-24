@@ -5,7 +5,7 @@ plugins {
     id("java")
     id("java-library")
     id("com.github.johnrengelman.shadow") version "6.1.0"
-    id("org.cadixdev.licenser") version "0.5.0"
+    id("org.cadixdev.licenser") version "0.5.1"
 }
 
 configure<JavaPluginConvention> {
