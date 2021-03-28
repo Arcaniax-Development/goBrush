@@ -27,7 +27,7 @@ dependencies {
     compileOnlyApi("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
     compileOnly("net.md-5:bungeecord-api:1.16-R0.4")
     compileOnlyApi("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-583")
+    compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-637")
     implementation("net.lingala.zip4j:zip4j:2.7.0")
     implementation("de.notmyfault:serverlib:1.0.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
