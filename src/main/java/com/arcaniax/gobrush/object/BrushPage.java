@@ -164,7 +164,7 @@ public class BrushPage {
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(GoBrushPlugin.getPlugin().getDataFolder() + "/brushes/" + s));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         img = cropImage(img, Session.getConfig().getImgLoreSize());
         return img;

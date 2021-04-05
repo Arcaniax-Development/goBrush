@@ -30,7 +30,7 @@ import com.arcaniax.gobrush.Session;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 /**
  * This class contains the listener that gets fired upon player join. This
@@ -42,13 +42,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerJoinListener implements Listener {
 
     /**
-     * The event handler for the PlayerJoinEvent. This event adds the player
+     * The event handler for the AsyncPlayerPreLoginEvent. This event adds the player
      * that joined to the list of BrushPlayers.
      *
-     * @param event The event that is fired upon a PlayerJoinEvent.
+     * @param event The event that is fired upon a AsyncPlayerPreLoginEvent.
      */
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        Session.addBrushPlayer(event.getPlayer().getUniqueId());
+    public void onPlayerJoinEvent(AsyncPlayerPreLoginEvent event) {
+        Session.addBrushPlayer(event.getUniqueId());
     }
 }
