@@ -34,7 +34,17 @@ dependencies {
     implementation("org.bstats:bstats-base:2.2.1")
 }
 
-version = "3.7.2"
+var rootVersion by extra("3.7.2")
+var buildNumber by extra("")
+
+if (project.hasProperty("buildnumber")) {
+    buildNumber = project.properties["buildnumber"] as String
+} else {
+    var index = "local"
+    buildNumber = index.toString()
+}
+
+version = String.format("%s-%s", rootVersion, buildNumber)
 
 configure<LicenseExtension> {
     header = rootProject.file("HEADER")
