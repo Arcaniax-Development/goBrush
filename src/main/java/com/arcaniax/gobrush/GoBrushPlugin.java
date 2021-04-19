@@ -32,11 +32,12 @@ import com.arcaniax.gobrush.listener.PlayerInteractListener;
 import com.arcaniax.gobrush.listener.PlayerJoinListener;
 import com.arcaniax.gobrush.listener.PlayerQuitListener;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import de.notmyfault.serverlib.ServerLib;
+import io.papermc.lib.PaperLib;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bstats.bukkit.Metrics;
+import org.incendo.serverlib.ServerLib;
 
 import static com.arcaniax.gobrush.util.BrushZipManager.setupBrushes;
 
@@ -67,6 +68,8 @@ public class GoBrushPlugin extends JavaPlugin {
 		registerCommands();
 		// Check if we are in a safe environment
 		ServerLib.checkUnsafeForks();
+		ServerLib.checkJavaLTS();
+		PaperLib.suggestPaper(this);
 
 		Metrics metrics = new Metrics(this, BSTATS_ID);
 

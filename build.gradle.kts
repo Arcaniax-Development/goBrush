@@ -1,11 +1,13 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.cadixdev.gradle.licenser.LicenseExtension
+import org.ajoberstar.grgit.Grgit
 
 plugins {
     id("java")
     id("java-library")
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("org.cadixdev.licenser") version "0.5.1"
+    id("org.ajoberstar.grgit") version "4.1.0"
 }
 
 configure<JavaPluginConvention> {
@@ -17,10 +19,10 @@ repositories {
     mavenCentral()
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
-    maven { url = uri("https://repo.maven.apache.org/maven2") }
     maven { url = uri("https://libraries.minecraft.net/") }
     maven { url = uri("https://mvn.intellectualsites.com/content/repositories/releases/") }
     maven { url = uri("https://mvn.intellectualsites.com/content/repositories/thirdparty/") }
+    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
 }
 
 dependencies {
@@ -29,19 +31,24 @@ dependencies {
     compileOnlyApi("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-637")
     implementation("net.lingala.zip4j:zip4j:2.7.0")
-    implementation("de.notmyfault:serverlib:1.0.1")
+    implementation("org.incendo.serverlib:ServerLib:2.0.0")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
+    implementation("io.papermc:paperlib:1.0.6")
 }
 
 var rootVersion by extra("3.7.2")
 var buildNumber by extra("")
-
-if (project.hasProperty("buildnumber")) {
-    buildNumber = project.properties["buildnumber"] as String
-} else {
-    var index = "local"
-    buildNumber = index.toString()
+ext {
+    val git: Grgit = Grgit.open {
+        dir = File("$rootDir/.git")
+    }
+    val commit: String? = git.head().abbreviatedId
+    buildNumber = if (project.hasProperty("buildnumber")) {
+        project.properties["buildnumber"] as String
+    } else {
+        commit.toString()
+    }
 }
 
 version = String.format("%s-%s", rootVersion, buildNumber)
@@ -65,12 +72,15 @@ tasks.named<ShadowJar>("shadowJar") {
         relocate("net.lingala.zip4j", "com.arcaniax.zip4j") {
             include(dependency("net.lingala.zip4j:zip4j"))
         }
-        relocate("de.notmyfault", "com.arcaniax.gobrush") {
-            include(dependency("de.notmyfault:serverlib:1.0.1"))
+        relocate("org.incendo.serverlib", "com.arcaniax.gobrush.serverlib") {
+            include(dependency("org.incendo.serverlib:ServerLib:2.0.0"))
         }
         relocate("org.bstats", "com.arcaniax.gobrush.metrics") {
             include(dependency("org.bstats:bstats-base"))
             include(dependency("org.bstats:bstats-bukkit"))
+        }
+        relocate("io.papermc.lib", "com.arcaniax.gobrush.paperlib") {
+            include(dependency("io.papermc:paperlib:1.0.6"))
         }
     }
     minimize()
