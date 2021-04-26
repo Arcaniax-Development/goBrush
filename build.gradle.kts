@@ -5,7 +5,7 @@ import org.ajoberstar.grgit.Grgit
 plugins {
     id("java")
     id("java-library")
-    id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
     id("org.cadixdev.licenser") version "0.5.1"
     id("org.ajoberstar.grgit") version "4.1.0"
 }
