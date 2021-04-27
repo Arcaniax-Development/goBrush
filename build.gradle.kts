@@ -5,7 +5,7 @@ import org.ajoberstar.grgit.Grgit
 plugins {
     id("java")
     id("java-library")
-    id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
     id("org.cadixdev.licenser") version "0.5.1"
     id("org.ajoberstar.grgit") version "4.1.0"
 }
@@ -31,7 +31,7 @@ dependencies {
     compileOnlyApi("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-637")
     implementation("net.lingala.zip4j:zip4j:2.7.0")
-    implementation("org.incendo.serverlib:ServerLib:2.0.0")
+    implementation("org.incendo.serverlib:ServerLib:2.1.0")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
     implementation("io.papermc:paperlib:1.0.6")
@@ -73,7 +73,7 @@ tasks.named<ShadowJar>("shadowJar") {
             include(dependency("net.lingala.zip4j:zip4j"))
         }
         relocate("org.incendo.serverlib", "com.arcaniax.gobrush.serverlib") {
-            include(dependency("org.incendo.serverlib:ServerLib:2.0.0"))
+            include(dependency("org.incendo.serverlib:ServerLib:2.1.0"))
         }
         relocate("org.bstats", "com.arcaniax.gobrush.metrics") {
             include(dependency("org.bstats:bstats-base"))
