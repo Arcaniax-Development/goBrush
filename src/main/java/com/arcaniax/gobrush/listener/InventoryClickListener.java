@@ -162,19 +162,19 @@ public class InventoryClickListener implements Listener {
         BrushMenu brushMenu = Session.getBrushMenu();
         int rawSlot = event.getRawSlot();
         int pageNumber = 0;
-
         for (int i = 0; i < Session.getBrushMenu().getAmountOfPages(); i++) {
             if (event.getInventory().equals(Session.getBrushMenu().getPage(i).getInventory())) {
                 pageNumber = i;
             }
         }
-
         switch (rawSlot) {
             case (45): {
                 if (event.getCurrentItem().getType().equals(XMaterial.ARROW.parseMaterial())) {
                     if (pageNumber == 0) {
+                        player.closeInventory();
                         player.openInventory(brushMenu.getPage(brushMenu.getAmountOfPages() - 1).getInventory());
                     } else {
+                        player.closeInventory();
                         player.openInventory(brushMenu.getPage(pageNumber - 1).getInventory());
                     }
                 }
@@ -188,9 +188,11 @@ public class InventoryClickListener implements Listener {
             case (53): {
                 if (event.getCurrentItem().getType().equals(XMaterial.ARROW.parseMaterial())) {
                     if (pageNumber == brushMenu.getAmountOfPages() - 1) {
+                        player.closeInventory();
                         player.openInventory(brushMenu.getPage(0).getInventory());
                     } else {
-                        player.openInventory(brushMenu.getPage(pageNumber + 1).getInventory());
+                        player.closeInventory();
+                        player.openInventory(brushMenu.getPage(pageNumber+1).getInventory());
                     }
                 }
                 break;
