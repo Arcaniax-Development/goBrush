@@ -29,7 +29,7 @@ dependencies {
     compileOnlyApi("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
     compileOnly("net.md-5:bungeecord-api:1.16-R0.4")
     compileOnlyApi("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-637")
+    compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-682")
     implementation("net.lingala.zip4j:zip4j:2.7.0")
     implementation("org.incendo.serverlib:ServerLib:2.2.0")
     implementation("org.bstats:bstats-bukkit:2.2.1")
