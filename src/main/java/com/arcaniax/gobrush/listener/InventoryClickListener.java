@@ -26,6 +26,7 @@
  */
 package com.arcaniax.gobrush.listener;
 
+import com.arcaniax.gobrush.GoBrushPlugin;
 import com.arcaniax.gobrush.enumeration.MainMenuSlot;
 import com.arcaniax.gobrush.util.XMaterial;
 import com.arcaniax.gobrush.Session;
@@ -133,7 +134,7 @@ public class InventoryClickListener implements Listener {
                 openMenu(player);
             } else if (event.getClick() == ClickType.LEFT) {
                 player.closeInventory();
-                amountOfValidBrushes = Session.initializeValidBrushes();
+                amountOfValidBrushes = GoBrushPlugin.amountOfValidBrushes;
                 if (amountOfValidBrushes == 0) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cWARNING! The automatic brush installation failed because the server cannot connect to GitHub."));
                     player.spigot().sendMessage(new ComponentBuilder("goBrush> ").color(ChatColor.AQUA)

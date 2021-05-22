@@ -43,6 +43,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * This class contains the object of BrushPage. This object resembles one page
@@ -72,6 +73,7 @@ public class BrushPage {
      */
     @SuppressWarnings("unchecked")
     public BrushPage(List<Brush> brushes, int pageNumber, int pageCount) {
+
         this.PAGE_NUMBER = pageNumber;
         this.INVENTORY = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&',
                 BRUSH_MENU_INVENTORY_TITLE + "&8 | &5Page " + (pageNumber + 1)));
@@ -87,9 +89,10 @@ public class BrushPage {
             INVENTORY.setItem(53, NEXT_PAGE);
         }
         Collections.sort(brushes);
-        for (int i = 0; i < brushes.size(); i++) {
+
+        IntStream.range(0, brushes.size()).parallel().forEach(i -> {
             INVENTORY.setItem(i, createItem(XMaterial.MAP.parseMaterial(), (short) 0, "&e" + brushes.get(i).getName(), getImageLore(getBrush(brushes.get(i).getName()))));
-        }
+        });
     }
 
     private static ItemStack createItem(Material material, short data, String name, String lore) {

@@ -42,6 +42,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 /**
  * This class contains all the information that needs to be stored during a
@@ -84,21 +86,19 @@ public class Session {
      */
     public static int initializeValidBrushes() {
         validBrushes = new HashMap<>();
-        int amountOfValidBrushes = 0;
+        AtomicInteger amountOfValidBrushes = new AtomicInteger();
         File dir = new File(GoBrushPlugin.getPlugin().getDataFolder() + "/brushes");
         if (!dir.exists()) {
             dir.mkdir();
             return 0;
         }
         File[] brushes = dir.getAbsoluteFile().listFiles();
-        for (int i = 0; i < brushes.length; i++) {
-            File file = brushes[i];
+        IntStream.range(0, brushes.length).parallel().forEach(value -> { File file = brushes[value];
             if ((!file.getAbsoluteFile().isDirectory()) && ((file.getName().endsWith(".png")) || (file.getName().endsWith(".jpg")) || (file.getName().endsWith(".jpeg")))) {
                 Session.addBrush(new Brush(file.getName()));
-                amountOfValidBrushes++;
-            }
-        }
-        return amountOfValidBrushes;
+                amountOfValidBrushes.getAndIncrement();
+            }});
+        return amountOfValidBrushes.get();
     }
 
     /**

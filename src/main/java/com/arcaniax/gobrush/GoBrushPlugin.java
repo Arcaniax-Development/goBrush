@@ -54,6 +54,8 @@ public class GoBrushPlugin extends JavaPlugin {
 		return plugin;
 	}
 
+	public static int amountOfValidBrushes;
+
 	private static final int BSTATS_ID = 10558;
 
 	@Override
@@ -70,7 +72,7 @@ public class GoBrushPlugin extends JavaPlugin {
 		ServerLib.checkUnsafeForks();
 		ServerLib.checkJavaLTS();
 		PaperLib.suggestPaper(this);
-
+		amountOfValidBrushes = Session.initializeValidBrushes();
 		Metrics metrics = new Metrics(this, BSTATS_ID);
 
 		metrics.addCustomChart(new SimplePie("worldeditImplementation", () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit"));
