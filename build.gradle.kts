@@ -30,7 +30,7 @@ dependencies {
     compileOnly("net.md-5:bungeecord-api:1.16-R0.4")
     compileOnlyApi("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-682")
-    implementation("net.lingala.zip4j:zip4j:2.7.0")
+    implementation("net.lingala.zip4j:zip4j:2.8.0")
     implementation("org.incendo.serverlib:ServerLib:2.2.0")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
