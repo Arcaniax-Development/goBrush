@@ -133,7 +133,7 @@ public class InventoryClickListener implements Listener {
                 brushPlayer.toggleBrushEnabled();
                 openMenu(player);
             } else if (event.getClick() == ClickType.LEFT) {
-                player.closeInventory();
+                player.updateInventory();
                 amountOfValidBrushes = GoBrushPlugin.amountOfValidBrushes;
                 if (amountOfValidBrushes == 0) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cWARNING! The automatic brush installation failed because the server cannot connect to GitHub."));
@@ -172,10 +172,10 @@ public class InventoryClickListener implements Listener {
             case (45): {
                 if (event.getCurrentItem().getType().equals(XMaterial.ARROW.parseMaterial())) {
                     if (pageNumber == 0) {
-                        player.closeInventory();
+                        player.updateInventory();
                         player.openInventory(brushMenu.getPage(brushMenu.getAmountOfPages() - 1).getInventory());
                     } else {
-                        player.closeInventory();
+                        player.updateInventory();
                         player.openInventory(brushMenu.getPage(pageNumber - 1).getInventory());
                     }
                 }
@@ -189,10 +189,10 @@ public class InventoryClickListener implements Listener {
             case (53): {
                 if (event.getCurrentItem().getType().equals(XMaterial.ARROW.parseMaterial())) {
                     if (pageNumber == brushMenu.getAmountOfPages() - 1) {
-                        player.closeInventory();
+                        player.updateInventory();
                         player.openInventory(brushMenu.getPage(0).getInventory());
                     } else {
-                        player.closeInventory();
+                        player.updateInventory();
                         player.openInventory(brushMenu.getPage(pageNumber+1).getInventory());
                     }
                 }
