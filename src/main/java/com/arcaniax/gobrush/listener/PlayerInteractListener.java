@@ -28,13 +28,12 @@ package com.arcaniax.gobrush.listener;
 
 import com.arcaniax.gobrush.util.NestedFor;
 import com.arcaniax.gobrush.util.XMaterial;
-import com.boydti.fawe.Fawe;
-import com.boydti.fawe.beta.implementation.queue.QueueHandler;
+import com.fastasyncworldedit.core.Fawe;
+import com.fastasyncworldedit.core.beta.implementation.queue.QueueHandler;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.bukkit.BukkitPlayer;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.world.block.BlockState;
@@ -105,7 +104,7 @@ public class PlayerInteractListener implements Listener {
                         HashMap<Vector3, BlockState> blocksToSet = new HashMap<>();
                         try {
                             editsession.setFastMode(false);
-                            Integer size = brushPlayer.getBrushSize();
+                            int size = brushPlayer.getBrushSize();
                             Location start = player.getEyeLocation();
                             Vector v = start.getDirection().normalize();
                             double rot = (player.getLocation().getYaw() - 90.0F) % 360.0F + 360.0F;
@@ -135,7 +134,7 @@ public class PlayerInteractListener implements Listener {
                                                     if ((!brushPlayer.isFlatMode()) || l.getBlockY() + y <= loc.getY()) {
                                                         try {
                                                             blocksToSet.put(Vector3.at(l.getBlockX(), l.getBlockY() + y, l.getBlockZ()), editsession.getBlock(Vector3.at(l.getBlockX(), l.getBlockY(), l.getBlockZ()).toBlockPoint()));
-                                                        } catch (Exception e) {
+                                                        } catch (Exception ignored) {
                                                         }
                                                     }
                                                 }
@@ -146,7 +145,7 @@ public class PlayerInteractListener implements Listener {
                                                             if (!(l.getBlockY() - y < 0)) {
                                                                 try {
                                                                     blocksToSet.put(Vector3.at(l.getBlockX(), l.getBlockY() + y, l.getBlockZ()), BlockTypes.AIR.getDefaultState());
-                                                                } catch (Exception e) {
+                                                                } catch (Exception ignored) {
                                                                 }
                                                             }
                                                         }
@@ -206,14 +205,14 @@ public class PlayerInteractListener implements Listener {
                                                 if (!brushPlayer.isFlatMode()) {
                                                     try {
                                                         blocksToSet.put(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()), editsession.getBlock(Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()).toBlockPoint()));
-                                                    } catch (Exception e) {
+                                                    } catch (Exception ignored) {
                                                     }
                                                 } else {
                                                     Location place = blockLoc.clone().add(v.clone().multiply(-1).multiply(y));
                                                     if (place.distance(loopLoc) > loc.distance(start)) {
                                                         try {
                                                             blocksToSet.put(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()), editsession.getBlock(Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()).toBlockPoint()));
-                                                        } catch (Exception e) {
+                                                        } catch (Exception ignored) {
                                                         }
                                                     }
                                                 }
@@ -221,14 +220,14 @@ public class PlayerInteractListener implements Listener {
                                                 if (!brushPlayer.isFlatMode()) {
                                                     try {
                                                         blocksToSet.put(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()), editsession.getBlock(Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()).toBlockPoint()));
-                                                    } catch (Exception e) {
+                                                    } catch (Exception ignored) {
                                                     }
                                                 } else {
                                                     Location place = blockLoc.clone().add(v.clone().multiply(1).multiply(y - 1));
                                                     if (place.distance(loopLoc) < loc.distance(start) - 1) {
                                                         try {
                                                             blocksToSet.put(Vector3.at(blockLoc.getBlockX() + _v.getBlockX(), blockLoc.getBlockY() + _v.getBlockY(), blockLoc.getBlockZ() + _v.getBlockZ()), editsession.getBlock(Vector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ()).toBlockPoint()));
-                                                        } catch (Exception e) {
+                                                        } catch (Exception ignored) {
                                                         }
                                                     }
                                                 }

@@ -10,34 +10,39 @@ plugins {
     id("org.ajoberstar.grgit") version "4.1.0"
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = sourceCompatibility
+the<JavaPluginExtension>().toolchain {
+    languageVersion.set(JavaLanguageVersion.of(16))
+}
+
+configurations.all {
+    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 16)
+}
+
+tasks.compileJava.configure {
+    options.release.set(8)
 }
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
     maven { url = uri("https://libraries.minecraft.net/") }
-    maven { url = uri("https://mvn.intellectualsites.com/content/repositories/releases/") }
-    maven { url = uri("https://mvn.intellectualsites.com/content/repositories/thirdparty/") }
+    maven { url = uri("https://mvn.intellectualsites.com/content/groups/public/") }
     maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
 }
 
 dependencies {
-    compileOnlyApi("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-    compileOnly("net.md-5:bungeecord-api:1.16-R0.4")
+    compileOnlyApi("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
     compileOnlyApi("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.intellectualsites.fawe:FAWE-Bukkit:1.16-682")
-    implementation("net.lingala.zip4j:zip4j:2.8.0")
+    compileOnlyApi("com.fastasyncworldedit:FAWE-Bukkit:1.17-44")
+    implementation("net.lingala.zip4j:zip4j:2.9.0")
     implementation("org.incendo.serverlib:ServerLib:2.2.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
     implementation("io.papermc:paperlib:1.0.6")
 }
 
-var rootVersion by extra("3.7.2")
+var rootVersion by extra("3.8.0")
 var buildNumber by extra("")
 ext {
     val git: Grgit = Grgit.open {
