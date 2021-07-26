@@ -28,8 +28,13 @@ package com.arcaniax.gobrush.listener;
 
 import com.arcaniax.gobrush.util.NestedFor;
 import com.arcaniax.gobrush.util.XMaterial;
+
+import com.arcaniax.gobrush.Session;
+import com.arcaniax.gobrush.object.BrushPlayer;
+import com.arcaniax.gobrush.util.BrushPlayerUtil;
+import com.arcaniax.gobrush.util.GuiGenerator;
 import com.fastasyncworldedit.core.Fawe;
-import com.fastasyncworldedit.core.beta.implementation.queue.QueueHandler;
+import com.fastasyncworldedit.core.queue.implementation.QueueHandler;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -38,10 +43,6 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import com.arcaniax.gobrush.Session;
-import com.arcaniax.gobrush.object.BrushPlayer;
-import com.arcaniax.gobrush.util.BrushPlayerUtil;
-import com.arcaniax.gobrush.util.GuiGenerator;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
