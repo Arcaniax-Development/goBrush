@@ -3,8 +3,9 @@ import org.cadixdev.gradle.licenser.LicenseExtension
 import org.ajoberstar.grgit.Grgit
 
 plugins {
-    id("java")
-    id("java-library")
+    java
+   `java-library`
+
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("org.cadixdev.licenser") version "0.6.1"
     id("org.ajoberstar.grgit") version "4.1.0"
@@ -34,7 +35,7 @@ dependencies {
     compileOnlyApi("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
     compileOnlyApi("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.fastasyncworldedit:FAWE-Bukkit:1.17-226")
+    compileOnlyApi("com.fastasyncworldedit:FAWE-Bukkit:1.17-257")
     implementation("net.lingala.zip4j:zip4j:2.9.0")
     implementation("org.incendo.serverlib:ServerLib:2.2.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
