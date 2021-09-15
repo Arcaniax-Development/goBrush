@@ -34,7 +34,7 @@ dependencies {
     compileOnlyApi("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
     compileOnlyApi("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.fastasyncworldedit:FAWE-Bukkit:1.17-226")
+    compileOnlyApi("com.fastasyncworldedit:FAWE-Bukkit:1.17-257")
     implementation("net.lingala.zip4j:zip4j:2.9.0")
     implementation("org.incendo.serverlib:ServerLib:2.2.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
