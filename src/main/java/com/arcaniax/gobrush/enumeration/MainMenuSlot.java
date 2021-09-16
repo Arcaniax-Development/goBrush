@@ -59,7 +59,7 @@ public enum MainMenuSlot {
      *
      * @param slot The slot number that needs to be checked.
      * @return True if the provided slot number is valid in the range of the
-     * enum object, false otherwise.
+     *         enum object, false otherwise.
      */
     public boolean isValidSlot(int slot) {
         return slot == UPPER || slot == MIDDLE || slot == LOWER;

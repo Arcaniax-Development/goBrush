@@ -18,8 +18,6 @@ permissions:
     default: op
   gobrush.admin:
     default: op
-  gobrush.world.bypass:
-    default: op
   gobrush.bypass.maxsize:
     default: op
   gobrush.bypass.maxintensity:

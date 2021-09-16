@@ -146,4 +146,5 @@ public class Config {
     public List<String> getDisabledWorlds() {
         return disabledWorlds;
     }
+
 }

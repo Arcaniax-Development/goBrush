@@ -52,9 +52,15 @@ import java.util.stream.IntStream;
  * @author McJeffr
  */
 public class BrushPage {
+
     /* Attributes */
     private static final String BRUSH_MENU_INVENTORY_TITLE = "&1goBrush Brushes";
-    private static final ItemStack GRAY_GLASS_PANE = createItem(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(), (short) XMaterial.GRAY_STAINED_GLASS_PANE.data, "&6", "");
+    private static final ItemStack GRAY_GLASS_PANE = createItem(
+            XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(),
+            (short) XMaterial.GRAY_STAINED_GLASS_PANE.data,
+            "&6",
+            ""
+    );
     private static final ItemStack EXIT = createItem(XMaterial.BARRIER.parseMaterial(), (short) 0, "&cBack to main menu", "");
     private static final ItemStack PREVIOUS_PAGE = createItem(XMaterial.ARROW.parseMaterial(), (short) 0, "&6Previous page", "");
     private static final ItemStack NEXT_PAGE = createItem(XMaterial.ARROW.parseMaterial(), (short) 0, "&6Next page", "");
@@ -75,8 +81,10 @@ public class BrushPage {
     public BrushPage(List<Brush> brushes, int pageNumber, int pageCount) {
 
         this.PAGE_NUMBER = pageNumber;
-        this.INVENTORY = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&',
-                BRUSH_MENU_INVENTORY_TITLE + "&8 | &5Page " + (pageNumber + 1)));
+        this.INVENTORY = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes(
+                '&',
+                BRUSH_MENU_INVENTORY_TITLE + "&8 | &5Page " + (pageNumber + 1)
+        ));
 
         for (int i = 0; i < 54; i++) {
             INVENTORY.setItem(i, GRAY_GLASS_PANE);
@@ -91,7 +99,14 @@ public class BrushPage {
         Collections.sort(brushes);
 
         IntStream.range(0, brushes.size()).parallel().forEach(i -> {
-            INVENTORY.setItem(i, createItem(XMaterial.MAP.parseMaterial(), (short) 0, "&e" + brushes.get(i).getName(), getImageLore(getBrush(brushes.get(i).getName()))));
+            INVENTORY.setItem(
+                    i,
+                    createItem(XMaterial.MAP.parseMaterial(),
+                            (short) 0,
+                            "&e" + brushes.get(i).getName(),
+                            getImageLore(getBrush(brushes.get(i).getName()))
+                    )
+            );
         });
     }
 
@@ -209,4 +224,5 @@ public class BrushPage {
     public int getPageNumber() {
         return PAGE_NUMBER;
     }
+
 }

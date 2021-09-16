@@ -26,11 +26,11 @@
  */
 package com.arcaniax.gobrush;
 
-import com.arcaniax.gobrush.object.Config;
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.arcaniax.gobrush.object.Brush;
 import com.arcaniax.gobrush.object.BrushMenu;
 import com.arcaniax.gobrush.object.BrushPlayer;
+import com.arcaniax.gobrush.object.Config;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -93,11 +93,15 @@ public class Session {
             return 0;
         }
         File[] brushes = dir.getAbsoluteFile().listFiles();
-        IntStream.range(0, brushes.length).parallel().forEach(value -> { File file = brushes[value];
-            if ((!file.getAbsoluteFile().isDirectory()) && ((file.getName().endsWith(".png")) || (file.getName().endsWith(".jpg")) || (file.getName().endsWith(".jpeg")))) {
+        IntStream.range(0, brushes.length).parallel().forEach(value -> {
+            File file = brushes[value];
+            if ((!file.getAbsoluteFile().isDirectory()) && ((file.getName().endsWith(".png")) || (file
+                    .getName()
+                    .endsWith(".jpg")) || (file.getName().endsWith(".jpeg")))) {
                 Session.addBrush(new Brush(file.getName()));
                 amountOfValidBrushes.getAndIncrement();
-            }});
+            }
+        });
         return amountOfValidBrushes.get();
     }
 
@@ -135,7 +139,7 @@ public class Session {
      *
      * @param uuid The UUID of the player that needs to be checked.
      * @return True if the HashMap of players contains the provided UUID, false
-     * otherwise.
+     *         otherwise.
      */
     public static boolean containsBrushPlayer(UUID uuid) {
         return brushPlayers.containsKey(uuid);
@@ -148,7 +152,7 @@ public class Session {
      * @param uuid The UUID of the player of which the BrushPlayer object needs
      *             to be returned of.
      * @return The BrushPlayer object of a player, or null when the uuid is not
-     * in the HashMap.
+     *         in the HashMap.
      */
     public static BrushPlayer getBrushPlayer(UUID uuid) {
         if (containsBrushPlayer(uuid)) {
@@ -165,7 +169,7 @@ public class Session {
      * @param uuid The UUID of the new player that needs to be added to the
      *             HashMap of player configurations.
      * @return True if the user was added successfully, false if it was not
-     * added successfully (this occurs when the UUID is already in the HashMap).
+     *         added successfully (this occurs when the UUID is already in the HashMap).
      */
     public static boolean addBrushPlayer(UUID uuid) {
         if (!containsBrushPlayer(uuid)) {
@@ -183,7 +187,7 @@ public class Session {
      * @param uuid The UUID of the player whose BrushPlayer object needs to be
      *             removed from the HashMap of player configurations.
      * @return True if the player's BrushPlayer was removed from the HashMap,
-     * false otherwise.
+     *         false otherwise.
      */
     public static boolean removeBrushPlayer(UUID uuid) {
         if (containsBrushPlayer(uuid)) {
@@ -215,7 +219,7 @@ public class Session {
      *
      * @param name The name of a brush that needs to be checked.
      * @return True if the HashMap of valid brushes contains the provided name,
-     * false otherwise.
+     *         false otherwise.
      */
     public static boolean containsBrush(String name) {
         return validBrushes.containsKey(name);
@@ -250,8 +254,8 @@ public class Session {
      * @param brush the Brush object that needs to be added. The key will be the
      *              brush name.
      * @return True if the brush was added successfully, false if it was not
-     * added successfully (this occurs when the brush is already in the
-     * HashMap).
+     *         added successfully (this occurs when the brush is already in the
+     *         HashMap).
      */
     public static boolean addBrush(Brush brush) {
         if (!containsBrush(brush.getName())) {
@@ -282,7 +286,7 @@ public class Session {
      * configuration file.
      *
      * @return The config object that contains all data from the configuration
-     * file.
+     *         file.
      */
     public static Config getConfig() {
         return config;

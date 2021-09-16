@@ -142,4 +142,5 @@ public class HeightMapExporter {
         graphic.dispose();
         return pattern;
     }
+
 }

@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class HeadURL {
+
     public static String upB64 = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDFhOTNiZWQyZmQ2MjU2NTI0NWFjMTgyMWM3ZGQyZjg5OTFlMmU1ZGQzNGMwZDAzNzJiM2EyNGMwMmEyNDUifX19";
     public static String downB64 = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM3MGFjNWYzY2JmZDk4ZDBhMWJkNDU2ZWM4MWFkNjIxZGI0YjZlZDQ1MTk0ZGU4MGJiY2I3OWFjNDA5NGMzIn19fQ==";
     public static String _3DB64 = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNmYTRmYzk4YzliMWIyNGE4YjAyZjY5NDM1MTNmYmIyMmRiMWQzNzRhODdmZGU5MWI3NTkzOWU1YThhMiJ9fX0=";
@@ -72,4 +73,5 @@ public class HeadURL {
         item.setItemMeta(headMeta);
         return item;
     }
+
 }

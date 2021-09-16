@@ -9,6 +9,9 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("org.cadixdev.licenser") version "0.6.1"
     id("org.ajoberstar.grgit") version "4.1.0"
+
+    idea
+    eclipse
 }
 
 the<JavaPluginExtension>().toolchain {
@@ -37,7 +40,7 @@ dependencies {
     compileOnlyApi("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.fastasyncworldedit:FAWE-Bukkit:1.17-257")
     implementation("net.lingala.zip4j:zip4j:2.9.0")
-    implementation("org.incendo.serverlib:ServerLib:2.2.1")
+    implementation("dev.notmyfault.serverlib:ServerLib:2.3.0")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
     implementation("io.papermc:paperlib:1.0.6")
@@ -78,7 +81,7 @@ tasks.named<ShadowJar>("shadowJar") {
             include(dependency("net.lingala.zip4j:zip4j"))
         }
         relocate("org.incendo.serverlib", "com.arcaniax.gobrush.serverlib") {
-            include(dependency("org.incendo.serverlib:ServerLib:2.2.1"))
+            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.0"))
         }
         relocate("org.bstats", "com.arcaniax.gobrush.metrics") {
             include(dependency("org.bstats:bstats-base"))
@@ -94,4 +97,3 @@ tasks.named<ShadowJar>("shadowJar") {
 tasks.named("build").configure {
     dependsOn("shadowJar")
 }
-

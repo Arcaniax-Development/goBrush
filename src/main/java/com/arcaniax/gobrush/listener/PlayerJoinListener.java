@@ -51,4 +51,5 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoinEvent(AsyncPlayerPreLoginEvent event) {
         Session.addBrushPlayer(event.getUniqueId());
     }
+
 }

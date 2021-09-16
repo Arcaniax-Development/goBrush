@@ -49,9 +49,9 @@ public class Brush implements Comparable {
     private static final int DEFAULT_SIZE = 15;
     private final String name;
     private final BufferedImage unmodifiedPattern;
+    public int amountOfValidBrushes;
     private BufferedImage croppedPattern;
     private int size;
-    public int amountOfValidBrushes;
 
     /**
      * Default constructor of a Brush object. This constructor will pick all the
@@ -131,7 +131,7 @@ public class Brush implements Comparable {
      * Getter for the name of the brush.
      *
      * @return The identifying name of this brush. All spaces have been replaced
-     * with underscored and the extension has been removed.
+     *         with underscored and the extension has been removed.
      */
     public String getName() {
         return this.name;
@@ -149,4 +149,5 @@ public class Brush implements Comparable {
     public int compareTo(Object o) {
         return getName().compareTo(((Brush) o).getName());
     }
+
 }

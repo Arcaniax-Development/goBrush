@@ -52,4 +52,5 @@ public class PlayerQuitListener implements Listener {
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
         Session.removeBrushPlayer(event.getPlayer().getUniqueId());
     }
+
 }

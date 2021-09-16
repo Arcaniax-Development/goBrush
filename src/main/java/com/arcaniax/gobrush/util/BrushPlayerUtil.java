@@ -27,11 +27,9 @@
 package com.arcaniax.gobrush.util;
 
 import com.arcaniax.gobrush.Session;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.bukkit.BukkitPlayer;
-import com.sk89q.worldedit.math.Vector3;
 import com.arcaniax.gobrush.object.BrushPlayer;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.math.Vector3;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -48,7 +46,9 @@ public class BrushPlayerUtil {
         Location loc = _loc.clone();
 
         while (loc.getBlock().getType() == XMaterial.AIR.parseMaterial()
-                || (!(session.getMask() == null || session.getMask().test(Vector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()).toBlockPoint())))
+                || (!(session.getMask() == null || session.getMask().test(Vector3
+                .at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())
+                .toBlockPoint())))
                 && (loc.distance(l.clone().add(0.5, 0.5, 0.5)) < ((double) brushSize / (double) 4))) {
             Vector v = player.getEyeLocation().getDirection();
             loc.add(v.multiply(0.5));
@@ -56,7 +56,7 @@ public class BrushPlayerUtil {
                 return null;
             }
             if (loc.getBlockY() <= 0) {
-               break;
+                break;
             }
             if (loc.getBlockY() > 255) {
                 return null;
@@ -167,4 +167,5 @@ public class BrushPlayerUtil {
         return height;
 
     }
+
 }

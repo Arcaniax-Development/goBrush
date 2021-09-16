@@ -27,13 +27,13 @@
 package com.arcaniax.gobrush.listener;
 
 import com.arcaniax.gobrush.GoBrushPlugin;
-import com.arcaniax.gobrush.enumeration.MainMenuSlot;
-import com.arcaniax.gobrush.util.XMaterial;
 import com.arcaniax.gobrush.Session;
+import com.arcaniax.gobrush.enumeration.MainMenuSlot;
 import com.arcaniax.gobrush.object.Brush;
 import com.arcaniax.gobrush.object.BrushMenu;
 import com.arcaniax.gobrush.object.BrushPlayer;
 import com.arcaniax.gobrush.util.GuiGenerator;
+import com.arcaniax.gobrush.util.XMaterial;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -62,7 +62,9 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void mainMenuClickEvent(InventoryClickEvent event) {
-        if (isInvalidInventory(event, MAIN_MENU_INVENTORY_TITLE)) return;
+        if (isInvalidInventory(event, MAIN_MENU_INVENTORY_TITLE)) {
+            return;
+        }
         event.setCancelled(true);
 
         Player player = (Player) event.getWhoClicked();
@@ -136,11 +138,20 @@ public class InventoryClickListener implements Listener {
                 player.updateInventory();
                 amountOfValidBrushes = GoBrushPlugin.amountOfValidBrushes;
                 if (amountOfValidBrushes == 0) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cWARNING! The automatic brush installation failed because the server cannot connect to GitHub."));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes(
+                            '&',
+                            "&bgoBrush> &cWARNING! The automatic brush installation failed because the server cannot connect to GitHub."
+                    ));
                     player.spigot().sendMessage(new ComponentBuilder("goBrush> ").color(ChatColor.AQUA)
                             .append("Click here to download the default brushes manually.").color(ChatColor.GOLD)
-                            .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true")).create());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bgoBrush> &cExtract the zip into &e/plugins/goBrush/brushes"));
+                            .event(new ClickEvent(
+                                    ClickEvent.Action.OPEN_URL,
+                                    "https://github.com/Arcaniax-Development/goBrush-Assets/blob/main/brushes.zip?raw=true"
+                            )).create());
+                    player.sendMessage(ChatColor.translateAlternateColorCodes(
+                            '&',
+                            "&bgoBrush> &cExtract the zip into &e/plugins/goBrush/brushes"
+                    ));
                 } else {
                     Session.initializeBrushMenu();
                     player.openInventory(Session.getBrushMenu().getPage(0).getInventory());
@@ -151,7 +162,9 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void brushMenuClickEvent(InventoryClickEvent event) {
-        if (isInvalidInventory(event, BRUSH_MENU_INVENTORY_TITLE)) return;
+        if (isInvalidInventory(event, BRUSH_MENU_INVENTORY_TITLE)) {
+            return;
+        }
         event.setCancelled(true);
 
         if (event.isShiftClick()) {
@@ -193,7 +206,7 @@ public class InventoryClickListener implements Listener {
                         player.openInventory(brushMenu.getPage(0).getInventory());
                     } else {
                         player.updateInventory();
-                        player.openInventory(brushMenu.getPage(pageNumber+1).getInventory());
+                        player.openInventory(brushMenu.getPage(pageNumber + 1).getInventory());
                     }
                 }
                 break;
@@ -219,12 +232,14 @@ public class InventoryClickListener implements Listener {
      *
      * @param event The InventoryClickEvent that needs to be checked.
      * @return True if the event is happening in a goBrush menu, false
-     * otherwise.
+     *         otherwise.
      */
     private boolean isInvalidInventory(InventoryClickEvent event, String inventoryName) {
         final InventoryView view = event.getView();
         final String title = view.getTitle();
-        if (!title.contains(inventoryName)) return true;
+        if (!title.contains(inventoryName)) {
+            return true;
+        }
 
         event.setCancelled(true);
 
@@ -242,4 +257,5 @@ public class InventoryClickListener implements Listener {
     private void openMenu(Player player) {
         player.openInventory(GuiGenerator.generateMainMenu(Session.getBrushPlayer(player.getUniqueId())));
     }
+
 }
