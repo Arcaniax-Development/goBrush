@@ -99,7 +99,6 @@ public class Brush implements Comparable {
     public Brush(String name, int size) {
         this.name = name;
         this.unmodifiedPattern = getPattern(name);
-        System.out.println(unmodifiedPattern);
         this.size = size;
 
         BufferedImage pattern = new BufferedImage(size, size, 1);
