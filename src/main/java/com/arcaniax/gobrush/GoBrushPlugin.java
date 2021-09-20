@@ -68,7 +68,7 @@ public class GoBrushPlugin extends JavaPlugin {
         registerCommands();
         // Check if we are in a safe environment
         ServerLib.checkUnsafeForks();
-        ServerLib.checkJavaLTS();
+        ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
         amountOfValidBrushes = Session.initializeValidBrushes();
         Metrics metrics = new Metrics(this, BSTATS_ID);
