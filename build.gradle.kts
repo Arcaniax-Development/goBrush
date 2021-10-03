@@ -40,7 +40,7 @@ dependencies {
     compileOnlyApi("com.mojang:authlib:1.5.25")
     compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:1.17-288")
     implementation("net.lingala.zip4j:zip4j:2.9.0")
-    implementation("dev.notmyfault.serverlib:ServerLib:2.3.0")
+    implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
     implementation("io.papermc:paperlib:1.0.6")
@@ -81,7 +81,7 @@ tasks.named<ShadowJar>("shadowJar") {
             include(dependency("net.lingala.zip4j:zip4j"))
         }
         relocate("org.incendo.serverlib", "com.arcaniax.gobrush.serverlib") {
-            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.0"))
+            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.1"))
         }
         relocate("org.bstats", "com.arcaniax.gobrush.metrics") {
             include(dependency("org.bstats:bstats-base"))
