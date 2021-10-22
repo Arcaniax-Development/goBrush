@@ -6,7 +6,7 @@ plugins {
     java
    `java-library`
 
-    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
     id("org.cadixdev.licenser") version "0.6.1"
     id("org.ajoberstar.grgit") version "4.1.0"
 
@@ -35,12 +35,12 @@ repositories {
 }
 
 dependencies {
-    compileOnlyApi("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
     compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
-    compileOnlyApi("com.mojang:authlib:1.5.25")
-    compileOnlyApi("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:1.17-288")
+    compileOnly("com.mojang:authlib:1.5.25")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:1.17-372")
     implementation("net.lingala.zip4j:zip4j:2.9.0")
-    implementation("dev.notmyfault.serverlib:ServerLib:2.3.0")
+    implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
     implementation("io.papermc:paperlib:1.0.6")
@@ -81,7 +81,7 @@ tasks.named<ShadowJar>("shadowJar") {
             include(dependency("net.lingala.zip4j:zip4j"))
         }
         relocate("org.incendo.serverlib", "com.arcaniax.gobrush.serverlib") {
-            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.0"))
+            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.1"))
         }
         relocate("org.bstats", "com.arcaniax.gobrush.metrics") {
             include(dependency("org.bstats:bstats-base"))
