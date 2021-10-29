@@ -59,6 +59,14 @@ public class GoBrushPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        try {
+            Class.forName("java.awt.Graphics2D");
+        } catch (ClassNotFoundException ignored) {
+            getLogger().severe("Cannot locate Java AWT classes. It appears your server uses a headless Java build, where a " +
+                    "normal one is recommended. Get it here: https://adoptium.net/. goBrush will now disable itself until you " +
+                    "installed the correct Java version.");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
         saveDefaultConfig();
         Session.initializeConfig(this.getConfig());
         Session.initializeBrushPlayers();
