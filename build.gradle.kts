@@ -39,7 +39,7 @@ dependencies {
     compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:1.17-419")
-    implementation("net.lingala.zip4j:zip4j:2.9.0")
+    implementation("net.lingala.zip4j:zip4j:2.9.1")
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     implementation("org.bstats:bstats-base:2.2.1")
