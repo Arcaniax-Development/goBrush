@@ -6,7 +6,7 @@ plugins {
     java
    `java-library`
 
-    id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
     id("org.cadixdev.licenser") version "0.6.1"
     id("org.ajoberstar.grgit") version "4.1.1"
 
@@ -15,11 +15,11 @@ plugins {
 }
 
 the<JavaPluginExtension>().toolchain {
-    languageVersion.set(JavaLanguageVersion.of(16))
+    languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 configurations.all {
-    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 16)
+    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
 }
 
 tasks.compileJava.configure {
@@ -30,15 +30,15 @@ repositories {
     mavenCentral()
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
     maven { url = uri("https://libraries.minecraft.net/") }
-    maven { url = uri("https://mvn.intellectualsites.com/content/groups/public/") }
+    maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/") }
     maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
-    compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
+    compileOnly("net.md-5:bungeecord-api:1.18-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
-    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:1.17-419")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:2.0.0-SNAPSHOT")
     implementation("net.lingala.zip4j:zip4j:2.9.1")
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
     implementation("org.bstats:bstats-bukkit:2.2.1")

@@ -103,7 +103,7 @@ public class PlayerInteractListener implements Listener {
                 return;
             }
             LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(event.getPlayer()));
-            QueueHandler queue = Fawe.get().getQueueHandler();
+            QueueHandler queue = Fawe.instance().getQueueHandler();
             queue.async(() -> {
                 synchronized (localSession) {
                     EditSession editsession = localSession.createEditSession(BukkitAdapter.adapt(event.getPlayer()));
