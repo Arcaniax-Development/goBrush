@@ -131,8 +131,8 @@ public class PlayerInteractListener implements Listener {
                                         int worldHeight = editsession.getHighestTerrainBlock(
                                                 loopLoc.getBlockX(),
                                                 loopLoc.getBlockZ(),
-                                                0,
-                                                255
+                                                loc.getWorld().getMinHeight(),
+                                                loc.getWorld().getMaxHeight()
                                         );
                                         if (editsession.getMask() == null || editsession
                                                 .getMask()

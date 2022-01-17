@@ -55,10 +55,10 @@ public class BrushPlayerUtil {
             if (!BlockUtils.isLoaded(loc)) {
                 return null;
             }
-            if (loc.getBlockY() <= 0) {
+            if (loc.getBlockY() <= loc.getWorld().getMinHeight()) {
                 break;
             }
-            if (loc.getBlockY() > 255) {
+            if (loc.getBlockY() > loc.getWorld().getMaxHeight()) {
                 return null;
             }
             if (loc.distance(_loc) > 200) {
@@ -76,10 +76,10 @@ public class BrushPlayerUtil {
             if (!BlockUtils.isLoaded(loc)) {
                 return null;
             }
-            if (loc.getBlockY() <= 0) {
+            if (loc.getBlockY() <= loc.getWorld().getMinHeight()) {
                 break;
             }
-            if (loc.getBlockY() > 255) {
+            if (loc.getBlockY() > loc.getWorld().getMaxHeight()) {
                 return null;
             }
             if (loc.distance(player.getEyeLocation()) > 200) {
