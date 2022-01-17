@@ -227,7 +227,7 @@ public class CommandHandler implements CommandExecutor {
                     Bukkit.getScheduler().runTaskAsynchronously(GoBrushPlugin.plugin, new Runnable() {
                         @Override
                         public void run() {
-                            HeightMapExporter hm = null;
+                            HeightMapExporter hm;
                             try {
                                 hm = new HeightMapExporter(p);
                             } catch (IncompleteRegionException e) {
