@@ -30,10 +30,32 @@ import org.bukkit.Location;
 
 public class BlockUtils {
 
+    private static boolean NEWER_WORLD_VERSION = false;
+
+    public static void setNewerWorldVersion(boolean newer) {
+        NEWER_WORLD_VERSION = newer;
+    }
+
     public static boolean isLoaded(Location l) {
         int x = l.getBlockX() >> 4;
         int z = l.getBlockZ() >> 4;
         return l.getWorld().isChunkLoaded(x, z);
+    }
+
+    public static int getWorldMin(Location loc) {
+        if (NEWER_WORLD_VERSION) {
+            return loc.getWorld().getMinHeight();
+        } else {
+            return 0;
+        }
+    }
+
+    public static int getWorldMax(Location loc) {
+        if (NEWER_WORLD_VERSION) {
+            return loc.getWorld().getMaxHeight();
+        } else {
+            return 255;
+        }
     }
 
 }

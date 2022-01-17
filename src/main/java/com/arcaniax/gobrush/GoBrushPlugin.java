@@ -31,6 +31,7 @@ import com.arcaniax.gobrush.listener.InventoryClickListener;
 import com.arcaniax.gobrush.listener.PlayerInteractListener;
 import com.arcaniax.gobrush.listener.PlayerJoinListener;
 import com.arcaniax.gobrush.listener.PlayerQuitListener;
+import com.arcaniax.gobrush.util.BlockUtils;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import io.papermc.lib.PaperLib;
 import org.bstats.bukkit.Metrics;
@@ -105,6 +106,14 @@ public class GoBrushPlugin extends JavaPlugin {
                 return "201+";
             }
         }));
+
+        try {
+            Class.forName("org.bukkit.generator.WorldInfo");
+            getLogger().info("WorldInfo class found! Setting to use new world limits.");
+            BlockUtils.setNewerWorldVersion(true);
+        } catch (ClassNotFoundException ignored) {
+            getLogger().info("WorldInfo class not found! Setting to original world limits.");
+        }
     }
 
     private void registerListeners() {
