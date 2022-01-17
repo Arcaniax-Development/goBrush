@@ -109,10 +109,8 @@ public class GoBrushPlugin extends JavaPlugin {
 
         try {
             Class.forName("org.bukkit.generator.WorldInfo");
-            getLogger().info("WorldInfo class found! Setting to use new world limits.");
             BlockUtils.setNewerWorldVersion(true);
         } catch (ClassNotFoundException ignored) {
-            getLogger().info("WorldInfo class not found! Setting to original world limits.");
         }
     }
 
