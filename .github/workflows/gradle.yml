@@ -19,7 +19,7 @@ jobs:
         run : echo $SHA
         env :
           SHA : ${{ steps.short-sha.outputs.sha }}
-      - name: Setup JDK 16
+      - name: Setup Java
         uses: actions/setup-java@v2.5.0
         with:
           distribution: temurin
@@ -36,4 +36,4 @@ jobs:
         uses : actions/upload-artifact@v2
         with :
           name : goBrush-${{ env.CURRENT_VERSION }}-${{ env.SHA }}
-          path : build/libs/goPaint-${{ env.CURRENT_VERSION }}-${{ env.SHA }}.jar
+          path : build/libs/goBrush-${{ env.CURRENT_VERSION }}-${{ env.SHA }}.jar
