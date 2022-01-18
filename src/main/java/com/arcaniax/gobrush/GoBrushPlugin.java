@@ -31,6 +31,7 @@ import com.arcaniax.gobrush.listener.InventoryClickListener;
 import com.arcaniax.gobrush.listener.PlayerInteractListener;
 import com.arcaniax.gobrush.listener.PlayerJoinListener;
 import com.arcaniax.gobrush.listener.PlayerQuitListener;
+import com.arcaniax.gobrush.util.BlockUtils;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import io.papermc.lib.PaperLib;
 import org.bstats.bukkit.Metrics;
@@ -105,6 +106,12 @@ public class GoBrushPlugin extends JavaPlugin {
                 return "201+";
             }
         }));
+
+        try {
+            Class.forName("org.bukkit.generator.WorldInfo");
+            BlockUtils.setNewerWorldVersion(true);
+        } catch (ClassNotFoundException ignored) {
+        }
     }
 
     private void registerListeners() {

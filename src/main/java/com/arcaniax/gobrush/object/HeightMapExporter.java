@@ -27,6 +27,7 @@
 package com.arcaniax.gobrush.object;
 
 import com.arcaniax.gobrush.GoBrushPlugin;
+import com.arcaniax.gobrush.util.BlockUtils;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.WorldEdit;
@@ -96,7 +97,9 @@ public class HeightMapExporter {
             for (int z = 0; z < (maxZ - minZ); z++) {
                 BukkitPlayer bp = new BukkitPlayer(p);
                 EditSession editsession = WorldEdit.getInstance().getSessionManager().get(bp).createEditSession(bp);
-                int y = editsession.getHighestTerrainBlock(x + minX, z + minZ, 0, 255);
+                int y = editsession.getHighestTerrainBlock(x + minX, z + minZ,
+                        BlockUtils.getWorldMin(bp.getPlayer().getLocation()), BlockUtils.getWorldMax(bp.getPlayer().getLocation())
+                );
                 if (y > highest) {
                     highest = y;
                 }
@@ -115,7 +118,9 @@ public class HeightMapExporter {
             for (int z = 0; z < (maxZ - minZ); z++) {
                 BukkitPlayer bp = new BukkitPlayer(p);
                 EditSession editsession = WorldEdit.getInstance().getSessionManager().get(bp).createEditSession(bp);
-                int y = editsession.getHighestTerrainBlock(x + minX, z + minZ, 0, 255);
+                int y = editsession.getHighestTerrainBlock(x + minX, z + minZ,
+                        BlockUtils.getWorldMin(bp.getPlayer().getLocation()), BlockUtils.getWorldMax(bp.getPlayer().getLocation())
+                );
                 int i = (int) (((double) (y - lowest) / (double) height) * (double) 255);
                 int rgb = i; //red
                 rgb = (rgb << 8) + i;//green

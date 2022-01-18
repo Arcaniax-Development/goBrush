@@ -28,6 +28,7 @@ package com.arcaniax.gobrush.listener;
 
 import com.arcaniax.gobrush.Session;
 import com.arcaniax.gobrush.object.BrushPlayer;
+import com.arcaniax.gobrush.util.BlockUtils;
 import com.arcaniax.gobrush.util.BrushPlayerUtil;
 import com.arcaniax.gobrush.util.GuiGenerator;
 import com.arcaniax.gobrush.util.NestedFor;
@@ -131,8 +132,8 @@ public class PlayerInteractListener implements Listener {
                                         int worldHeight = editsession.getHighestTerrainBlock(
                                                 loopLoc.getBlockX(),
                                                 loopLoc.getBlockZ(),
-                                                0,
-                                                255
+                                                BlockUtils.getWorldMin(loc),
+                                                BlockUtils.getWorldMax(loc)
                                         );
                                         if (editsession.getMask() == null || editsession
                                                 .getMask()
@@ -172,7 +173,7 @@ public class PlayerInteractListener implements Listener {
                                                         if (editsession.getMask() == null || editsession.getMask().test(Vector3
                                                                 .at(l.getBlockX(), l.getBlockY() - y, l.getBlockZ())
                                                                 .toBlockPoint())) {
-                                                            if (!(l.getBlockY() - y < 0)) {
+                                                            if (!(l.getBlockY() - y < BlockUtils.getWorldMin(l))) {
                                                                 try {
                                                                     blocksToSet.put(Vector3.at(
                                                                             l.getBlockX(),
