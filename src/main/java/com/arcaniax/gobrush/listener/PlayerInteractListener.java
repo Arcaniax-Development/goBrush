@@ -173,7 +173,7 @@ public class PlayerInteractListener implements Listener {
                                                         if (editsession.getMask() == null || editsession.getMask().test(Vector3
                                                                 .at(l.getBlockX(), l.getBlockY() - y, l.getBlockZ())
                                                                 .toBlockPoint())) {
-                                                            if (!(l.getBlockY() - y < 0)) {
+                                                            if (!(l.getBlockY() - y < BlockUtils.getWorldMin(l))) {
                                                                 try {
                                                                     blocksToSet.put(Vector3.at(
                                                                             l.getBlockX(),
