@@ -145,15 +145,15 @@ public class BrushPage {
     }
 
     private List<String> getImageLore(BufferedImage img) {
-        List<String> loreList = new ArrayList<String>();
+        List<String> loreList = new ArrayList<>();
         loreList.add("\u00A70");
         for (int z = 0; z < Session.getConfig().getImgLoreSize(); z++) {
-            String s = "";
+            StringBuilder s = new StringBuilder();
             for (int x = 0; x < Session.getConfig().getImgLoreSize(); x++) {
-                s += getChatColor(getGrayScale(img, x, z));
-                s += "\u2588";
+                s.append(getChatColor(getGrayScale(img, x, z)));
+                s.append("\u2588");
             }
-            loreList.add(s);
+            loreList.add(s.toString());
         }
         return loreList;
     }

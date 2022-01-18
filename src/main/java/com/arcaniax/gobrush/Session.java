@@ -72,12 +72,6 @@ public class Session {
     }
 
     /**
-     * This method initializes the HashMap containing the BrushHistory objects.
-     * This method should only be called upon plugin startup, as it will clear
-     * all of the history lists.
-     */
-
-    /**
      * This method initializes the HashMap containing the valid brushes. Calling
      * this method will reset the loaded brushes, only use this method when
      * enabling the plugin.
@@ -123,7 +117,6 @@ public class Session {
      * brushes. This method should not be executed during runtime as it will
      * generate a new inventory, leaving the old one disconnected.
      */
-    @SuppressWarnings("unchecked")
     public static void initializeBrushMenu() {
         List<Brush> brushes = new ArrayList<>();
         for (Map.Entry<String, Brush> brush : validBrushes.entrySet()) {
@@ -197,22 +190,6 @@ public class Session {
             return false;
         }
     }
-
-    /**
-     * This method checks if a player has an undo history.
-     *
-     * @param uuid The UUID of the player that needs to be checked.
-     * @return True if the player has an undo history, false otherwise.
-     */
-
-    /**
-     * This method fetches the undo history of a player from their UUID.
-     *
-     * @param uuid The UUID of the player of which the undo history needs to be
-     * returned.
-     * @return The undo history in a List or null when no undo history is
-     * present.
-     */
 
     /**
      * This method checks if the String provided is a name of a valid brush.
@@ -312,8 +289,6 @@ public class Session {
 
     /**
      * This method gets the BrushMenu object that stores all brushes.
-     *
-     * @return
      */
     public static BrushMenu getBrushMenu() {
         return brushMenu;

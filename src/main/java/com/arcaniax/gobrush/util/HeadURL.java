@@ -63,12 +63,12 @@ public class HeadURL {
         }
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", data));
-        Field profileField = null;
+        Field profileField;
         try {
             profileField = headMeta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);
             profileField.set(headMeta, profile);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         item.setItemMeta(headMeta);
         return item;

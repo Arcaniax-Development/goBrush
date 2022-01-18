@@ -78,11 +78,6 @@ public class BrushPlayer {
     }
 
     /**
-     * This method toggles whether or not mountain mode is enabled.
-     */
-
-
-    /**
      * This method toggles whether or not the bounding box feature is enabled.
      */
     public void toggle3DMode() {

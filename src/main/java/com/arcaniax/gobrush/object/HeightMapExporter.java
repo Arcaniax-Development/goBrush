@@ -133,7 +133,7 @@ public class HeightMapExporter {
         File f = new File(GoBrushPlugin.getPlugin().getDataFolder() + "/brushes/" + name + ".png");
         try {
             ImageIO.write(img, "PNG", f);
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
 
