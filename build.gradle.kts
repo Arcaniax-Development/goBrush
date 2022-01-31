@@ -41,7 +41,7 @@ dependencies {
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:2.0.0")
     implementation("net.lingala.zip4j:zip4j:2.9.1")
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
-    implementation("org.bstats:bstats-bukkit:2.2.1")
+    implementation("org.bstats:bstats-bukkit:3.0.0")
     implementation("org.bstats:bstats-base:2.2.1")
     implementation("io.papermc:paperlib:1.0.7")
 }
