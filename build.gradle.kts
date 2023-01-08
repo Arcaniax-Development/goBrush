@@ -35,10 +35,11 @@ repositories {
 }
 
 dependencies {
+    implementation(platform("com.intellectualsites.bom:bom-newest:1.21"))
     compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
     compileOnly("net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
-    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:2.1.1")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
     implementation("net.lingala.zip4j:zip4j:2.11.2")
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
     implementation("org.bstats:bstats-bukkit:3.0.0")
