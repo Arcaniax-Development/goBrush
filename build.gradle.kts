@@ -1,5 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.cadixdev.gradle.licenser.LicenseExtension
+import com.diffplug.gradle.spotless.SpotlessPlugin
 import org.ajoberstar.grgit.Grgit
 
 plugins {
@@ -7,7 +7,7 @@ plugins {
    `java-library`
 
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("org.cadixdev.licenser") version "0.6.1"
+    id("com.diffplug.spotless") version "6.12.1"
     id("org.ajoberstar.grgit") version "5.0.0"
 
     idea
@@ -35,8 +35,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
-    compileOnly("net.md-5:bungeecord-api:1.18-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
+    compileOnly("net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit:2.1.1")
     implementation("net.lingala.zip4j:zip4j:2.11.2")
@@ -61,11 +61,12 @@ ext {
 
 version = String.format("%s-%s", rootProject.version, buildNumber)
 
-configure<LicenseExtension> {
-    header.set(resources.text.fromFile(file("HEADER.txt")))
-    include("**/*.java")
-    exclude("**/XMaterial.java")
-    newLine.set(false)
+spotless {
+    java {
+        licenseHeaderFile(rootProject.file("HEADER.txt"))
+        targetExclude("**/XMaterial.java")
+        target("**/*.java")
+    }
 }
 
 tasks.named<Copy>("processResources") {
