@@ -43,7 +43,7 @@ dependencies {
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
     implementation("org.bstats:bstats-bukkit:3.0.0")
     implementation("org.bstats:bstats-base:3.0.0")
-    implementation("io.papermc:paperlib:1.0.7")
+    implementation("io.papermc:paperlib:1.0.8")
 }
 
 var buildNumber by extra("")
@@ -89,7 +89,7 @@ tasks.named<ShadowJar>("shadowJar") {
             include(dependency("org.bstats:bstats-bukkit"))
         }
         relocate("io.papermc.lib", "com.arcaniax.gobrush.paperlib") {
-            include(dependency("io.papermc:paperlib:1.0.7"))
+            include(dependency("io.papermc:paperlib:1.0.8"))
         }
     }
     minimize()
