@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("com.intellectualsites.bom:bom-newest:1.21"))
+    implementation(platform("com.intellectualsites.bom:bom-newest:1.24"))
     compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
     compileOnly("net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:1.5.25")
