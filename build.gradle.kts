@@ -7,7 +7,7 @@ plugins {
    `java-library`
 
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("com.diffplug.spotless") version "6.12.1"
+    id("com.diffplug.spotless") version "6.15.0"
     id("org.ajoberstar.grgit") version "5.0.0"
 
     idea
