@@ -43,7 +43,7 @@ dependencies {
     implementation("net.lingala.zip4j:zip4j:2.11.5")
     implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
     implementation("org.bstats:bstats-bukkit:3.0.1")
-    implementation("org.bstats:bstats-base:3.0.0")
+    implementation("org.bstats:bstats-base:3.0.1")
     implementation("io.papermc:paperlib:1.0.8")
 }
 
