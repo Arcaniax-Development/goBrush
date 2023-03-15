@@ -78,26 +78,6 @@ public class GoBrushPlugin extends JavaPlugin {
                 "worldeditImplementation",
                 () -> Bukkit.getPluginManager().getPlugin("FastAsyncWorldEdit") != null ? "FastAsyncWorldEdit" : "WorldEdit"
         ));
-        metrics.addCustomChart(new SimplePie("amountOfValidBrushes", () -> {
-            int amountOfValidBrushes = Session.initializeValidBrushes();
-            if (amountOfValidBrushes <= 0) {
-                return "0";
-            } else if (amountOfValidBrushes <= 10) {
-                return "1-10";
-            } else if (amountOfValidBrushes <= 30) {
-                return "11-30";
-            } else if (amountOfValidBrushes <= 50) {
-                return "31-50";
-            } else if (amountOfValidBrushes <= 100) {
-                return "51-100";
-            } else if (amountOfValidBrushes <= 150) {
-                return "101-150";
-            } else if (amountOfValidBrushes <= 200) {
-                return "151-200";
-            } else {
-                return "201+";
-            }
-        }));
 
         try {
             Class.forName("org.bukkit.generator.WorldInfo");

@@ -41,10 +41,10 @@ dependencies {
     compileOnly("com.mojang:authlib:1.5.25")
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
     implementation("net.lingala.zip4j:zip4j:2.11.5")
-    implementation("dev.notmyfault.serverlib:ServerLib:2.3.1")
+    implementation("dev.notmyfault.serverlib:ServerLib")
     implementation("org.bstats:bstats-bukkit:3.0.1")
     implementation("org.bstats:bstats-base:3.0.1")
-    implementation("io.papermc:paperlib:1.0.8")
+    implementation("io.papermc:paperlib:")
 }
 
 var buildNumber by extra("")
