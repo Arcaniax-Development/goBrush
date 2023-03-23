@@ -18,6 +18,7 @@
  */
 package com.arcaniax.gobrush.listener;
 
+import com.arcaniax.gobrush.GoBrushPlugin;
 import com.arcaniax.gobrush.Session;
 import com.arcaniax.gobrush.object.BrushPlayer;
 import com.arcaniax.gobrush.util.BlockUtils;
@@ -63,15 +64,15 @@ public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onClickEvent(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
-        final boolean holdingFlint = player.getInventory().getItemInMainHand().getType() == Material.FLINT;
+        final boolean holdingMaterial = player.getInventory().getItemInMainHand().getType() == GoBrushPlugin.MATERIAL;
 
-        if (!holdingFlint) {
+        if (!holdingMaterial) {
             return;
         }
         if (!player.hasPermission(PERMISSION_USE)) {
             return;
         }
-        if (event.getPlayer().getInventory().getItemInMainHand().getType() == XMaterial.FLINT.parseMaterial()
+        if (event.getPlayer().getInventory().getItemInMainHand().getType() == XMaterial.fromString(GoBrushPlugin.MATERIAL.toString()).parseMaterial()
                 && ((event.getAction().equals(Action.RIGHT_CLICK_AIR))
                 || (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)))) {
             BrushPlayer brushPlayer = Session.getBrushPlayer(player.getUniqueId());
@@ -374,7 +375,7 @@ public class PlayerInteractListener implements Listener {
                     }
                 }
             });
-        } else if ((event.getPlayer().getInventory().getItemInMainHand().getType() == XMaterial.FLINT.parseMaterial())
+        } else if ((event.getPlayer().getInventory().getItemInMainHand().getType() == XMaterial.fromString(GoBrushPlugin.MATERIAL.toString()).parseMaterial())
                 && ((event.getAction().equals(Action.LEFT_CLICK_AIR))
                 || (event.getAction().equals(Action.LEFT_CLICK_BLOCK)))) {
             event.setCancelled(true);

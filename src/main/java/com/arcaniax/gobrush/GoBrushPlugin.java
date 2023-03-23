@@ -29,6 +29,7 @@ import io.papermc.lib.PaperLib;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.incendo.serverlib.ServerLib;
 
@@ -39,6 +40,7 @@ public class GoBrushPlugin extends JavaPlugin {
     private static final int BSTATS_ID = 10558;
     public static GoBrushPlugin plugin;
     public static int amountOfValidBrushes;
+    public static Material MATERIAL;
 
     /**
      * This method returns the main JavaPlugin instance, used for several things.
@@ -62,6 +64,15 @@ public class GoBrushPlugin extends JavaPlugin {
         }
         saveDefaultConfig();
         Session.initializeConfig(this.getConfig());
+
+        try {
+            MATERIAL = Material.valueOf(this.getConfig().getString("material").toUpperCase());
+        } catch (NullPointerException exception) {
+            getLogger().severe("The given Material couldn't be found, so the default Material is going" +
+                    " to be used instead!");
+            MATERIAL = Material.FLINT;
+        }
+
         Session.initializeBrushPlayers();
         setupBrushes();
         Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));

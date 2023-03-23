@@ -3,8 +3,8 @@ defaults:
   size: 15
   intensity: 4
   imgloresize: 20
-# true = up, false = down
-  directionMode: true 
+  # true = up, false = down
+  directionMode: true
   3dmode: false
   flatmode: false
   autorotation: true
@@ -15,3 +15,5 @@ maximums:
   intensity: 10
 disabledworlds:
   - "add disabled worlds here"
+# The Material that goBrush will use
+material: flint
