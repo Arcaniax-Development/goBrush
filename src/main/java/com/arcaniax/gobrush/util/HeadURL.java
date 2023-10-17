@@ -53,7 +53,7 @@ public class HeadURL {
         if (!name.equals("")) {
             headMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
         }
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        GameProfile profile = new GameProfile(UUID.randomUUID(), "goBrush");
         profile.getProperties().put("textures", new Property("textures", data));
         Field profileField;
         try {
