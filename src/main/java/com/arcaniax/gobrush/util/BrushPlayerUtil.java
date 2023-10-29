@@ -23,6 +23,8 @@ import com.arcaniax.gobrush.object.BrushPlayer;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.math.Vector3;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -36,15 +38,28 @@ public class BrushPlayerUtil {
 
     public static Location getClosest(Player player, Location _loc, Location l, int brushSize, EditSession session) {
         Location loc = _loc.clone();
+        Location locPrev = loc.clone();
 
-        while (loc.getBlock().getType() == XMaterial.AIR.parseMaterial()
+        Block locBlock = loc.getBlock();
+        Material locMaterial = locBlock.getType();
+        Material air = XMaterial.AIR.parseMaterial();
+        Vector v = player.getEyeLocation().getDirection().multiply(0.5);
+
+        while (locMaterial == air
                 || (!(session.getMask() == null || session.getMask().test(Vector3
                 .at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ())
                 .toBlockPoint())))
                 && (loc.distance(l.clone().add(0.5, 0.5, 0.5)) < ((double) brushSize / (double) 4))) {
-            Vector v = player.getEyeLocation().getDirection();
-            loc.add(v.multiply(0.5));
-            if (!BlockUtils.isLoaded(loc)) {
+            loc.add(v);
+            boolean newBlockPos =
+                    (loc.getBlockX() != locPrev.getBlockX() || loc.getBlockY() != locPrev.getBlockY() || loc.getBlockZ() != locPrev.getBlockZ());
+            if (newBlockPos) {
+                locBlock = loc.getBlock();
+                locMaterial = locBlock.getType();
+            }
+            locPrev = loc.clone();
+
+            if (newBlockPos && !BlockUtils.isLoaded(loc)) {
                 return null;
             }
             if (loc.getBlockY() <= BlockUtils.getWorldMin(loc)) {
