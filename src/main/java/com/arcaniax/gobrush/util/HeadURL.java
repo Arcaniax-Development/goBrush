@@ -39,9 +39,9 @@ public class HeadURL {
         ItemStack item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
         item.setDurability((short) XMaterial.PLAYER_HEAD.data);
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
-        if (!lore.equals("")) {
+        if (!lore.isEmpty()) {
             String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList<String>();
+            List<String> loreList = new ArrayList<>();
             String[] arrayOfString1;
             int j = (arrayOfString1 = loreListArray).length;
             for (int i = 0; i < j; i++) {
@@ -50,7 +50,7 @@ public class HeadURL {
             }
             headMeta.setLore(loreList);
         }
-        if (!name.equals("")) {
+        if (!name.isEmpty()) {
             headMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
         }
         GameProfile profile = new GameProfile(UUID.randomUUID(), "goBrush");
@@ -59,7 +59,12 @@ public class HeadURL {
         try {
             profileField = headMeta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);
-            profileField.set(headMeta, profile);
+            if (profileField.getType() == GameProfile.class) {
+                profileField.set(headMeta, profile);
+            } else {
+                Class<?> resolvableProfileClass = Class.forName("net.minecraft.world.item.component.ResolvableProfile");
+                profileField.set(headMeta, resolvableProfileClass.getConstructor(GameProfile.class).newInstance(profile));
+            }
         } catch (Exception ignored) {
         }
         item.setItemMeta(headMeta);

@@ -210,7 +210,7 @@ public class GuiGenerator {
     private static ItemStack createItem(Material material, short data, String name, String lore) {
         ItemStack is = new ItemStack(material);
         ItemMeta meta = is.getItemMeta();
-        if (!lore.equals("")) {
+        if (!lore.isEmpty()) {
             String[] loreListArray = lore.split("___");
             List<String> loreList = new ArrayList<String>();
             String[] arrayOfString1;
@@ -221,7 +221,7 @@ public class GuiGenerator {
             }
             meta.setLore(loreList);
         }
-        if (!name.equals("")) {
+        if (!name.isEmpty()) {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
         }
         is.setItemMeta(meta);
