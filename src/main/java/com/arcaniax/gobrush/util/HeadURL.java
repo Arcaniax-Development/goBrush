@@ -40,30 +40,7 @@ public class HeadURL {
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
         GameProfile profile = new GameProfile(id, "Arceon");
         profile.getProperties().put("textures", new Property("textures", String.valueOf(data)));
-        if (NMSUtil.isBelowVersion(1,15,2)){
-            try {
-                // Get the reflection and cache it for later
-                if (field_SkullMeta_profile == null) {
-                    field_SkullMeta_profile = headMeta.getClass().getDeclaredField("profile");
-                    field_SkullMeta_profile.setAccessible(true);
-                }
-                field_SkullMeta_profile.set(headMeta, profile);
-            } catch (Exception ignored) {
-            }
-        }
-        if (NMSUtil.isBelowVersion(1,20,2)){ //new setprofile method
-            try {
-                // Get the reflection and cache it for later
-                if (method_SkullMeta_setProfile == null) {
-                    method_SkullMeta_setProfile = headMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
-                    method_SkullMeta_setProfile.setAccessible(true);
-                }
-                method_SkullMeta_setProfile.invoke(headMeta, profile);
-            } catch (Exception ignored) {
-            }
-        }
-        else{ //newer setprofile method
-            try {
+        try {
                 PlayerProfile playerProfile = Bukkit.getServer().createPlayerProfile(UUID.randomUUID(), "goBrush");
                 PlayerTextures texture = playerProfile.getTextures();
                 String url = null;
@@ -76,7 +53,6 @@ public class HeadURL {
                 headMeta.setOwnerProfile(playerProfile);
             } catch (Exception ignored) {
             }
-        }
         List<String> loreList = new ArrayList<>();
         if (!lore.isEmpty()) {
             loreList.add(lore);
