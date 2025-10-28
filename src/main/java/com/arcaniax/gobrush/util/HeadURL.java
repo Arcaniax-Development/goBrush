@@ -36,36 +36,54 @@ public class HeadURL {
     public static String _3DB64 = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNmYTRmYzk4YzliMWIyNGE4YjAyZjY5NDM1MTNmYmIyMmRiMWQzNzRhODdmZGU5MWI3NTkzOWU1YThhMiJ9fX0=";
 
     public static ItemStack create(String data, String name, String lore) {
-        ItemStack item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
-        item.setDurability((short) XMaterial.PLAYER_HEAD.data);
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD, amount);
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
+        GameProfile profile = new GameProfile(id, "Arceon");
+        profile.getProperties().put("textures", new Property("textures", String.valueOf(data)));
+        if (NMSUtil.isBelowVersion(1,15,2)){
+            try {
+                // Get the reflection and cache it for later
+                if (field_SkullMeta_profile == null) {
+                    field_SkullMeta_profile = headMeta.getClass().getDeclaredField("profile");
+                    field_SkullMeta_profile.setAccessible(true);
+                }
+                field_SkullMeta_profile.set(headMeta, profile);
+            } catch (Exception ignored) {
+            }
+        }
+        if (NMSUtil.isBelowVersion(1,20,2)){ //new setprofile method
+            try {
+                // Get the reflection and cache it for later
+                if (method_SkullMeta_setProfile == null) {
+                    method_SkullMeta_setProfile = headMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+                    method_SkullMeta_setProfile.setAccessible(true);
+                }
+                method_SkullMeta_setProfile.invoke(headMeta, profile);
+            } catch (Exception ignored) {
+            }
+        }
+        else{ //newer setprofile method
+            try {
+                PlayerProfile playerProfile = Bukkit.getServer().createPlayerProfile(UUID.randomUUID(), "goBrush");
+                PlayerTextures texture = playerProfile.getTextures();
+                String url = null;
+                byte[] decoded = Base64.getDecoder().decode(data);
+                try {
+                    url = new String(decoded, StandardCharsets.UTF_8);
+                } catch (Exception ignored) {}
+                url = url.replace("{\"textures\":{\"SKIN\":{\"url\":\"", "").replace("\"}}}", "");
+                texture.setSkin(new URL(url));
+                headMeta.setOwnerProfile(playerProfile);
+            } catch (Exception ignored) {
+            }
+        }
+        List<String> loreList = new ArrayList<>();
         if (!lore.isEmpty()) {
-            String[] loreListArray = lore.split("___");
-            List<String> loreList = new ArrayList<>();
-            String[] arrayOfString1;
-            int j = (arrayOfString1 = loreListArray).length;
-            for (int i = 0; i < j; i++) {
-                String s = arrayOfString1[i];
-                loreList.add(ChatColor.translateAlternateColorCodes('&', s));
-            }
-            headMeta.setLore(loreList);
+            loreList.add(lore);
         }
+        headMeta.setLore(loreList);
         if (!name.isEmpty()) {
-            headMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-        }
-        GameProfile profile = new GameProfile(UUID.randomUUID(), "goBrush");
-        profile.getProperties().put("textures", new Property("textures", data));
-        Field profileField;
-        try {
-            profileField = headMeta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            if (profileField.getType() == GameProfile.class) {
-                profileField.set(headMeta, profile);
-            } else {
-                Class<?> resolvableProfileClass = Class.forName("net.minecraft.world.item.component.ResolvableProfile");
-                profileField.set(headMeta, resolvableProfileClass.getConstructor(GameProfile.class).newInstance(profile));
-            }
-        } catch (Exception ignored) {
+            headMeta.setDisplayName(name);
         }
         item.setItemMeta(headMeta);
         return item;
