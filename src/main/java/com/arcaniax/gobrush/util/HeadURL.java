@@ -44,9 +44,8 @@ public class HeadURL {
     public static String _3DB64 = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNmYTRmYzk4YzliMWIyNGE4YjAyZjY5NDM1MTNmYmIyMmRiMWQzNzRhODdmZGU5MWI3NTkzOWU1YThhMiJ9fX0=";
 
     public static ItemStack create(String data, String name, String lore) {
-        ItemStack item = new ItemStack(Material.PLAYER_HEAD, amount);
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
-        GameProfile profile = new GameProfile(id, "Arceon");
         profile.getProperties().put("textures", new Property("textures", String.valueOf(data)));
         try {
                 PlayerProfile playerProfile = Bukkit.getServer().createPlayerProfile(UUID.randomUUID(), "goBrush");
