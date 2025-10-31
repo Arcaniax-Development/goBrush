@@ -46,7 +46,6 @@ public class HeadURL {
     public static ItemStack create(String data, String name, String lore) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
-        profile.getProperties().put("textures", new Property("textures", String.valueOf(data)));
         try {
                 PlayerProfile playerProfile = Bukkit.getServer().createPlayerProfile(UUID.randomUUID(), "goBrush");
                 PlayerTextures texture = playerProfile.getTextures();
