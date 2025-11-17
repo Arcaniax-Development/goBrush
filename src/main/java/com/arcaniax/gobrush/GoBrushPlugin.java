@@ -30,7 +30,6 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.incendo.serverlib.ServerLib;
 
 import static com.arcaniax.gobrush.util.BrushZipManager.setupBrushes;
 
@@ -67,9 +66,6 @@ public class GoBrushPlugin extends JavaPlugin {
         Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
         registerListeners();
         registerCommands();
-        // Check if we are in a safe environment
-        ServerLib.checkUnsafeForks();
-        ServerLib.isJavaSixteen();
         PaperLib.suggestPaper(this);
         amountOfValidBrushes = Session.initializeValidBrushes();
         Metrics metrics = new Metrics(this, BSTATS_ID);
