@@ -43,7 +43,7 @@ repositories {
 dependencies {
     implementation(platform("com.intellectualsites.bom:bom-newest:1.44"))
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
-    compileOnly("net.md-5:bungeecord-api:1.20-R0.2")
+    compileOnly("net.md-5:bungeecord-api:1.21-R0.4")
     compileOnly("com.mojang:authlib:1.5.25")
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
     implementation("net.lingala.zip4j:zip4j:2.11.5")
