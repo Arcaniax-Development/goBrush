@@ -89,7 +89,7 @@ tasks.named<ShadowJar>("shadowJar") {
             include(dependency("net.lingala.zip4j:zip4j"))
         }
         relocate("org.incendo.serverlib", "com.arcaniax.gobrush.serverlib") {
-            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.6"))
+            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.7"))
         }
         relocate("org.bstats", "com.arcaniax.gobrush.metrics") {
             include(dependency("org.bstats:bstats-base"))
