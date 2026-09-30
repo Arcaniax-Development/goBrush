@@ -25,8 +25,6 @@ import com.arcaniax.gobrush.util.BrushPlayerUtil;
 import com.arcaniax.gobrush.util.GuiGenerator;
 import com.arcaniax.gobrush.util.NestedFor;
 import com.arcaniax.gobrush.util.XMaterial;
-import com.fastasyncworldedit.core.Fawe;
-import com.fastasyncworldedit.core.queue.implementation.QueueHandler;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -96,84 +94,81 @@ public class PlayerInteractListener implements Listener {
                 return;
             }
             LocalSession localSession = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(event.getPlayer()));
-            QueueHandler queue = Fawe.instance().getQueueHandler();
-            queue.async(() -> {
-                synchronized (localSession) {
-                    EditSession editsession = localSession.createEditSession(BukkitAdapter.adapt(event.getPlayer()));
+            BukkitAdapter.adapt(event.getPlayer()).runAction(() -> {
+                EditSession editsession = localSession.createEditSession(BukkitAdapter.adapt(event.getPlayer()));
+                try {
+                    HashMap<Vector3, BlockState> blocksToSet = new HashMap<>();
                     try {
-                        HashMap<Vector3, BlockState> blocksToSet = new HashMap<>();
-                        try {
-                            editsession.setFastMode(false);
-                            int size = brushPlayer.getBrushSize();
-                            Location start = player.getEyeLocation();
-                            Vector v = start.getDirection().normalize();
-                            double rot = (player.getLocation().getYaw() - 90.0F) % 360.0F + 360.0F;
-                            final double rotation = (rot / 360.0F) * (2 * Math.PI);
-                            double rotPitch = (player.getLocation().getPitch()) % 360.0F;
-                            rotPitch += 360.0F;
-                            final double rotationPitch = (rotPitch / 360.0F) * (2 * Math.PI);
-                            if (!brushPlayer.is3DMode()) {
-                                int min = size / 2 * -1;
-                                int max = size / 2;
-                                Random r = new Random();
-                                double random = r.nextDouble();
-                                String cardinal = BrushPlayerUtil.getCardinalDirection(player);
-                                for (int x = min; x <= max; x++) {
-                                    for (int z = min; z <= max; z++) {
-                                        Location loopLoc = loc.clone().add(x, 0.0D, z);
-                                        int worldHeight = editsession.getHighestTerrainBlock(
+                        editsession.setFastMode(false);
+                        int size = brushPlayer.getBrushSize();
+                        Location start = player.getEyeLocation();
+                        Vector v = start.getDirection().normalize();
+                        double rot = (player.getLocation().getYaw() - 90.0F) % 360.0F + 360.0F;
+                        final double rotation = (rot / 360.0F) * (2 * Math.PI);
+                        double rotPitch = (player.getLocation().getPitch()) % 360.0F;
+                        rotPitch += 360.0F;
+                        final double rotationPitch = (rotPitch / 360.0F) * (2 * Math.PI);
+                        if (!brushPlayer.is3DMode()) {
+                            int min = size / 2 * -1;
+                            int max = size / 2;
+                            Random r = new Random();
+                            double random = r.nextDouble();
+                            String cardinal = BrushPlayerUtil.getCardinalDirection(player);
+                            for (int x = min; x <= max; x++) {
+                                for (int z = min; z <= max; z++) {
+                                    Location loopLoc = loc.clone().add(x, 0.0D, z);
+                                    int worldHeight = editsession.getHighestTerrainBlock(
+                                            loopLoc.getBlockX(),
+                                            loopLoc.getBlockZ(),
+                                            BlockUtils.getWorldMin(loc),
+                                            BlockUtils.getWorldMax(loc)
+                                    );
+                                    if (editsession.getMask() == null || editsession
+                                            .getMask()
+                                            .test(BlockVector3.at(loopLoc.getBlockX(), worldHeight, loopLoc.getBlockZ()))) {
+                                        double height = BrushPlayerUtil.getHeight(player, x - min, z - min, cardinal);
+                                        double subHeight = height % 1.0D;
+                                        if (random > 1.0 - subHeight) {
+                                            height++;
+                                        }
+                                        Location l = new Location(
+                                                loopLoc.getWorld(),
                                                 loopLoc.getBlockX(),
-                                                loopLoc.getBlockZ(),
-                                                BlockUtils.getWorldMin(loc),
-                                                BlockUtils.getWorldMax(loc)
+                                                worldHeight,
+                                                loopLoc.getBlockZ()
                                         );
-                                        if (editsession.getMask() == null || editsession
-                                                .getMask()
-                                                .test(BlockVector3.at(loopLoc.getBlockX(), worldHeight, loopLoc.getBlockZ()))) {
-                                            double height = BrushPlayerUtil.getHeight(player, x - min, z - min, cardinal);
-                                            double subHeight = height % 1.0D;
-                                            if (random > 1.0 - subHeight) {
-                                                height++;
-                                            }
-                                            Location l = new Location(
-                                                    loopLoc.getWorld(),
-                                                    loopLoc.getBlockX(),
-                                                    worldHeight,
-                                                    loopLoc.getBlockZ()
-                                            );
-                                            if (brushPlayer.isDirectionMode()) {
-                                                for (int y = 1; y < Math.floor(height); y++) {
-                                                    if ((!brushPlayer.isFlatMode()) || l.getBlockY() + y <= loc.getY()) {
-                                                        try {
-                                                            blocksToSet.put(
-                                                                    Vector3.at(
-                                                                            l.getBlockX(),
-                                                                            l.getBlockY() + y,
-                                                                            l.getBlockZ()
-                                                                    ),
-                                                                    editsession.getBlock(Vector3
-                                                                            .at(l.getBlockX(), l.getBlockY(), l.getBlockZ())
-                                                                            .toBlockPoint())
-                                                            );
-                                                        } catch (Exception ignored) {
-                                                        }
+                                        if (brushPlayer.isDirectionMode()) {
+                                            for (int y = 1; y < Math.floor(height); y++) {
+                                                if ((!brushPlayer.isFlatMode()) || l.getBlockY() + y <= loc.getY()) {
+                                                    try {
+                                                        blocksToSet.put(
+                                                                Vector3.at(
+                                                                        l.getBlockX(),
+                                                                        l.getBlockY() + y,
+                                                                        l.getBlockZ()
+                                                                ),
+                                                                editsession.getBlock(Vector3
+                                                                        .at(l.getBlockX(), l.getBlockY(), l.getBlockZ())
+                                                                        .toBlockPoint())
+                                                        );
+                                                    } catch (Exception ignored) {
                                                     }
                                                 }
-                                            } else {
-                                                for (int y = 0; y < Math.floor(height); y++) {
-                                                    if ((!brushPlayer.isFlatMode()) || l.getBlockY() - y > loc.getY()) {
-                                                        if (editsession.getMask() == null || editsession.getMask().test(Vector3
-                                                                .at(l.getBlockX(), l.getBlockY() - y, l.getBlockZ())
-                                                                .toBlockPoint())) {
-                                                            if (!(l.getBlockY() - y < BlockUtils.getWorldMin(l))) {
-                                                                try {
-                                                                    blocksToSet.put(Vector3.at(
-                                                                            l.getBlockX(),
-                                                                            l.getBlockY() + y,
-                                                                            l.getBlockZ()
-                                                                    ), BlockTypes.AIR.getDefaultState());
-                                                                } catch (Exception ignored) {
-                                                                }
+                                            }
+                                        } else {
+                                            for (int y = 0; y < Math.floor(height); y++) {
+                                                if ((!brushPlayer.isFlatMode()) || l.getBlockY() - y > loc.getY()) {
+                                                    if (editsession.getMask() == null || editsession.getMask().test(Vector3
+                                                            .at(l.getBlockX(), l.getBlockY() - y, l.getBlockZ())
+                                                            .toBlockPoint())) {
+                                                        if (!(l.getBlockY() - y < BlockUtils.getWorldMin(l))) {
+                                                            try {
+                                                                blocksToSet.put(Vector3.at(
+                                                                        l.getBlockX(),
+                                                                        l.getBlockY() + y,
+                                                                        l.getBlockZ()
+                                                                ), BlockTypes.AIR.getDefaultState());
+                                                            } catch (Exception ignored) {
                                                             }
                                                         }
                                                     }
@@ -182,198 +177,198 @@ public class PlayerInteractListener implements Listener {
                                         }
                                     }
                                 }
-                                for (Vector3 block : blocksToSet.keySet()) {
+                            }
+                            for (Vector3 block : blocksToSet.keySet()) {
+                                editsession.setBlock(
+                                        block.toBlockPoint().getBlockX(),
+                                        block.toBlockPoint().getBlockY(),
+                                        block.toBlockPoint().getBlockZ(),
+                                        blocksToSet.get(block)
+                                );
+                            }
+                            blocksToSet.clear();
+                        } else { //3D Mode
+                            int min = size / 2 * -1;
+                            int max = size / 2;
+                            double xMov = Math.cos(rotation);
+                            double zMov = Math.sin(rotation);
+                            double yMod = Math.cos(rotationPitch);
+
+                            double mod = 0.25;
+                            xMov *= mod;
+                            zMov *= mod;
+                            yMod *= mod;
+
+                            Random r = new Random();
+                            double random = r.nextDouble();
+
+
+                            double finalZMov = zMov;
+                            double finalYMod = yMod;
+                            double finalXMov = xMov;
+                            NestedFor.IAction threeDimensionModeXZLoops = indices -> {
+
+                                Location loopLoc = start.clone().add(
+                                        finalZMov * indices[0],
+                                        indices[1] * finalYMod,
+                                        -finalXMov * indices[0]
+                                );
+
+                                if (player.getLocation().getPitch() < 0) {
+                                    loopLoc.add(
+                                            (1 - finalYMod) * finalXMov * indices[1],
+                                            0,
+                                            (1 - finalYMod) * finalZMov * indices[1]
+                                    );
+                                } else {
+                                    loopLoc.add(
+                                            -(1 - finalYMod) * finalXMov * indices[1],
+                                            0,
+                                            -(1 - finalYMod) * finalZMov * indices[1]
+                                    );
+                                }
+
+                                Location blockLoc = BrushPlayerUtil.getClosest(
+                                        player,
+                                        loopLoc.clone(),
+                                        loc.clone(),
+                                        size,
+                                        editsession
+                                );
+
+                                if (blockLoc != null && (editsession.getMask() == null || editsession.getMask().test(
+                                        BlockVector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ())))) {
+                                    double height = BrushPlayerUtil.getHeight(
+                                            player,
+                                            indices[0] - min,
+                                            indices[1] - min,
+                                            "N"
+                                    );
+                                    double subHeight = height % 1.0D;
+                                    if (height == 255.0) {
+                                        subHeight = 1.0;
+                                    }
+                                    if (random > 1.0 - subHeight) {
+                                        height++;
+                                    }
+                                    for (int y = 0; y < height; y++) {
+                                        Vector _v = v.clone().multiply(-1).multiply(y);
+                                        if (brushPlayer.isDirectionMode()) {
+                                            if (!brushPlayer.isFlatMode()) {
+                                                try {
+                                                    blocksToSet.put(
+                                                            Vector3.at(
+                                                                    blockLoc.getBlockX() + _v.getBlockX(),
+                                                                    blockLoc.getBlockY() + _v.getBlockY(),
+                                                                    blockLoc.getBlockZ() + _v.getBlockZ()
+                                                            ),
+                                                            editsession.getBlock(Vector3
+                                                                    .at(
+                                                                            blockLoc.getBlockX(),
+                                                                            blockLoc.getBlockY(),
+                                                                            blockLoc.getBlockZ()
+                                                                    )
+                                                                    .toBlockPoint())
+                                                    );
+                                                } catch (Exception ignored) {
+                                                }
+                                            } else {
+                                                Location place = blockLoc.clone().add(v.clone().multiply(-1).multiply(y));
+                                                if (place.distance(loopLoc) > loc.distance(start)) {
+                                                    try {
+                                                        blocksToSet.put(
+                                                                Vector3.at(
+                                                                        blockLoc.getBlockX() + _v.getBlockX(),
+                                                                        blockLoc.getBlockY() + _v.getBlockY(),
+                                                                        blockLoc.getBlockZ() + _v.getBlockZ()
+                                                                ),
+                                                                editsession.getBlock(Vector3
+                                                                        .at(
+                                                                                blockLoc.getBlockX(),
+                                                                                blockLoc.getBlockY(),
+                                                                                blockLoc.getBlockZ()
+                                                                        )
+                                                                        .toBlockPoint())
+                                                        );
+                                                    } catch (Exception ignored) {
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if (!brushPlayer.isFlatMode()) {
+                                                try {
+                                                    blocksToSet.put(
+                                                            Vector3.at(
+                                                                    blockLoc.getBlockX() + _v.getBlockX(),
+                                                                    blockLoc.getBlockY() + _v.getBlockY(),
+                                                                    blockLoc.getBlockZ() + _v.getBlockZ()
+                                                            ),
+                                                            editsession.getBlock(Vector3
+                                                                    .at(
+                                                                            blockLoc.getBlockX(),
+                                                                            blockLoc.getBlockY(),
+                                                                            blockLoc.getBlockZ()
+                                                                    )
+                                                                    .toBlockPoint())
+                                                    );
+                                                } catch (Exception ignored) {
+                                                }
+                                            } else {
+                                                Location place = blockLoc.clone().add(v.clone().multiply(1).multiply(y - 1));
+                                                if (place.distance(loopLoc) < loc.distance(start) - 1) {
+                                                    try {
+                                                        blocksToSet.put(
+                                                                Vector3.at(
+                                                                        blockLoc.getBlockX() + _v.getBlockX(),
+                                                                        blockLoc.getBlockY() + _v.getBlockY(),
+                                                                        blockLoc.getBlockZ() + _v.getBlockZ()
+                                                                ),
+                                                                editsession.getBlock(Vector3
+                                                                        .at(
+                                                                                blockLoc.getBlockX(),
+                                                                                blockLoc.getBlockY(),
+                                                                                blockLoc.getBlockZ()
+                                                                        )
+                                                                        .toBlockPoint())
+                                                        );
+                                                    } catch (Exception ignored) {
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+                            NestedFor nf = new NestedFor(min - 1, max, threeDimensionModeXZLoops);
+                            nf.nFor(2);
+
+                            for (Vector3 block : blocksToSet.keySet()) {
+                                if (brushPlayer.isDirectionMode()) {
                                     editsession.setBlock(
                                             block.toBlockPoint().getBlockX(),
                                             block.toBlockPoint().getBlockY(),
                                             block.toBlockPoint().getBlockZ(),
                                             blocksToSet.get(block)
                                     );
-                                }
-                                blocksToSet.clear();
-                            } else { //3D Mode
-                                int min = size / 2 * -1;
-                                int max = size / 2;
-                                double xMov = Math.cos(rotation);
-                                double zMov = Math.sin(rotation);
-                                double yMod = Math.cos(rotationPitch);
-
-                                double mod = 0.25;
-                                xMov *= mod;
-                                zMov *= mod;
-                                yMod *= mod;
-
-                                Random r = new Random();
-                                double random = r.nextDouble();
-
-
-                                double finalZMov = zMov;
-                                double finalYMod = yMod;
-                                double finalXMov = xMov;
-                                NestedFor.IAction threeDimensionModeXZLoops = indices -> {
-
-                                    Location loopLoc = start.clone().add(
-                                            finalZMov * indices[0],
-                                            indices[1] * finalYMod,
-                                            -finalXMov * indices[0]
+                                } else {
+                                    editsession.setBlock(
+                                            block.toBlockPoint().getBlockX(),
+                                            block.toBlockPoint().getBlockY(),
+                                            block.toBlockPoint().getBlockZ(),
+                                            BlockTypes.AIR.getDefaultState()
                                     );
-
-                                    if (player.getLocation().getPitch() < 0) {
-                                        loopLoc.add(
-                                                (1 - finalYMod) * finalXMov * indices[1],
-                                                0,
-                                                (1 - finalYMod) * finalZMov * indices[1]
-                                        );
-                                    } else {
-                                        loopLoc.add(
-                                                -(1 - finalYMod) * finalXMov * indices[1],
-                                                0,
-                                                -(1 - finalYMod) * finalZMov * indices[1]
-                                        );
-                                    }
-
-                                    Location blockLoc = BrushPlayerUtil.getClosest(
-                                            player,
-                                            loopLoc.clone(),
-                                            loc.clone(),
-                                            size,
-                                            editsession
-                                    );
-
-                                    if (blockLoc != null && (editsession.getMask() == null || editsession.getMask().test(
-                                            BlockVector3.at(blockLoc.getBlockX(), blockLoc.getBlockY(), blockLoc.getBlockZ())))) {
-                                        double height = BrushPlayerUtil.getHeight(
-                                                player,
-                                                indices[0] - min,
-                                                indices[1] - min,
-                                                "N"
-                                        );
-                                        double subHeight = height % 1.0D;
-                                        if (height == 255.0) {
-                                            subHeight = 1.0;
-                                        }
-                                        if (random > 1.0 - subHeight) {
-                                            height++;
-                                        }
-                                        for (int y = 0; y < height; y++) {
-                                            Vector _v = v.clone().multiply(-1).multiply(y);
-                                            if (brushPlayer.isDirectionMode()) {
-                                                if (!brushPlayer.isFlatMode()) {
-                                                    try {
-                                                        blocksToSet.put(
-                                                                Vector3.at(
-                                                                        blockLoc.getBlockX() + _v.getBlockX(),
-                                                                        blockLoc.getBlockY() + _v.getBlockY(),
-                                                                        blockLoc.getBlockZ() + _v.getBlockZ()
-                                                                ),
-                                                                editsession.getBlock(Vector3
-                                                                        .at(
-                                                                                blockLoc.getBlockX(),
-                                                                                blockLoc.getBlockY(),
-                                                                                blockLoc.getBlockZ()
-                                                                        )
-                                                                        .toBlockPoint())
-                                                        );
-                                                    } catch (Exception ignored) {
-                                                    }
-                                                } else {
-                                                    Location place = blockLoc.clone().add(v.clone().multiply(-1).multiply(y));
-                                                    if (place.distance(loopLoc) > loc.distance(start)) {
-                                                        try {
-                                                            blocksToSet.put(
-                                                                    Vector3.at(
-                                                                            blockLoc.getBlockX() + _v.getBlockX(),
-                                                                            blockLoc.getBlockY() + _v.getBlockY(),
-                                                                            blockLoc.getBlockZ() + _v.getBlockZ()
-                                                                    ),
-                                                                    editsession.getBlock(Vector3
-                                                                            .at(
-                                                                                    blockLoc.getBlockX(),
-                                                                                    blockLoc.getBlockY(),
-                                                                                    blockLoc.getBlockZ()
-                                                                            )
-                                                                            .toBlockPoint())
-                                                            );
-                                                        } catch (Exception ignored) {
-                                                        }
-                                                    }
-                                                }
-                                            } else {
-                                                if (!brushPlayer.isFlatMode()) {
-                                                    try {
-                                                        blocksToSet.put(
-                                                                Vector3.at(
-                                                                        blockLoc.getBlockX() + _v.getBlockX(),
-                                                                        blockLoc.getBlockY() + _v.getBlockY(),
-                                                                        blockLoc.getBlockZ() + _v.getBlockZ()
-                                                                ),
-                                                                editsession.getBlock(Vector3
-                                                                        .at(
-                                                                                blockLoc.getBlockX(),
-                                                                                blockLoc.getBlockY(),
-                                                                                blockLoc.getBlockZ()
-                                                                        )
-                                                                        .toBlockPoint())
-                                                        );
-                                                    } catch (Exception ignored) {
-                                                    }
-                                                } else {
-                                                    Location place = blockLoc.clone().add(v.clone().multiply(1).multiply(y - 1));
-                                                    if (place.distance(loopLoc) < loc.distance(start) - 1) {
-                                                        try {
-                                                            blocksToSet.put(
-                                                                    Vector3.at(
-                                                                            blockLoc.getBlockX() + _v.getBlockX(),
-                                                                            blockLoc.getBlockY() + _v.getBlockY(),
-                                                                            blockLoc.getBlockZ() + _v.getBlockZ()
-                                                                    ),
-                                                                    editsession.getBlock(Vector3
-                                                                            .at(
-                                                                                    blockLoc.getBlockX(),
-                                                                                    blockLoc.getBlockY(),
-                                                                                    blockLoc.getBlockZ()
-                                                                            )
-                                                                            .toBlockPoint())
-                                                            );
-                                                        } catch (Exception ignored) {
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                };
-                                NestedFor nf = new NestedFor(min - 1, max, threeDimensionModeXZLoops);
-                                nf.nFor(2);
-
-                                for (Vector3 block : blocksToSet.keySet()) {
-                                    if (brushPlayer.isDirectionMode()) {
-                                        editsession.setBlock(
-                                                block.toBlockPoint().getBlockX(),
-                                                block.toBlockPoint().getBlockY(),
-                                                block.toBlockPoint().getBlockZ(),
-                                                blocksToSet.get(block)
-                                        );
-                                    } else {
-                                        editsession.setBlock(
-                                                block.toBlockPoint().getBlockX(),
-                                                block.toBlockPoint().getBlockY(),
-                                                block.toBlockPoint().getBlockZ(),
-                                                BlockTypes.AIR.getDefaultState()
-                                        );
-                                    }
                                 }
-                                blocksToSet.clear();
                             }
-                        } finally {
-
-                            editsession.commit();
+                            blocksToSet.clear();
                         }
                     } finally {
-                        localSession.remember(editsession);
+
+                        editsession.commit();
                     }
+                } finally {
+                    localSession.remember(editsession);
                 }
-            });
+            }, false, true);
         } else if ((event.getPlayer().getInventory().getItemInMainHand().getType() == XMaterial.FLINT.parseMaterial())
                 && ((event.getAction().equals(Action.LEFT_CLICK_AIR))
                 || (event.getAction().equals(Action.LEFT_CLICK_BLOCK)))) {
