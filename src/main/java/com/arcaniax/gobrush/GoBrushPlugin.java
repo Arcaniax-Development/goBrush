@@ -25,7 +25,6 @@ import com.arcaniax.gobrush.listener.PlayerJoinListener;
 import com.arcaniax.gobrush.listener.PlayerQuitListener;
 import com.arcaniax.gobrush.util.BlockUtils;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import io.papermc.lib.PaperLib;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -66,7 +65,6 @@ public class GoBrushPlugin extends JavaPlugin {
         Session.setWorldEdit((WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
         registerListeners();
         registerCommands();
-        PaperLib.suggestPaper(this);
         amountOfValidBrushes = Session.initializeValidBrushes();
         Metrics metrics = new Metrics(this, BSTATS_ID);
 

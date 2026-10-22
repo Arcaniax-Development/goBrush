@@ -1,30 +1,23 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.diffplug.gradle.spotless.SpotlessPlugin
-import org.ajoberstar.grgit.Grgit
 
 plugins {
     java
    `java-library`
 
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "9.6.1"
     id("com.diffplug.spotless") version "8.10.4"
-    id("org.ajoberstar.grgit") version "5.3.3"
 
     idea
     eclipse
 }
 
-the<JavaPluginExtension>().toolchain {
-    languageVersion.set(JavaLanguageVersion.of(21))
-}
-
 configurations.all {
-    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 21)
+    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 25)
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
@@ -42,31 +35,16 @@ repositories {
 
 dependencies {
     implementation(platform("com.intellectualsites.bom:bom-newest:1.56"))
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.3.build.+")
     compileOnly("net.md-5:bungeecord-api:1.21-R0.4")
     compileOnly("com.mojang:authlib:1.5.25")
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
     implementation("net.lingala.zip4j:zip4j:2.11.6")
-    implementation("dev.notmyfault.serverlib:ServerLib:2.3.7")
     implementation("org.bstats:bstats-bukkit:3.2.1")
     implementation("org.bstats:bstats-base:3.2.1")
-    implementation("io.papermc:paperlib:")
 }
 
-var buildNumber by extra("")
-ext {
-    val git: Grgit = Grgit.open {
-        dir = File("$rootDir/.git")
-    }
-    val commit: String? = git.head().abbreviatedId
-    buildNumber = if (project.hasProperty("buildnumber")) {
-        project.properties["buildnumber"] as String
-    } else {
-        commit.toString()
-    }
-}
-
-version = String.format("%s-%s", rootProject.version, buildNumber)
+version = "3.8.0-SNAPSHOT"
 
 spotless {
     java {
@@ -84,20 +62,12 @@ tasks.named<Copy>("processResources") {
 
 tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set(null as String?)
+    relocate("net.lingala.zip4j", "com.arcaniax.zip4j")
+    relocate("org.bstats", "com.arcaniax.gobrush.metrics")
     dependencies {
-        relocate("net.lingala.zip4j", "com.arcaniax.zip4j") {
-            include(dependency("net.lingala.zip4j:zip4j"))
-        }
-        relocate("org.incendo.serverlib", "com.arcaniax.gobrush.serverlib") {
-            include(dependency("dev.notmyfault.serverlib:ServerLib:2.3.7"))
-        }
-        relocate("org.bstats", "com.arcaniax.gobrush.metrics") {
-            include(dependency("org.bstats:bstats-base"))
-            include(dependency("org.bstats:bstats-bukkit"))
-        }
-        relocate("io.papermc.lib", "com.arcaniax.gobrush.paperlib") {
-            include(dependency("io.papermc:paperlib:1.0.8"))
-        }
+        include(dependency("net.lingala.zip4j:zip4j"))
+        include(dependency("org.bstats:bstats-base"))
+        include(dependency("org.bstats:bstats-bukkit"))
     }
     minimize()
 }
